@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 from evolution_master.runners import pkg, download
 
 # Install for Arch
