@@ -7,6 +7,11 @@ with pkg.pacman() as pkg_man:
 # Install for Debian & Ubuntu
 with pkg.apt() as pkg_man:
     pkg_man.install('golang')
+    # TODO: make this a runner and require a switch to enable this
+    pkg_man.install('golang-go-darwin-amd64',
+                    'golang-go-freebsd-amd64',
+                    'golang-go-netbsd-amd64',
+                    'golang-go-windows-amd64')
 
 # Install for OSX
 with pkg.brew() as pkg_man:
