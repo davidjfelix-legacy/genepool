@@ -24,7 +24,6 @@ packages = """
 - calcurse
 - cloc
 - cowsay
-- chromium-browser
 - dict
 - dstat
 - dtach
@@ -95,7 +94,6 @@ packages = """
 - vim-gtk
 - weechat
 - wyrd
-- zsh
-""".split("\n- ")
+- zsh""".split("\n- ")
 
 apt_install(packages)
