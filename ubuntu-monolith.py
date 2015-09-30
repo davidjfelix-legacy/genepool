@@ -6,8 +6,8 @@ import os
 def apt_install(packages):
   env = os.environ.copy()
   env[DEBIAN_FRONTEND] = "noninteractive"
-  subprocess.call(['sudo', '-E', 'apt-get', 'update')
-  subprocess.call(['sudo', '-E', 'apt-get', '-y', 'install'] + packages)
+  subprocess.call(['sudo', '-E', 'apt-get', 'update'], env=env)
+  subprocess.call(['sudo', '-E', 'apt-get', '-y', 'install'] + packages, env=env)
   
 def brew_install(packages):
   subprocess.call(['brew', 'update'])
