@@ -8,14 +8,16 @@ def apt_install(packages):
   env[DEBIAN_FRONTEND] = "noninteractive"
   subprocess.call(['sudo', '-E', 'apt-get', 'update'], env=env)
   subprocess.call(['sudo', '-E', 'apt-get', '-y', 'install'] + packages, env=env)
-  
-def brew_install(packages):
+
+def brew_install(packages=None, cask_packages=None):
   subprocess.call(['brew', 'update'])
-  subprocess.call(['brew', 'install'] + packages)
+  if packages:
+    subprocess.call(['brew', 'install'] + packages)
+  if cask_packages:
+    subprocess.call(['brew', 'cask', 'install'] + cask_packages)
 
 def brew_cask_install(packages):
-  subprocess.call(['brew', 'update'])
-  subprocess.call(['brew', 'cask', 'install'] + packages)
+  brew_install(cask_packages=packages)
   
 packages = """
 - aria2
