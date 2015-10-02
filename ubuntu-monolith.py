@@ -4,20 +4,20 @@ import subprocess
 import os
 
 def apt_install(packages):
-  env = os.environ.copy()
-  env[DEBIAN_FRONTEND] = "noninteractive"
-  subprocess.call(['sudo', '-E', 'apt-get', 'update'], env=env)
-  subprocess.call(['sudo', '-E', 'apt-get', '-y', 'install'] + packages, env=env)
+    env = os.environ.copy()
+    env[DEBIAN_FRONTEND] = "noninteractive"
+    subprocess.call(['sudo', '-E', 'apt-get', 'update'], env=env)
+    subprocess.call(['sudo', '-E', 'apt-get', '-y', 'install'] + packages, env=env)
 
 def brew_install(packages=None, cask_packages=None):
-  subprocess.call(['brew', 'update'])
-  if packages:
-    subprocess.call(['brew', 'install'] + packages)
-  if cask_packages:
-    subprocess.call(['brew', 'cask', 'install'] + cask_packages)
+    subprocess.call(['brew', 'update'])
+    if packages:
+        subprocess.call(['brew', 'install'] + packages)
+    if cask_packages:
+        subprocess.call(['brew', 'cask', 'install'] + cask_packages)
 
 def brew_cask_install(packages):
-  brew_install(cask_packages=packages)
+    brew_install(cask_packages=packages)
   
 packages = """
 - aria2
@@ -139,3 +139,8 @@ packages = """
 - zsh""".split("\n- ")
 
 apt_install(packages)
+
+def main(packages):
+    with apt() as pkg_man:
+        for package in packages:
+            pkg_man.install(package)
