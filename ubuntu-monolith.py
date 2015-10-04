@@ -11,7 +11,8 @@ class apt_gene(object):
         self.count = 0
         self.packages = []
         self.repos = []
-        self.should_update = None #TODO: Consider optional boolean
+        self.should_upgrade = False #Don't upgrade unless you have to
+        self.should_update = True
 
     def __enter__(self):
         self.count += 1
@@ -33,17 +34,25 @@ class apt_gene(object):
             pass #FIXME: This fail case should be logged
 
     def update(self):
-        self.should_update = True
-
+        #TODO: figure out what to do with this design wise.
+        # People really SHOULD update, but how do I accomodate?
+        pass
+    
+    def upgrade(self):
+        self.should_upgrade = True
 
 
 apt = apt_gene()
 
-def apt_install(packages):
+def apt_install(apt_config):
     env = os.environ.copy()
     env[DEBIAN_FRONTEND] = "noninteractive"
-    subprocess.call(['sudo', '-E', 'apt-get', 'update'], env=env)
-    subprocess.call(['sudo', '-E', 'apt-get', '-y', 'install'] + packages, env=env)
+    if apt_config.should_update:
+        subprocess.call(['sudo', '-E', 'apt-get', 'update'], env=env)
+    if apt_config.should_upgrade:
+        subprocess.call(['sudo', '-E', 'apt-get', 'upgrade'], env=env)
+    if apt_config.packages:
+        subprocess.call(['sudo', '-E', 'apt-get', '-y', 'install'] + packages, env=env)
 
 def brew_install(packages=None, cask_packages=None):
     subprocess.call(['brew', 'update'])
@@ -174,9 +183,15 @@ packages = """
 - wyrd
 - zsh""".split("\n- ")
 
-apt_install(packages)
 
 def main(packages):
+    global apt
     with apt:
         apt.update()
         apt.install(packages)
+    
+    apt_install(apt)
+    
+
+if __name__ == "__main__":
+    main(packages)
