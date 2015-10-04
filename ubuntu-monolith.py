@@ -3,6 +3,42 @@
 import subprocess
 import os
 
+
+from __future__ import print_function
+
+class apt_gene(object):
+    def __init__(self):
+        self.count = 0
+        self.packages = []
+        self.repos = []
+        self.should_update = None #TODO: Consider optional boolean
+
+    def __enter__(self):
+        self.count += 1
+        #FIXME: Log this
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.count -= 1
+        #FIXME: Log this
+
+    def install(self, package=None, packages=None):
+        if package and packages:
+            #TODO/FIXME: decide if this should be an exception, log it
+            raise ValueError("Can't define both package and packages")
+        elif package:
+            self.packages.append(package)
+        elif packages:
+            self.packages += packages
+        else:
+            pass #FIXME: This fail case should be logged
+
+    def update(self):
+        self.should_update = True
+
+
+
+apt = apt_gene()
+
 def apt_install(packages):
     env = os.environ.copy()
     env[DEBIAN_FRONTEND] = "noninteractive"
@@ -141,6 +177,6 @@ packages = """
 apt_install(packages)
 
 def main(packages):
-    with apt() as pkg_man:
-        for package in packages:
-            pkg_man.install(package)
+    with apt:
+        apt.update()
+        apt.install(packages)
