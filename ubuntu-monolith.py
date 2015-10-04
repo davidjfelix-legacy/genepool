@@ -44,7 +44,7 @@ apt = apt_gene()
 
 def apt_install(apt_config):
     env = os.environ.copy()
-    env[DEBIAN_FRONTEND] = "noninteractive"
+    env['DEBIAN_FRONTEND'] = "noninteractive"
     if apt_config.should_update:
         subprocess.call(['sudo', '-E', 'apt-get', 'update'], env=env)
     if apt_config.should_upgrade:
