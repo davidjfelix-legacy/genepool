@@ -1,17 +1,12 @@
 #!/usr/bin/env python
-from __future__ import print_function
+from __future__ import print_function, new_super
 import subprocess
 import os
 
-
-class apt_gene(object):
+class Gene(object):
     def __init__(self):
         self.count = 0
-        self.packages = []
-        self.repos = []
-        self.should_upgrade = False #Don't upgrade unless you have to
-        self.should_update = True
-
+    
     def __enter__(self):
         self.count += 1
         #FIXME: Log this
@@ -19,6 +14,15 @@ class apt_gene(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.count -= 1
         #FIXME: Log this
+
+
+class Apt(Gene):
+    def __init__(self):
+        super().__init__()
+        self.packages = []
+        self.repos = []
+        self.should_upgrade = False #Don't upgrade unless you have to
+        self.should_update = True
 
     def install(self, package=None, packages=None):
         if package and packages:
@@ -40,7 +44,7 @@ class apt_gene(object):
         self.should_upgrade = True
 
 
-apt = apt_gene()
+apt = Apt()
 
 def apt_install(apt_config):
     env = os.environ.copy()
