@@ -183,7 +183,7 @@ packages = """
 - vim-gtk
 - weechat
 - wyrd
-- zsh""".split("\n- ")
+- zsh""".split("\n- ")[1:]
 
 
 def main(packages):
