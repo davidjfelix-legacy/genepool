@@ -6,6 +6,8 @@ import os
 class Gene(object):
     def __init__(self):
         self.count = 0
+        self.can_splice = False
+        super().__init__()
     
     def __enter__(self):
         self.count += 1
@@ -14,6 +16,10 @@ class Gene(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.count -= 1
         #FIXME: Log this
+
+    def sequence(self):
+        # intentionally blank for mixins
+        super().sequence()
 
 
 class Apt(Gene):
