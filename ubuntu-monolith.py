@@ -13,6 +13,7 @@ class Gene(object):
 
     def __enter__(self):
         self.count += 1
+        self.sequence()
         # FIXME: Log this
 
     def __exit__(self, exc_type=None, exc_val=None, exc_tb=None):
@@ -49,7 +50,6 @@ class Apt(Gene, UbuntuSplicer):
         self.should_update = True
 
     def splice(self):
-        self.sequence()
         if self.can_splice:
             env = os.environ.copy()
             env['DEBIAN_FRONTEND'] = "noninteractive"
