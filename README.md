@@ -43,3 +43,6 @@ This should be taken into proper consideration when organizing genes.
 * There will be a flag to prevent ignoring these warnings.
 I think by default it will attempt to go forward ignoring them.
 This strategy may be reversed depending on how heavily i make use of nested dependencies.
+
+
+# Genes should have async flow
