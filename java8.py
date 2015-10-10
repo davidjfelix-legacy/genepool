@@ -1,5 +1,5 @@
 # this is the dumb, blocking version
-from genes import app, debconf, ppa, brew, cask
+from genes import app, debconf, ppa, brew, cask, yaourt
 import platform
 
 op_sys = platform.system()
@@ -12,6 +12,9 @@ if os_sys == "Linux" and (dist == 'Ubuntu' or dist == 'Debian'):
     apt.update()
     debconf.set_selections('oracle-java8-installer', 'shared/accepted-oracle-license-v1-1', 'select', 'true')
     apt.install('oracle-java8-installer')
+
+if os_sys == "Linux" and dist == "Arch":
+    yaourt.install('oraclejdk8')
 
 if os_sys == "Darwin":
     brew.update()
