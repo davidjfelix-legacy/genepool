@@ -45,4 +45,11 @@ I think by default it will attempt to go forward ignoring them.
 This strategy may be reversed depending on how heavily i make use of nested dependencies.
 
 
-# Genes should have async flow
+# The way it works
+
+* Everything is a gene; things that run things are genes, things that install things are genes
+* Genes that get used one time are typically top level genes, you declare them in your top level brood file
+* Genes that are used by genes to accomplish their goal (installing go gene requires homebrew gene) frequently are called by 'n' number of genes.
+* These genes are declared as dependencies and are not typically run unless called upon by other genes or declared at top level.
+* Homebrew would be a gene that makes sense to declare at top level, because you install it.
+* Apt would be a gene that does not make sense to declare at top level (typically) because it's bundled with Debian.
