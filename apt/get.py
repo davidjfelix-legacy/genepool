@@ -1,6 +1,11 @@
 import os
 import subprocess
 
+
+#TODO: stop using sudo or ensure it exists
+#TODOE: specify user to run as
+#TODO: utilize functools partial to handle some of the above functionality
+
 def install(*packages):
     if packages:
         env = os.environ.copy()
