@@ -1,25 +1,33 @@
-from evolution_master.runners import pkg, download
+from genes import apt, brew, pacman, http_downloader, checksum, msiexec
+import platform
 
-# Install for Arch
-with pkg.pacman() as pkg_man:
-    pkg_man.install('go')
 
-# Install for Debian & Ubuntu
-with pkg.apt() as pkg_man:
-    pkg_man.install('golang')
+opsys = platform.system()
+dist = platform.linux_distribution()
+
+
+if platform == 'Linux' and dist == 'Arch':
+    pacman.update()
+    pacman.sync('go')
+
+
+if platform == 'Linux' and (dist == 'Debian' or dist == 'Ubuntu'):
+    apt.update()
+    apt.install('golang')
     # TODO: make this a runner and require a switch to enable this
-    pkg_man.install('golang-go-darwin-amd64',
-                    'golang-go-freebsd-amd64',
-                    'golang-go-netbsd-amd64',
-                    'golang-go-windows-amd64')
+    apt.install('golang-go-darwin-amd64',
+                'golang-go-freebsd-amd64',
+                'golang-go-netbsd-amd64',
+                'golang-go-windows-amd64')
 
-# Install for OSX
-with pkg.brew() as pkg_man:
-    pkg_man.install('go')
 
-# Install for Windows
-with  download.https() as downloader, pkg.msiexec() as installer:
-    downloader.get('https://storage.googleapis.com/golang/go1.5.1.windows-amd64.msi')
-    downloader.checksum('sha1', '0a439f49b546b82f85adf84a79bbf40de2b3d5ba')
-    installer.install_flags('/qn' '/norestart')
-    installer.await(downloader.finished())
+if platform == 'Darwin':
+    brew.update()
+    brew.install('go')
+
+
+if platform == 'Windows':
+    installer = http_downloader.get('https://storage.googleapis.com/golang/go1.5.1.windows-amd64.msi')
+    checksum.check(installer, 'sha1', '0a439f49b546b82f85adf84a79bbf40de2b3d5ba')
+    install_flags = ('/qn' '/norestart')
+    msiexec.run(installer, install_flags)
