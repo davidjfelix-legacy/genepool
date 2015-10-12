@@ -4,6 +4,9 @@ import apt
 def test_install_package(monkeypatch):
     def mocked_subprocess_call(*args, **kwargs):
         assert(args[0] == ['sudo', '-E', 'apt-get', '-y', 'install', 'test'])
+        env = kwargs.get('env', None)
+        assert(env != None)
+        assert(env.get('DEBIAN_FRONTEND', None) == 'noninteractive')
         return 0
     
     monkeypatch.setattr(subprocess, 'call', mocked_subprocess_call)
@@ -13,6 +16,9 @@ def test_install_package(monkeypatch):
 def test_install_packages(monkeypatch):
     def mocked_subprocess_call(*args, **kwargs):
         assert(args[0] == ['sudo', '-E', 'apt-get', '-y', 'install', 'test1', 'test2'])
+        env = kwargs.get('env', None)
+        assert(env != None)
+        assert(env.get('DEBIAN_FRONTEND', None) == 'noninteractive')
         return 0
 
     monkeypatch.setattr(subprocess, 'call', mocked_subprocess_call)
