@@ -11,6 +11,8 @@ class Config:
     ENV = os.environ.copy()
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
     ENV_CALL = partial(call, env=ENV)
+    #TODO: Split me out to key
+    RECV_KEY = ['sudo', '-E', 'apt-key', 'adv', '--keyserver', 'hkp://pgp.mit.edu:80', '--recv-keys']
 
 def install(*packages):
     if packages:
@@ -22,3 +24,18 @@ def install(*packages):
 
 update = partial(Config.ENV_CALL, Config.APT_GET + ['update'])
 upgrade = partial(Config.ENV_CALL, Config.APT_GET + ['upgrade'])
+
+def recv_keys(*keys):
+    if keys:
+        Config.ENV_CALL(Config.RECV_KEY + list(keys))
+    else:
+        #FIXME: need to output failure
+        pass
+    
+def add_repo(filename, *line_items):
+    if filename and line_items:
+        #FIXME, open file and write lines to the end.
+        pass
+    else:
+        #FIXME: need to output failure
+        pass
