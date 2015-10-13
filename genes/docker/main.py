@@ -3,9 +3,21 @@ import platform
 
 class Config:
     OS = platform.system()
-    DIST = platform.linux_distribution()
+    (DIST, _, CODE) = platform.linux_distribution()
+    REPO = DIST.lower() + '-' + CODE
 
 def main():
     if Config.OS == 'Linux':
-        if Config.DIST[0] == 'Ubuntu' or Config.DIST[0] == 'Debian':
+        if Config.DIST == 'Ubuntu' or Config.DIST == 'Debian':
             apt.recv_key('58118E89F3A912897C070ADBF76221572C52609D')
+            apt.add_repo('docker.list', 'https://apt.dockerproject.org/repo', Config.REPO, 'main')
+            apt.update()
+            apt.install('docker-engine')
+            
+        else:
+            #FIXME: print failure case
+            pass
+    
+    else:
+        #FIXME: print failure, handle osx/windows
+        pass
