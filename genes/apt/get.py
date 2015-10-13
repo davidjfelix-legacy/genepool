@@ -6,7 +6,7 @@ from functools import partial
 #TODO: stop using sudo or ensure it exists
 #TODOE: specify user to run as
 #TODO: utilize functools partial to handle some of the above functionality
-class Confg:
+class Config:
     APT_GET = ['sudo', '-E', 'apt-get']
     ENV = os.environ.copy()
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
@@ -20,5 +20,5 @@ def install(*packages):
         pass
     
 
-update = partial(Config.ENV_CALL, APT_GET + ['update'])
-upgrade = partial(Config.ENV_CALL, APT_GET + ['upgrade'])
+update = partial(Config.ENV_CALL, Config.APT_GET + ['update'])
+upgrade = partial(Config.ENV_CALL, Config.APT_GET + ['upgrade'])

@@ -1,5 +1,5 @@
 import subprocess
-import apt
+from genes import apt
 
 def test_install_package(monkeypatch):
     """Test calling apt.install with one package"""
