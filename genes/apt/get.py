@@ -1,27 +1,24 @@
 import os
-import subprocess
+from subprocess import call
+from functools import partial
 
 
 #TODO: stop using sudo or ensure it exists
 #TODOE: specify user to run as
 #TODO: utilize functools partial to handle some of the above functionality
-
-APT_GET = ['sudo', '-E', 'apt-get']
-ENV = os.environ.copy()
-ENV['DEBIAN_FRONTEND'] = "noninteractive"
+class Confg:
+    APT_GET = ['sudo', '-E', 'apt-get']
+    ENV = os.environ.copy()
+    ENV['DEBIAN_FRONTEND'] = "noninteractive"
+    ENV_CALL = partial(call, env=ENV)
 
 def install(*packages):
-    global APT_GET, ENV
     if packages:
-        subprocess.call(APT_GET + ['install'] + list(packages), env=ENV)
+        Config.ENV_CALL(Config.APT_GET + ['install'] + list(packages))
     else:
         #FIXME: need to output failure
         pass
     
-def update():
-    global APT_GET, ENV
-    subprocess.call(APT_GET + ['update'], env=ENV)
-    
-def upgrade():
-    global APT_GET, ENV
-    subprocess.call(APT_GET + ['upgrade'], env=ENV)
+
+update = partial(Config.ENV_CALL, APT_GET + ['update'])
+upgrade = partial(Config.ENV_CALL, APT_GET + ['upgrade'])
