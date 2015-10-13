@@ -13,11 +13,13 @@ def main():
             apt.add_repo('docker.list', 'https://apt.dockerproject.org/repo', Config.REPO, 'main')
             apt.update()
             apt.install('docker-engine')
-            
+            #FIXME: add compose, machine, etc
         else:
             #FIXME: print failure case
             pass
-    
+    elif Config.OS = 'Darwin':
+        #brew_cask.install('dockertoolbox')
+        pass
     else:
         #FIXME: print failure, handle osx/windows
         pass
