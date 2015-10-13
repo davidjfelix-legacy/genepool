@@ -6,21 +6,22 @@ import subprocess
 #TODOE: specify user to run as
 #TODO: utilize functools partial to handle some of the above functionality
 
+APT_GET = ['sudo', '-E', 'apt-get']
+ENV = os.environ.copy()
+ENV['DEBIAN_FRONTEND'] = "noninteractive"
+
 def install(*packages):
+    global APT_GET, ENV
     if packages:
-        env = os.environ.copy()
-        env['DEBIAN_FRONTEND'] = "noninteractive"
-        subprocess.call(['sudo', '-E', 'apt-get', '-y', 'install'] + list(packages), env=env)
+        subprocess.call(APT_GET + ['install'] + list(packages), env=ENV)
     else:
         #FIXME: need to output failure
         pass
     
 def update():
-    env = os.environ.copy()
-    env['DEBIAN_FRONTEND'] = "noninteractive"
-    subprocess.call(['sudo', '-E', 'apt-get', 'update'], env=env)
+    global APT_GET, ENV
+    subprocess.call(APT_GET + ['update'], env=ENV)
     
 def upgrade():
-    env = os.environ.copy()
-    env['DEBIAN_FRONTEND'] = "noninteractive"
-    subprocess.call(['sudo', '-E', 'apt-get', 'upgrade'], env=env)
+    global APT_GET, ENV
+    subprocess.call(APT_GET + ['upgrade'], env=ENV)
