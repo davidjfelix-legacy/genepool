@@ -17,7 +17,7 @@ def main():
         else:
             #FIXME: print failure case
             pass
-    elif Config.OS = 'Darwin':
+    elif Config.OS == 'Darwin':
         #brew_cask.install('dockertoolbox')
         pass
     else:
