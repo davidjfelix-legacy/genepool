@@ -7,7 +7,7 @@ from functools import partial
 #TODOE: specify user to run as
 #TODO: utilize functools partial to handle some of the above functionality
 class Config:
-    APT_GET = ['sudo', '-E', 'apt-get']
+    APT_GET = ['sudo', '-E', 'apt-get', '-y']
     ADD_REPO = ['sudo', '-E', 'add-apt-repository', '-y']
     ENV = os.environ.copy()
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
