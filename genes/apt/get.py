@@ -8,6 +8,7 @@ from functools import partial
 #TODO: utilize functools partial to handle some of the above functionality
 class Config:
     APT_GET = ['sudo', '-E', 'apt-get']
+    ADD_REPO = ['sudo', '-E', 'add-apt-repository', '-y']
     ENV = os.environ.copy()
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
     ENV_CALL = partial(call, env=ENV)
@@ -34,8 +35,8 @@ def recv_keys(*keys):
     
 def add_repo(filename, *line_items):
     if filename and line_items:
-        #FIXME, open file and write lines to the end.
-        pass
+        #FIXME: this depends on software-properties-common; debian needs this
+        Config.ENV_CALL(Config.ADD_REPO + ['"' + " ".join(line_items) + '"'])
     else:
         #FIXME: need to output failure
         pass
