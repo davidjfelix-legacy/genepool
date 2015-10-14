@@ -10,7 +10,7 @@ def main():
     if Config.OS == 'Linux':
         if Config.DIST == 'Ubuntu' or Config.DIST == 'Debian':
             #FIXME: debian needs ppa software
-            apt.add_repo('ppa:webupd8team/java')
+            apt.add_ppa('ppa:webupd8team/java')
             apt.update()
             debconf.set_selections('oracle-java8-installer',
                                    'shared/accepted-oracle-license-v1-1',

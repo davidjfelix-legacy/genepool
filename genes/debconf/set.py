@@ -1,5 +1,5 @@
 import os
-from subprocess import call
+from subprocess import Popen, PIPE
 from functools import partial
 
 #TODO: stop using sudo or ensure it exists
@@ -9,11 +9,12 @@ class Config:
     SET_SELECTIONS = ['sudo', '-E', 'debconf-set-selections']
     ENV = os.environ.copy()
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
-    ENV_CALL = partial(call, env=ENV)
     
 def set_selections(*selections):
     if selections:
-        Config.ENV_CALL(['echo'] + list(selections) + ['|'] + Config.SET_SELECTIONS)
+        debconf = Popen(Config.SET_SELECTIONS, env=Config.ENV, stdin=PIPE)
+        debconf.communicate(input=" ".join(selections))
+        #FIXME: capture errors above, report them
     else:
         #FIXME: add error
         pass

@@ -33,10 +33,17 @@ def recv_keys(*keys):
         #FIXME: need to output failure
         pass
     
-def add_repo(filename, *line_items):
-    if filename and line_items:
+def add_repo(*line_items):
+    if line_items:
         #FIXME: this depends on software-properties-common; debian needs this
         Config.ENV_CALL(Config.ADD_REPO + ['"' + " ".join(line_items) + '"'])
+    else:
+        #FIXME: need to output failure
+        pass
+
+def add_ppa(ppa):
+    if ppa:
+        Config.ENV_CALL(Config.ADD_REPO + [ppa])
     else:
         #FIXME: need to output failure
         pass

@@ -10,7 +10,7 @@ def main():
     if Config.OS == 'Linux':
         if Config.DIST == 'Ubuntu' or Config.DIST == 'Debian':
             apt.recv_keys('58118E89F3A912897C070ADBF76221572C52609D')
-            apt.add_repo('docker.list', 'https://apt.dockerproject.org/repo', Config.REPO, 'main')
+            apt.add_repo('https://apt.dockerproject.org/repo', Config.REPO, 'main')
             apt.update()
             apt.install('docker-engine')
             #FIXME: add compose, machine, etc
