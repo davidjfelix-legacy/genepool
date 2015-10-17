@@ -1,25 +1,21 @@
-from genes import apt
-import platform
+from genes import apt, brew
+from genes import debian
+from genes.debian import is_debian
+from genes.ubuntu import is_ubuntu
+from genes.mac import is_osx
 
-class Config:
-    OS = platform.system()
-    (DIST, _, CODE) = platform.linux_distribution()
-    REPO = DIST.lower() + '-' + CODE
 
 def main():
-    if Config.OS == 'Linux':
-        if Config.DIST == 'Ubuntu' or Config.DIST == 'Debian':
-            apt.recv_keys('58118E89F3A912897C070ADBF76221572C52609D')
-            apt.add_repo('https://apt.dockerproject.org/repo', Config.REPO, 'main')
-            apt.update()
-            apt.install('docker-engine')
-            #FIXME: add compose, machine, etc
-        else:
-            #FIXME: print failure case
-            pass
-    elif Config.OS == 'Darwin':
-        #brew_cask.install('dockertoolbox')
-        pass
+    if is_debian() or is_ubuntu():
+        repo = debian.traits.distribution.lower() + '-' + \
+               debian.traits.codename.lower()
+        apt.recv_keys('58118E89F3A912897C070ADBF76221572C52609D')
+        apt.add_repo('https://apt.dockerproject.org/repo', repo, 'main')
+        apt.update()
+        apt.install('docker-engine')
+        # FIXME: add compose, machine, etc
+    elif is_osx():
+        brew.cask_install('dockertoolbox')
     else:
-        #FIXME: print failure, handle osx/windows
+        # FIXME: print failure, handle osx/windows
         pass

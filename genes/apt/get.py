@@ -1,4 +1,7 @@
 import os
+from genes.lib import if_any
+from genes.debian import is_debian
+from genes.ubuntu import is_ubuntu
 from subprocess import call
 from functools import partial
 
@@ -17,6 +20,7 @@ class Config:
                 'hkp://pgp.mit.edu:80', '--recv-keys']
 
 
+@if_any(is_debian(), is_ubuntu())
 def install(*packages):
     if packages:
         Config.ENV_CALL(Config.APT_GET + ['install'] + list(packages))
@@ -29,6 +33,7 @@ update = partial(Config.ENV_CALL, Config.APT_GET + ['update'])
 upgrade = partial(Config.ENV_CALL, Config.APT_GET + ['upgrade'])
 
 
+@if_any(is_debian(), is_ubuntu())
 def recv_keys(*keys):
     if keys:
         Config.ENV_CALL(Config.RECV_KEY + list(keys))

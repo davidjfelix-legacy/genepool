@@ -3,27 +3,25 @@ import platform
 from genes import debian
 
 
+operating_system = debian.traits.operating_system
 version = debian.traits.version
 codename = debian.traits.codename
 
 
-def is_ubuntu():
+def is_ubuntu(versions=None):
+    is_version = True
+    if versions:
+        is_version = version in versions or codename in versions
     return platform.system() == 'Linux' \
-           and platform.linux_distribution == 'Ubuntu'
+        and platform.linux_distribution == 'Ubuntu' \
+        and is_version
 
 
 def only_ubuntu(warn=True, error=False, versions=None):
     def wrapper(func):
         @wraps
         def run_if_ubuntu(*args, **kwargs):
-            if is_ubuntu() and versions:
-                if version in versions or codename in versions:
-                    return func(*args, **kwargs)
-                else:
-                    # FIXME: logitize me
-                    raise OSError('This command can only be run on Debian {}'
-                                  .format(" ".join(versions)))
-            elif is_ubuntu():
+            if is_ubuntu(versions=versions):
                 return func(*args, **kwargs)
             elif error:
                 # FIXME: logitize me

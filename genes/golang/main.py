@@ -1,12 +1,12 @@
 from genes import apt, brew
-import platform
+from genes.ubuntu import is_ubuntu
+from genes.debian import is_debian
+from genes.mac import is_osx
 
 
-opsys = platform.system()
-dist = platform.linux_distribution()
 
 def main():
-    if platform == 'Linux' and (dist == 'Debian' or dist == 'Ubuntu'):
+    if is_ubuntu() or is_debian():
         apt.update()
         apt.install('golang')
         # TODO: make this a runner and require a switch to enable this
@@ -14,3 +14,7 @@ def main():
                     'golang-go-freebsd-amd64',
                     'golang-go-netbsd-amd64',
                     'golang-go-windows-amd64')
+
+    if is_osx():
+        brew.update()
+        brew.install('go')

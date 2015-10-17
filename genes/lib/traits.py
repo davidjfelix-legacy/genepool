@@ -1,21 +1,21 @@
 from functools import wraps
 
 
-def if_any(*funcs):
+def if_any(*conds):
     def wrapper(func):
         @wraps
         def run_if_any(*args, **kwargs):
-            if any([func() for func in funcs]):
+            if any(conds):
                 return func(*args, **kwargs)
         return run_if_any
     return wrapper
     
 
-def if_all(*funcs):
+def if_all(*conds):
     def wrapper(func):
         @wraps
         def run_if_all(*args, **kwargs):
-            if all([fuc() for func in funcs]):
+            if all(conds):
                 return func(*args, **kwargs)
         return run_if_all
     return wrapper
