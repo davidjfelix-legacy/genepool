@@ -42,6 +42,7 @@ def recv_keys(*keys):
         pass
 
 
+@if_any(is_debian(), is_ubuntu())
 def add_repo(*line_items):
     if line_items:
         # FIXME: this depends on software-properties-common; debian needs this
@@ -51,6 +52,7 @@ def add_repo(*line_items):
         pass
 
 
+@if_any(is_debian(), is_ubuntu())
 def add_ppa(ppa):
     if ppa:
         Config.ENV_CALL(Config.ADD_REPO + [ppa])

@@ -22,8 +22,8 @@ def only_osx(warn=True, error=False, versions=None):
             elif error:
                 # FIXME: logitize me
                 raise OSError('This command can only be run on Debian')
-            else:
-                # FiXME: should log and warn if warn
+            elif warn:
+                # FIXME: should log and warn if warn
                 pass
 
         return run_if_osx
