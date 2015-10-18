@@ -3,7 +3,7 @@ from functools import wraps
 
 def if_any(*conds):
     def wrapper(func):
-        @wraps
+        @wraps(func)
         def run_if_any(*args, **kwargs):
             if any(conds):
                 return func(*args, **kwargs)
@@ -13,7 +13,7 @@ def if_any(*conds):
 
 def if_all(*conds):
     def wrapper(func):
-        @wraps
+        @wraps(func)
         def run_if_all(*args, **kwargs):
             if all(conds):
                 return func(*args, **kwargs)
