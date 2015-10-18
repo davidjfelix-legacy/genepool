@@ -18,7 +18,7 @@ def is_ubuntu(versions=None):
 
 def only_ubuntu(warn=True, error=False, versions=None):
     def wrapper(func):
-        @wraps
+        @wraps(func)
         def run_if_ubuntu(*args, **kwargs):
             if is_ubuntu(versions=versions):
                 return func(*args, **kwargs)

@@ -17,7 +17,7 @@ def is_debian(versions=None):
 
 def only_debian(warn=True, error=False, versions=None):
     def wrapper(func):
-        @wraps
+        @wraps(func)
         def run_if_debian(*args, **kwargs):
             if is_debian(versions=versions):
                 return func(*args, **kwargs)

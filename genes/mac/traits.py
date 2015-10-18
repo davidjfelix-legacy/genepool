@@ -15,7 +15,7 @@ def is_osx(versions=None):
 
 def only_osx(warn=True, error=False, versions=None):
     def wrapper(func):
-        @wraps
+        @wraps(func)
         def run_if_osx(*args, **kwargs):
             if is_osx(versions=versions):
                 return func(*args, **kwargs)
