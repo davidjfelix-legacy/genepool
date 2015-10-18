@@ -3,17 +3,16 @@ import platform
 from genes import debian
 
 
-operating_system = debian.traits.operating_system
-version = debian.traits.version
-codename = debian.traits.codename
+operating_system = platform.system()
+distribution, version, codename = platform.linux_distribution()
 
 
 def is_ubuntu(versions=None):
     is_version = True
     if versions:
         is_version = version in versions or codename in versions
-    return platform.system() == 'Linux' \
-        and platform.linux_distribution == 'Ubuntu' \
+    return operating_system == 'Linux' \
+        and  distribution == 'Ubuntu' \
         and is_version
 
 

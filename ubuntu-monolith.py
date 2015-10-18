@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 from __future__ import print_function
 from genes import apt
-import subprocess
-import os
-import platform
 
 packages = """
 - aria2
@@ -123,6 +120,7 @@ packages = """
 - weechat
 - wyrd
 - zsh""".split("\n- ")[1:]
+
 
 def main(packages):
     apt.update()
