@@ -6,12 +6,12 @@ operating_system = platform.system()
 distribution, version, codename = platform.linux_distribution()
 
 
-def is_debian(versions=None):
+def is_debian(versions=None, distro_name='Debian'):
     is_version = True
     if versions:
         is_version = version in versions or codename in versions
     return operating_system == 'Linux' \
-        and distribution == 'Debian' \
+        and distribution == distro_name \
         and is_version
 
 

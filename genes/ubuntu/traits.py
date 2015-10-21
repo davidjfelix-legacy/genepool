@@ -8,12 +8,7 @@ distribution, version, codename = platform.linux_distribution()
 
 
 def is_ubuntu(versions=None):
-    is_version = True
-    if versions:
-        is_version = version in versions or codename in versions
-    return operating_system == 'Linux' \
-        and  distribution == 'Ubuntu' \
-        and is_version
+    return debian.is_debian(versions=versions, distro_name='Ubuntu')
 
 
 def only_ubuntu(warn=True, error=False, versions=None):

@@ -1,5 +1,8 @@
 import os
 from subprocess import Popen, PIPE
+from genes.lib import if_any
+from genes.ubuntu import is_ubuntu
+from genes.debian import is_debian
 
 
 # TODO: stop using sudo or ensure it exists
@@ -11,6 +14,7 @@ class Config:
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
 
 
+@if_any(is_debian(), is_ubuntu())
 def set_selections(*selections):
     if selections:
         debconf = Popen(Config.SET_SELECTIONS, env=Config.ENV, stdin=PIPE)
