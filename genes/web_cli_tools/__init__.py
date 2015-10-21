@@ -1,1 +1,3 @@
-__author__ = 'david'
+from .main import main
+
+__all__ = ["main"]
