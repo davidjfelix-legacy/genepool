@@ -3,7 +3,7 @@
 
 from importlib import import_module
 
-genes = ["docker"]
+genes = ["docker", "java"]
 
 for gene in genes:
     mod = import_module("genes." + gene)
