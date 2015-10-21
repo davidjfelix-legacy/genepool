@@ -46,7 +46,7 @@ def recv_keys(*keys):
 def add_repo(*line_items):
     if line_items:
         # FIXME: this depends on software-properties-common; debian needs this
-        Config.ENV_CALL(Config.ADD_REPO + ['"' + " ".join(line_items) + '"'])
+        Config.ENV_CALL(Config.ADD_REPO + [" ".join(line_items)])
     else:
         # FIXME: need to output failure
         pass
