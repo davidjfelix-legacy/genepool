@@ -4,7 +4,6 @@ from genes.debian import is_debian
 from genes.mac import is_osx
 
 
-
 def main():
     if is_ubuntu() or is_debian():
         apt.update()
@@ -15,6 +14,9 @@ def main():
                     'golang-go-netbsd-amd64',
                     'golang-go-windows-amd64')
 
-    if is_osx():
+    elif is_osx():
         brew.update()
         brew.install('go')
+
+    else:
+        pass
