@@ -1,10 +1,4 @@
-import subprocess
+from .main import main
+from .commands import install, cask_install, update
 
-def update():
-    subprocess.call(['brew', 'update'])
-    
-def install(*packages):
-    subprocess.call(['brew', 'install'] + list(packages))
-
-def cask_install(*packages):
-    subprocess.call(['brew', 'cask', 'install'] + list(packages))
+__all__ = ['install', 'cask_install', 'update', 'main']
