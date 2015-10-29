@@ -1,13 +1,16 @@
 # Genepool2
 
-WIP: flow thoughts
+WIP: Thoughts on how hatchery flow will work
 
-* User downloads standalone executable and runs it -> evolution master
-* it asks for run directory
-* it asks for gene manifest. URL or file accepted -> brood
-* it resolves web access -> evolution master
-* it retrieves repos from manifest and repos' manifests' repos until all repos are retrieved -> repos: genepool, retriver -> evolution master
-* it installs python and runs each gene -> evolution master
+* The user navigates to evolution master's page and downloads the standalone executable.
+* The user runs the executable.
+* The executable escalates to local admin.
+* The executable asks for a temp director
+* The executable asks for a top level broodfile. path or URL acceptable
+* The web address is resolved (proxy)
+* The executable retrieves repos from the broodfile. These repos are genepools.
+* Recursively get the repos from each level's dependencies
+* The executable installs a bundled python environment and runs the broodfile runner and top level genes.
 
 
 ## Gene heirarchy plans
