@@ -1,8 +1,8 @@
 import os
 from subprocess import Popen, PIPE
-from genes.lib import if_any
-from genes.ubuntu import is_ubuntu
-from genes.debian import is_debian
+from genes.lib.traits import if_any
+from genes.ubuntu.traits import is_ubuntu
+from genes.debian.traits import is_debian
 
 
 # TODO: stop using sudo or ensure it exists

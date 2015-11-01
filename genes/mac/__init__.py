@@ -1,4 +1,3 @@
-from . import traits
-from .traits import is_osx, only_osx
-
-__all__ = ['traits', 'is_osx', 'only_osx']
+#!/usr/bin/env python
+# This file is intentionally blank
+# It is used by python to create a module structure

@@ -1,9 +1,9 @@
-from genes import brew
-from genes.debian import is_debian
-from genes.mac import is_osx
-from genes.ubuntu import is_ubuntu
-from genes.curl import download
-from genes.tar import untar
+from genes.brew import commands as brew
+from genes.debian.traits import is_debian
+from genes.mac.traits import is_osx
+from genes.ubuntu.traits import is_ubuntu
+from genes.curl.commands import download
+from genes.tar.commands import untar
 
 
 def main():

@@ -1,4 +1,3 @@
-from .main import main
-from .commands import download
-
-__all__ = ['main', 'download']
+#!/usr/bin/env python
+# This file is intentionally blank
+# It is used by python to create a module structure

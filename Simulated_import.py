@@ -7,6 +7,6 @@ genes = ["docker", "java", "web_cli_tools"]
 
 for gene in genes:
     mod = import_module("genes." + gene)
-    mod.main()
+    mod.main.main()
 
 # etc...

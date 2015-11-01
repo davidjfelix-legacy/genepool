@@ -1,6 +1,6 @@
 from functools import wraps
 import platform
-from genes import debian
+from genes.debian.traits import is_debian
 
 
 operating_system = platform.system()
@@ -8,7 +8,7 @@ distribution, version, codename = platform.linux_distribution()
 
 
 def is_ubuntu(versions=None):
-    return debian.is_debian(versions=versions, distro_name='Ubuntu')
+    return is_debian(versions=versions, distro_name='Ubuntu')
 
 
 def only_ubuntu(warn=True, error=False, versions=None):

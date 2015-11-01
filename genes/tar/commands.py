@@ -1,5 +1,5 @@
 import subprocess
-from genes.posix import is_posix
+from genes.posix.traits import is_posix
 
 
 # FIXME: use tar module

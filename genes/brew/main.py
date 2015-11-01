@@ -1,6 +1,6 @@
 import subprocess
-from genes.curl import download
-from genes.mac import only_osx
+from genes.curl.commands import download
+from genes.mac.traits import only_osx
 
 
 @only_osx

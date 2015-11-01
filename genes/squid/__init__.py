@@ -1,3 +1,3 @@
-from .main import main, start, enable, config_file
-
-__all__ = ['main', 'start', 'enable', 'config_file']
+#!/usr/bin/env python
+# This file is intentionally blank
+# It is used by python to create a module structure

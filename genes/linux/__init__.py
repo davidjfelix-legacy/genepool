@@ -1,4 +1,3 @@
-from . import traits
-from .traits import is_linux, only_linux
-
-__all__ = ['traits', 'is_linux', 'only_linux']
+#!/usr/bin/env python
+# This file is intentionally blank
+# It is used by python to create a module structure

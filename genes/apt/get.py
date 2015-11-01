@@ -1,7 +1,7 @@
 import os
-from genes.lib import if_any
-from genes.debian import is_debian
-from genes.ubuntu import is_ubuntu
+from genes.lib.traits import if_any
+from genes.debian.traits import is_debian
+from genes.ubuntu.traits import is_ubuntu
 from subprocess import call
 from functools import partial
 

@@ -1,7 +1,8 @@
-from genes import apt, brew
-from genes.debian import is_debian
-from genes.mac import is_osx
-from genes.ubuntu import is_ubuntu
+from genes.apt import get as apt
+from genes.brew import commands as brew
+from genes.debian.traits import is_debian
+from genes.mac.traits import is_osx
+from genes.ubuntu.traits import is_ubuntu
 
 
 def main():

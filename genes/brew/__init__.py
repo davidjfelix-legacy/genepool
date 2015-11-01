@@ -1,4 +1,3 @@
-from .main import main
-from .commands import install, cask_install, update
-
-__all__ = ['install', 'cask_install', 'update', 'main']
+#!/usr/bin/env python
+# This file is intentionally blank
+# It is used by python to create a module structure

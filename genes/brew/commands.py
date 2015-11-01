@@ -1,5 +1,5 @@
 import subprocess
-from genes.mac import only_osx
+from genes.mac.traits import only_osx
 
 
 @only_osx
