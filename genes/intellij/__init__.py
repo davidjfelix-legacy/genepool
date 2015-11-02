@@ -1,3 +1,6 @@
-from .main import main
+#!/usr/bin/env python
 
-__all__  = ['main']
+
+def main():
+    from .main import main as install
+    install()
