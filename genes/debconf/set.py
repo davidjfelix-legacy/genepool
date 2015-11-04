@@ -9,7 +9,7 @@ from genes.debian.traits import is_debian
 # TODO: specify user to run as
 # TODO: utilize functools partial to handle some of the above functionality
 class Config:
-    SET_SELECTIONS = ['sudo', '-E', 'debconf-set-selections']
+    SET_SELECTIONS = ['debconf-set-selections']
     ENV = os.environ.copy()
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
 

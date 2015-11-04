@@ -10,14 +10,13 @@ from functools import partial
 # TODO: specify user to run as
 # TODO: utilize functools partial to handle some of the above functionality
 class Config:
-    APT_GET = ['sudo', '-E', 'apt-get', '-y']
-    ADD_REPO = ['sudo', '-E', 'add-apt-repository', '-y']
+    APT_GET = ['apt-get', '-y']
+    ADD_REPO = ['add-apt-repository', '-y']
     ENV = os.environ.copy()
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
     ENV_CALL = partial(call, env=ENV)
     # TODO: Split me out to key
-    RECV_KEY = ['sudo', '-E', 'apt-key', 'adv', '--keyserver',
-                'hkp://pgp.mit.edu:80', '--recv-keys']
+    RECV_KEY = ['apt-key', 'adv', '--keyserver', 'hkp://pgp.mit.edu:80', '--recv-keys']
 
 
 @if_any(is_debian(), is_ubuntu())
