@@ -18,7 +18,7 @@ class DirectoryBuilder(object):
         self.user = user
         return self
 
-    def set_grout(self, group):
+    def set_group(self, group):
         self.group = group
         return self
 

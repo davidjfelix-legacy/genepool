@@ -10,15 +10,15 @@ from genes.directory import DirectoryBuilder
 def main():
     if is_debian() or is_ubuntu():
         download(
-            "https://download.jetbrains.com/idea/ideaIU-14.1.5.tar.gz",
+            "https://download.jetbrains.com/idea/ideaIU-15.0.tar.gz",
             "/tmp/ideas.tar.gz"
         )
-        new_path = DirectoryBuilder('/opt/intellij-ideas')
-        new_path.set_mode('755')
-        new_path.set_group('root')
-        new_path.set_user('root')
-        new_path.create()
-        untar('/tmp/idea.tar.gz', '/opt/intellij-ideas')
+        DirectoryBuilder('/opt/intellij-ideas')\
+            .set_mode('755')\
+            .set_group('root')\
+            .set_user('root')\
+            .build()
+        untar('/tmp/ideas.tar.gz', '/opt/intellij-ideas')
     if is_osx():
         brew.update()
         brew.cask_install('intellij-idea')
