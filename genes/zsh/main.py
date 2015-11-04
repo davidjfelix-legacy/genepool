@@ -1,5 +1,5 @@
 import subprocess
-from genes.apt import get as apt
+from genes.apt import commands as apt
 from genes.brew import commands as brew
 from genes.debian.traits import is_debian
 from genes.mac.traits import is_osx

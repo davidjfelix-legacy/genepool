@@ -6,8 +6,6 @@ from subprocess import call
 from functools import partial
 
 
-# TODO: stop using sudo or ensure it exists
-# TODO: specify user to run as
 # TODO: utilize functools partial to handle some of the above functionality
 class Config:
     APT_GET = ['apt-get', '-y']
@@ -28,6 +26,7 @@ def install(*packages):
         pass
 
 
+# FIXME: wrap partials with if_any traits
 update = partial(Config.ENV_CALL, Config.APT_GET + ['update'])
 upgrade = partial(Config.ENV_CALL, Config.APT_GET + ['upgrade'])
 

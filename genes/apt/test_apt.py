@@ -1,5 +1,5 @@
 import subprocess
-from genes.apt import get as apt
+from genes.apt import commands as apt
 
 
 def test_install_package(monkeypatch):
