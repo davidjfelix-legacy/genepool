@@ -17,7 +17,7 @@ def only_posix(warn=True, error=False):
                 return func(*args, **kwargs)
             elif error:
                 # FIXME: logitize me
-                raise OSError('This command can only be run on Debian')
+                raise OSError('This command can only be run on POSIX systems')
             elif warn:
                 # FIXME: should log and warn if warn
                 pass
