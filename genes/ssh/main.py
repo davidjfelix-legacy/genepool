@@ -3,7 +3,7 @@ from genes.apt import commands as apt
 from genes.ubuntu.traits import is_ubuntu
 from genes.debian.traits import is_debian
 from genes.mac.traits import is_osx
-from genes.sytemsetup import commands as systemsetup
+from genes.systemsetup import commands as systemsetup
 
 
 def main():
@@ -11,6 +11,6 @@ def main():
         apt.update()
         apt.install('openssh-server')
     elif is_osx():
-        systemsetup('-setremotelogin', 'on')
+        systemsetup.systemsetup('-setremotelogin', 'on')
     else:
         pass
