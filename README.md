@@ -12,6 +12,17 @@ WIP: Thoughts on how hatchery flow will work
 * Recursively get the repos from each level's dependencies
 * The executable installs a bundled python environment and runs the broodfile runner and top level genes.
 
+## Sample use
+
+From this directory, you can use genes. Typical use is as follows:
+
+```python
+from genes.docker import main as _docker
+
+_docker()
+```
+
+
 
 ## Gene heirarchy plans
 
