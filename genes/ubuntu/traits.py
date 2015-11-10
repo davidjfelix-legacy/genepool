@@ -3,10 +3,6 @@ import platform
 from genes.debian.traits import is_debian
 
 
-operating_system = platform.system()
-distribution, version, codename = platform.linux_distribution()
-
-
 def is_ubuntu(versions=None):
     return is_debian(versions=versions, distro_name='Ubuntu')
 

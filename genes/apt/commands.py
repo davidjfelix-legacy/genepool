@@ -17,7 +17,7 @@ class Config:
     RECV_KEY = ['apt-key', 'adv', '--keyserver', 'hkp://pgp.mit.edu:80', '--recv-keys']
 
 
-@if_any(is_debian(), is_ubuntu())
+#@if_any(is_debian(), is_ubuntu())
 def install(*packages):
     if packages:
         Config.ENV_CALL(Config.APT_GET + ['install'] + list(packages))
