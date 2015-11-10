@@ -6,6 +6,7 @@ def test_install_package(monkeypatch):
     """Test calling apt.install with one package
     :param monkeypatch: This is the py.test monkeypatching for mock.
     """
+    # FIXME: this test should fail but passes
     def mocked_subprocess_call(*args, **kwargs):
         cmd = " ".join(args[0])
         assert(cmd == 'sudo -E apt-get -y install test')
@@ -22,6 +23,7 @@ def test_install_packages(monkeypatch):
     """Test calling apt install with multiple packages
     :param monkeypatch: This is the py.test monkeypatching for mock.
     """
+    # FIXME: this test should fail
     def mocked_subprocess_call(*args, **kwargs):
         cmd = " ".join(args[0])
         assert(cmd == 'sudo -E apt-get -y install test1 test2')
