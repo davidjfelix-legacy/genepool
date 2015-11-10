@@ -1,5 +1,4 @@
 from functools import wraps
-import platform
 from genes.debian.traits import is_debian
 
 
