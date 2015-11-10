@@ -2,11 +2,10 @@ from functools import wraps
 import platform
 
 
-operating_system = platform.system()
-distribution, version, codename = platform.linux_distribution()
-
-
 def is_debian(versions=None, distro_name='Debian'):
+    operating_system = platform.system()
+    distribution, version, codename = platform.linux_distribution()
+
     is_version = True
     if versions:
         is_version = version in versions or codename in versions

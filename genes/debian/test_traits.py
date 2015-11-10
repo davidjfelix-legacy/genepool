@@ -1,5 +1,5 @@
 import platform
-from genes import debian
+from .traits import is_debian
 
 
 def test_is_debian(monkeypatch):
@@ -12,7 +12,7 @@ def test_is_debian(monkeypatch):
 
     monkeypatch.setattr(platform, 'system', mocked_platform_system)
     monkeypatch.setattr(platform, 'linux_distribution', mocked_platform_dist)
-    assert debian.is_debian()
+    assert is_debian()
 
 
 def test_is_not_debian(monkeypatch):
@@ -25,4 +25,4 @@ def test_is_not_debian(monkeypatch):
 
     monkeypatch.setattr(platform, 'system', mocked_platform_system)
     monkeypatch.setattr(platform, 'linux_distribution', mocked_platform_dist)
-    assert(debian.is_debian() == False)
+    assert(is_debian() == False)
