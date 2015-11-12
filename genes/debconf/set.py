@@ -14,7 +14,7 @@ class Config:
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
 
 
-@if_any(is_debian(), is_ubuntu())
+@if_any(is_debian, is_ubuntu)
 def set_selections(*selections):
     if selections:
         debconf = Popen(Config.SET_SELECTIONS, env=Config.ENV, stdin=PIPE)
