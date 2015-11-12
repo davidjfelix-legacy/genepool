@@ -2,7 +2,13 @@ from functools import wraps
 import platform
 
 
+# FIXME: had to duplicate this for package level imports. this is a bad design
+operating_system = platform.system()
+distribution, version, codename = platform.linux_distribution()
+
+
 def is_debian(versions=None, distro_name='Debian'):
+    # FIXME: this is duplicated above. Figure out why
     operating_system = platform.system()
     distribution, version, codename = platform.linux_distribution()
 
