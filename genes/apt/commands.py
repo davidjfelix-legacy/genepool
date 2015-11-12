@@ -27,8 +27,8 @@ def install(*packages):
 
 
 # FIXME: wrap partials with if_any traits
-update = partial(Config.ENV_CALL, Config.APT_GET + ['update'])
-upgrade = partial(Config.ENV_CALL, Config.APT_GET + ['upgrade'])
+update = if_any(is_debian, is_ubuntu)(partial(Config.ENV_CALL, Config.APT_GET + ['update']))
+upgrade = if_any(is_debian, is_ubuntu)(partial(Config.ENV_CALL, Config.APT_GET + ['upgrade']))
 
 
 @if_any(is_debian, is_ubuntu)
