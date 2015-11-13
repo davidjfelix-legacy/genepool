@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+from six.moves import reload_module
 import mock
 import genes
+from .commands import install
+
 
 # Set up a non-apt system first
 # FIXME: move these to a setup method
@@ -9,8 +13,7 @@ mock_is_debian.start()
 mock_is_ubuntu.start()
 
 # Import apt now, triggering the mocks
-from .commands import install
-reload(genes.apt.commands)
+reload_module(genes.apt.commands)
 
 @mock.patch('genes.apt.commands.Config.ENV_CALL')
 def test_install_package_on_non_apt_system(mocked_env_call):
@@ -24,8 +27,8 @@ def test_install_package_on_non_apt_system(mocked_env_call):
 # FIXME: move these to a teardown method
 mock_is_debian.stop()
 mock_is_ubuntu.stop()
-reload(genes.debian.traits)
-reload(genes.ubuntu.traits)
+reload_module(genes.debian.traits)
+reload_module(genes.ubuntu.traits)
 
 # def test_install_package_on_apt_system(mocker):
 #     """Test calling apt.install with one package
