@@ -1,8 +1,32 @@
 #!/usr/bin/env python
 from six.moves import reload_module
+import unittest
 import mock
 import genes
 from .commands import install
+
+
+class TestAptCommands(unittest.TestCase):
+
+    def setUp(self):
+        self.mock_is_debian = mock.patch('genes.debian.traits.is_debian', lambda: False)
+        self.mock_is_ubuntu = mock.patch('genes.ubuntu.traits.is_ubuntu', lambda: False)
+        self.mock_is_debian.start()
+        self.mock_is_ubuntu.start()
+        reload_module(genes.apt.commands)
+
+    def test_install_package_on_non_apt_system(self):
+        install("test")
+        self.assertFalse(genes.apt.commands.is_ubuntu())
+        self.assertFalse(genes.apt.commands.is_debian())
+        genes.apt.commands.Config.ENV_CALL.assert_not_called()
+
+    def tearDown(self):
+        self.mock_is_debian.stop()
+        self.mock_is_ubuntu.stop()
+        self.reload_module(genes.debian.traits)
+        self.reload_module(genes.ubuntu.traits)
+
 
 
 # Set up a non-apt system first
@@ -11,6 +35,7 @@ mock_is_debian = mock.patch('genes.debian.traits.is_debian', lambda: False)
 mock_is_ubuntu = mock.patch('genes.ubuntu.traits.is_ubuntu', lambda: False)
 mock_is_debian.start()
 mock_is_ubuntu.start()
+
 
 # Import apt now, triggering the mocks
 reload_module(genes.apt.commands)
