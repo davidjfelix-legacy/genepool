@@ -1,79 +1,42 @@
 #!/usr/bin/env python
-from six.moves import reload_module
-import unittest
-import mock
+from unittest import mock, TestCase
 import genes
-from .commands import install
+from .commands import install, Config
 
 
-class TestAptCommands(unittest.TestCase):
+class TestAptCommands(TestCase):
 
-    def setUp(self):
-        self.mock_is_debian = mock.patch('genes.debian.traits.is_debian', lambda: False)
-        self.mock_is_ubuntu = mock.patch('genes.ubuntu.traits.is_ubuntu', lambda: False)
-        self.mock_is_debian.start()
-        self.mock_is_ubuntu.start()
-        reload_module(genes.apt.commands)
-
-    def test_install_package_on_non_apt_system(self):
+    @mock.patch('genes.apt.commands.Popen')
+    @mock.patch('genes.apt.commands.is_debian', return_value=False)
+    @mock.patch('genes.apt.commands.is_ubuntu', return_value=False)
+    def test_install_package_on_non_apt_system(
+            self, mock_is_ubuntu, mock_is_debian, mock_env_call):
         install("test")
         self.assertFalse(genes.apt.commands.is_ubuntu())
         self.assertFalse(genes.apt.commands.is_debian())
-        genes.apt.commands.Config.ENV_CALL.assert_not_called()
+        assert not mock_env_call.called
 
-    def tearDown(self):
-        self.mock_is_debian.stop()
-        self.mock_is_ubuntu.stop()
-        self.reload_module(genes.debian.traits)
-        self.reload_module(genes.ubuntu.traits)
+    @mock.patch('genes.apt.commands.Popen')
+    @mock.patch('genes.apt.commands.is_debian', return_value=True)
+    @mock.patch('genes.apt.commands.is_ubuntu', return_value=False)
+    def test_install_package_on_debian_system(
+            self, mock_is_ubuntu, mock_is_debian, mock_env_call):
+        """Test calling apt.install with one package"""
+        install("test")
+        self.assertTrue(genes.apt.commands.is_debian())
+        self.assertFalse(genes.apt.commands.is_ubuntu())
+        mock_env_call.assert_called_once_with(['apt-get', '-y', 'install', 'test'], env=Config.ENV)
 
+    @mock.patch('genes.apt.commands.Popen')
+    @mock.patch('genes.apt.commands.is_debian', return_value=False)
+    @mock.patch('genes.apt.commands.is_ubuntu', return_value=True)
+    def test_install_package_on_ubuntu_system(self, mock_is_ubuntu, mock_is_debian, mock_env_call):
+        """Test calling apt.install with one package"""
+        install("test")
+        self.assertFalse(genes.apt.commands.is_debian())
+        self.assertTrue(genes.apt.commands.is_ubuntu())
+        mock_env_call.assert_called_once_with(['apt-get', '-y', 'install', 'test'], env=Config.ENV)
 
-
-# Set up a non-apt system first
-# FIXME: move these to a setup method
-mock_is_debian = mock.patch('genes.debian.traits.is_debian', lambda: False)
-mock_is_ubuntu = mock.patch('genes.ubuntu.traits.is_ubuntu', lambda: False)
-mock_is_debian.start()
-mock_is_ubuntu.start()
-
-
-# Import apt now, triggering the mocks
-reload_module(genes.apt.commands)
-
-@mock.patch('genes.apt.commands.Config.ENV_CALL')
-def test_install_package_on_non_apt_system(mocked_env_call):
-    install("test")
-    assert(genes.apt.commands.is_ubuntu() == False)
-    assert(genes.debian.traits.is_debian() == False)
-    genes.apt.commands.Config.ENV_CALL.assert_not_called()
-
-
-# Reset mocks
-# FIXME: move these to a teardown method
-mock_is_debian.stop()
-mock_is_ubuntu.stop()
-reload_module(genes.debian.traits)
-reload_module(genes.ubuntu.traits)
-
-# def test_install_package_on_apt_system(mocker):
-#     """Test calling apt.install with one package
-#     :param mocker: This is the pytest-mock harness.
-#     """
-#     #mocker.patch.object(genes.debian.traits, 'is_debian', return_value=True)
-#     mocker.patch('genes.ubuntu.traits.is_ubuntu', return_value=True)
-#     from .commands import install
-#     mocker.patch('genes.apt.commands.Config.ENV_CALL')
-#     install("test")
-#     genes.apt.commands.Config.ENV_CALL.assert_called_once_with(['apt-get', '-y', 'install', 'test'])
-#
-#
-# def test_install_package_on_non_apt_system2(mocker):
-#     mocker.patch('genes.debian.traits.is_debian', return_value=False)
-#     mocker.patch('genes.ubuntu.traits.is_ubuntu', return_value=False)
-#     from .commands import install
-#     mocker.patch('genes.apt.commands.Config.ENV_CALL')
-#     install("test")
-#     genes.apt.commands.Config.ENV_CALL.assert_called_once_with(['apt-get', '-y', 'install', 'test'])
 
 
 # def test_install_packages(monkeypatch):

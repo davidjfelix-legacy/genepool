@@ -2,7 +2,7 @@ import os
 from genes.lib.traits import if_any
 from genes.debian.traits import is_debian
 from genes.ubuntu.traits import is_ubuntu
-from subprocess import call
+from subprocess import call, Popen
 from functools import partial
 
 
@@ -17,10 +17,14 @@ class Config:
     RECV_KEY = ['apt-key', 'adv', '--keyserver', 'hkp://pgp.mit.edu:80', '--recv-keys']
 
 
-@if_any(is_debian, is_ubuntu)
 def install(*packages):
+    # FIXME: refactor lib if_any function to do this logging
+    if not any((is_ubuntu(), is_debian())):
+        # FIXME: log fail here.
+        return
     if packages:
-        Config.ENV_CALL(Config.APT_GET + ['install'] + list(packages))
+        Popen(['apt-get', '-y', 'install'] + list(packages), env=Config.ENV)
+        #Config.ENV_CALL(Config.APT_GET + ['install'] + list(packages))
     else:
         # FIXME: need to output failure
         pass
