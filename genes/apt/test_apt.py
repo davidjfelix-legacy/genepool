@@ -63,7 +63,6 @@ class TestAptCommands(TestCase):
     def test_install_nothing(
             self, mock_is_ubuntu, mock_is_debian, mock_popen):
         install()
-        install("test1", "test2")
         self.assertTrue(genes.apt.commands.is_debian())
         self.assertTrue(genes.apt.commands.is_ubuntu())
         mock_popen.assert_not_called()
