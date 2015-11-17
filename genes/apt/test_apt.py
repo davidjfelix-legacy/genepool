@@ -1,5 +1,10 @@
 #!/usr/bin/env python
-from unittest import mock, TestCase
+try:
+    import mock
+except ImportError:
+    from unittest import mock
+
+from unittest import TestCase
 import genes
 from .commands import install, Config
 
