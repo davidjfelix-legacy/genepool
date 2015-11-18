@@ -14,7 +14,6 @@ class Config:
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
     ENV_CALL = partial(call, env=ENV)
     # TODO: Split me out to key
-    RECV_KEY = ['apt-key', 'adv', '--keyserver', 'hkp://pgp.mit.edu:80', '--recv-keys']
 
 
 def install(*packages):
@@ -35,17 +34,26 @@ update = partial(Config.ENV_CALL, Config.APT_GET + ['update'])
 upgrade = partial(Config.ENV_CALL, Config.APT_GET + ['upgrade'])
 
 
-@if_any(is_debian, is_ubuntu)
 def recv_keys(*keys):
+    # FIXME: refactor lib if_any function to do this logging
+    if not any((is_ubuntu(), is_debian())):
+        # FIXME: log fail here.
+        return
     if keys:
-        Config.ENV_CALL(Config.RECV_KEY + list(keys))
+        Popen(
+            ['apt-key', 'adv', '--keyserver',
+             'hpk://pgp.mit.edu:80', '--recv-keys'] + list(keys),
+            env=Config.ENV)
     else:
         # FIXME: need to output failure
         pass
 
 
-@if_any(is_debian, is_ubuntu)
 def add_repo(*line_items):
+    # FIXME: refactor lib if_any function to do this logging
+    if not any((is_ubuntu(), is_debian())):
+        # FIXME: log fail here.
+        return
     if line_items:
         # FIXME: this depends on software-properties-common; debian needs this
         Config.ENV_CALL(Config.ADD_REPO + [" ".join(line_items)])
@@ -54,8 +62,11 @@ def add_repo(*line_items):
         pass
 
 
-@if_any(is_debian, is_ubuntu)
 def add_ppa(ppa):
+    # FIXME: refactor lib if_any function to do this logging
+    if not any((is_ubuntu(), is_debian())):
+        # FIXME: log fail here.
+        return
     if ppa:
         Config.ENV_CALL(Config.ADD_REPO + [ppa])
     else:
