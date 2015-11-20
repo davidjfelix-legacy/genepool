@@ -125,5 +125,3 @@ class TestAptCommands(TestCase):
         self.assertTrue(genes.apt.commands.is_debian())
         self.assertTrue(genes.apt.commands.is_ubuntu())
         mock_popen.assert_not_called()
-
-
