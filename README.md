@@ -1,4 +1,4 @@
-# Genepool2 lol cheat
+# Genepool2
 
 WIP: Thoughts on how hatchery flow will work
 
