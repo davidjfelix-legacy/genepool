@@ -1,19 +1,31 @@
+#!/usr/bin/env python
 import platform
 
 
 def get_distro():
+    """
+    Get the distro of the running os
+
+    :return: str; the distro of the running os
+    """
     return platform.linux_distribution()[0]
 
 
 def get_version():
     """
-    Get the version of the running os.
+    Get the version of the running os
+
     :return: str; the version of the running os
     """
     return platform.linux_distribution()[1]
 
 
 def get_codename():
+    """
+    Ge the codename of the running os.
+
+    :return: str; the codename of the running os
+    """
     return platform.linux_distribution()[2]
 
 
