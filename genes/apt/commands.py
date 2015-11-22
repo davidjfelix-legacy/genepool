@@ -1,5 +1,4 @@
 import os
-from genes.lib.traits import if_any
 from genes.debian.traits import is_debian
 from genes.ubuntu.traits import is_ubuntu
 from subprocess import call, Popen
@@ -23,7 +22,6 @@ def install(*packages):
         return
     if packages:
         Popen(['apt-get', '-y', 'install'] + list(packages), env=Config.ENV)
-        #Config.ENV_CALL(Config.APT_GET + ['install'] + list(packages))
     else:
         # FIXME: need to output failure
         pass

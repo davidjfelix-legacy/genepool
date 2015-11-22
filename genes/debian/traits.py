@@ -1,37 +1,62 @@
-from functools import wraps
 import platform
 
 
-# FIXME: had to duplicate this for package level imports. this is a bad design
-operating_system = platform.system()
-distribution, version, codename = platform.linux_distribution()
+def get_distro():
+    return platform.linux_distribution()[0]
+
+
+def get_version():
+    """
+    Get the version of the running os.
+    :return: str; the version of the running os
+    """
+    return platform.linux_distribution()[1]
+
+
+def get_codename():
+    return platform.linux_distribution()[2]
 
 
 def is_debian(versions=None, distro_name='Debian'):
-    # FIXME: this is duplicated above. Figure out why
-    operating_system = platform.system()
-    distribution, version, codename = platform.linux_distribution()
+    """
+    Determine whether the operating system is debian or not.
 
+    :param versions: a list of versions to return true on
+    :type versions: list(st)
+    :param distro_name: the variant/distro of debian to check for
+    :type distro_name: str
+    :return: bool; True if the operating system meets the above criteria
+    """
     is_version = True
     if versions:
-        is_version = version in versions or codename in versions
-    return operating_system == 'Linux' \
-        and distribution == distro_name \
+        is_version = get_version() in versions or get_codename() in versions
+    return platform.system() == 'Linux' \
+        and get_distro() == distro_name \
         and is_version
 
 
-def only_debian(warn=True, error=False, versions=None):
-    def wrapper(func):
-        @wraps(func)
-        def run_if_debian(*args, **kwargs):
-            if is_debian(versions=versions):
-                return func(*args, **kwargs)
-            elif error:
-                # FIXME: logitize me
-                raise OSError('This command can only be run on Debian')
-            elif warn:
-                # FIXME: should log and warn if warn
-                pass
+def run_if_debian(func, args, warn=True, error=False, versions=None):
+    """
+    Run a function with the args tuple as arguments if the system is Debian.
 
-        return run_if_debian
-    return wrapper
+    :param func: the function to be run if the system is Debian
+    :type func: Callable
+    :param args: the ags to pass to func when running it
+    :type args: tuple(list, map)
+    :param warn: bool declaring whether or not to warn to log on non Debian
+    systems
+    :type warn: bool
+    :param error: bool declaring whether or not to error on non Debian systems
+    :type error: bool
+    :param versions: versions of Debian that are allowed; this is passed to
+    is_debian()
+    :type versions: list(str)
+    """
+    if is_debian(versions=versions):
+        return func(*args[0], **args[1])
+    elif error:
+        # FIXME: logitize this
+        return OSError('This command can only be run on Debian')
+    elif warn:
+        # FIXME: should log and warn if warn
+        pass
