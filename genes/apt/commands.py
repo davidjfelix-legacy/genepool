@@ -1,4 +1,5 @@
 import os
+from genes.lib.traits import run_if_any_funcs
 from genes.debian.traits import is_debian
 from genes.ubuntu.traits import is_ubuntu
 from subprocess import call, Popen
@@ -12,19 +13,20 @@ class Config:
     ENV = os.environ.copy()
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
     ENV_CALL = partial(call, env=ENV)
-    # TODO: Split me out to key
 
 
 def install(*packages):
-    # FIXME: refactor lib if_any function to do this logging
-    if not any((is_ubuntu(), is_debian())):
-        # FIXME: log fail here.
-        return
     if packages:
-        Popen(['apt-get', '-y', 'install'] + list(packages), env=Config.ENV)
+        run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
+        install_func = partial(_install, *packages)
+        run_if_deb_or_ubu(install_func)
     else:
         # FIXME: need to output failure
         pass
+
+
+def _install(*packages):
+    Popen(['apt-get', '-y', 'install'] + list(packages), env=Config.ENV)
 
 
 # FIXME: wrap partials with if_any traits
