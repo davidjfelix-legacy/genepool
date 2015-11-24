@@ -1,19 +1,20 @@
 #!/usr/bin/env python
-
-from genes.debian.traits import is_debian
-from genes.ubuntu.traits import is_ubuntu
-
+from subprocess import Popen
 
 def systemctl():
     pass
 
 
-def start():
+def start(service):
+    Popen(['systemctl', 'start', service])
+
+
+def stop(service):
     pass
 
 
-def stop():
-    pass
+def restart(service):
+    Popen(['systemctl', 'restart', service])
 
 
 def reload():
