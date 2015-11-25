@@ -1,21 +1,23 @@
 #!/usr/bin/env python
 from subprocess import Popen
-
-def systemctl():
-    pass
+from typing import List
 
 
-def start(service):
-    Popen(['systemctl', 'start', service])
+def systemctl(*args: List[str]):
+    Popen(['systemctl'] + list(args))
 
 
-def stop(service):
-    pass
+def start(service: str):
+    systemctl('start', service)
 
 
-def restart(service):
-    Popen(['systemctl', 'restart', service])
+def stop(service: str):
+    systemctl('stop', service)
 
 
-def reload():
-    pass
+def restart(service: str):
+    systemctl('restart', service)
+
+
+def reload(service: str):
+    systemctl('reload', service)
