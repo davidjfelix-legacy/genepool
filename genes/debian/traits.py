@@ -2,6 +2,7 @@
 import platform
 from typing import Callable, List, Optional, TypeVar
 from genes.lib.traits import ErrorLevel
+from genes.lib.logging import log_error, log_warning
 
 
 T = TypeVar('T')
@@ -62,11 +63,11 @@ def run_if_debian(closure: Callable[[], T],
     :param versions: versions of Debian that are allowed; this is passed to
     is_debian()
     """
+    error = 'This command can only be run on Debian: run_if_debian'
     if is_debian(versions=versions):
         return closure()
     elif error_level == ErrorLevel.error:
-        # FIXME: logitize this
-        return OSError('This command can only be run on Debian')
+        log_error(error, str(closure))
+        return OSError(error, str(closure))
     elif error_level == ErrorLevel.warn:
-        # FIXME: should log and warn if warn
-        pass
+        log_warning(error, str(closure))
