@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 import platform
+from typing import Callable, List, Optional, TypeVar
+from genes.lib.traits import ErrorLevel
 
 
-def get_distro():
+T = TypeVar('T')
+
+
+def get_distro() -> str:
     """
     Get the distro of the running os
 
@@ -11,7 +16,7 @@ def get_distro():
     return platform.linux_distribution()[0]
 
 
-def get_version():
+def get_version() -> str:
     """
     Get the version of the running os
 
@@ -20,7 +25,7 @@ def get_version():
     return platform.linux_distribution()[1]
 
 
-def get_codename():
+def get_codename() -> str:
     """
     Ge the codename of the running os.
 
@@ -29,14 +34,13 @@ def get_codename():
     return platform.linux_distribution()[2]
 
 
-def is_debian(versions=None, distro_name='Debian'):
+def is_debian(versions: Optional[List[str]] = None,
+              distro_name: str = 'Debian') -> bool:
     """
     Determine whether the operating system is debian or not.
 
     :param versions: a list of versions to return true on
-    :type versions: list(st)
     :param distro_name: the variant/distro of debian to check for
-    :type distro_name: str
     :return: bool; True if the operating system meets the above criteria
     """
     is_version = True
@@ -47,28 +51,22 @@ def is_debian(versions=None, distro_name='Debian'):
         and is_version
 
 
-def run_if_debian(func, args, warn=True, error=False, versions=None):
+def run_if_debian(closure: Callable[[], T],
+                  error_level: ErrorLevel = ErrorLevel.warn,
+                  versions: Optional[List[str]] = None):
     """
     Run a function with the args tuple as arguments if the system is Debian.
 
-    :param func: the function to be run if the system is Debian
-    :type func: Callable
-    :param args: the ags to pass to func when running it
-    :type args: tuple(list, map)
-    :param warn: bool declaring whether or not to warn to log on non Debian
-    systems
-    :type warn: bool
-    :param error: bool declaring whether or not to error on non Debian systems
-    :type error: bool
+    :param closure: the function to be run if the system is Debian
+    :param error_level: the level of error reporting to take place
     :param versions: versions of Debian that are allowed; this is passed to
     is_debian()
-    :type versions: list(str)
     """
     if is_debian(versions=versions):
-        return func(*args[0], **args[1])
-    elif error:
+        return closure()
+    elif error_level == ErrorLevel.error:
         # FIXME: logitize this
         return OSError('This command can only be run on Debian')
-    elif warn:
+    elif error_level == ErrorLevel.warn:
         # FIXME: should log and warn if warn
         pass

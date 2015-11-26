@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+from enum import Enum
+
+
+class ErrorLevel(Enum):
+    none = 1
+    error = 2
+    warn = 3
 
 
 def run_if_any_conds(conds, func):
