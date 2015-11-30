@@ -15,7 +15,7 @@ def is_ubuntu(versions: Optional[List[str]] = None) -> bool:
     :param versions: a list of acceptable versions for Ubuntu.
     :return: bool, True if platform is Ubuntu.
     """
-    return is_debian(versions=versions, distro_name='Ubuntu')
+    return is_debian(versions=versions, distro_name='ubuntu')
 
 
 def run_if_ubuntu(closure: Callable[[], T],

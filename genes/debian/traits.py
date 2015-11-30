@@ -14,7 +14,7 @@ def get_distro() -> str:
 
     :return: str; the distro of the running os
     """
-    return platform.linux_distribution()[0]
+    return platform.linux_distribution()[0].lower()
 
 
 def get_version() -> str:
@@ -23,7 +23,7 @@ def get_version() -> str:
 
     :return: str; the version of the running os
     """
-    return platform.linux_distribution()[1]
+    return platform.linux_distribution()[1].lower()
 
 
 def get_codename() -> str:
@@ -32,11 +32,11 @@ def get_codename() -> str:
 
     :return: str; the codename of the running os
     """
-    return platform.linux_distribution()[2]
+    return platform.linux_distribution()[2].lower()
 
 
 def is_debian(versions: Optional[List[str]] = None,
-              distro_name: str = 'Debian') -> bool:
+              distro_name: str = 'debian') -> bool:
     """
     Determine whether the operating system is debian or not.
 
@@ -47,7 +47,7 @@ def is_debian(versions: Optional[List[str]] = None,
     is_version = True
     if versions:
         is_version = get_version() in versions or get_codename() in versions
-    return platform.system() == 'Linux' \
+    return platform.system().lower() == 'linux' \
         and get_distro() == distro_name \
         and is_version
 

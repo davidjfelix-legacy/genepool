@@ -26,11 +26,19 @@ def install(*packages):
 
 
 def _install(*packages):
-    Popen(['apt-get', '-y', 'install'] + list(packages), env=Config.ENV)
+    Popen(['apt-get', '-y', 'install'] + list(packages), env=Config.ENV).wait()
 
 
 # FIXME: wrap partials with if_any traits
-update = partial(Config.ENV_CALL, Config.APT_GET + ['update'])
+def update():
+    run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
+    run_if_deb_or_ubu(_update)
+
+
+def _update():
+    Popen(['apt-get', '-y', 'update'], env=Config.ENV).wait()
+
+
 upgrade = partial(Config.ENV_CALL, Config.APT_GET + ['upgrade'])
 
 
@@ -43,7 +51,7 @@ def recv_keys(*keys):
         Popen(
             ['apt-key', 'adv', '--keyserver',
              'hpk://pgp.mit.edu:80', '--recv-keys'] + list(keys),
-            env=Config.ENV)
+            env=Config.ENV).wait()
     else:
         # FIXME: need to output failure
         pass
@@ -68,7 +76,8 @@ def add_ppa(ppa):
         # FIXME: log fail here.
         return
     if ppa:
-        Config.ENV_CALL(Config.ADD_REPO + [ppa])
+        Popen(['add-apt-repository', '-y', ppa], env=Config.ENV).wait()
+
     else:
         # FIXME: need to output failure
         pass

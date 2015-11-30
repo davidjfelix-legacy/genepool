@@ -1,6 +1,7 @@
 import os
+from functools import partial
 from subprocess import Popen, PIPE
-from genes.lib.traits import if_any
+from genes.lib.traits import run_if_any_funcs
 from genes.ubuntu.traits import is_ubuntu
 from genes.debian.traits import is_debian
 
@@ -14,12 +15,18 @@ class Config:
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
 
 
-@if_any(is_debian, is_ubuntu)
 def set_selections(*selections):
     if selections:
-        debconf = Popen(Config.SET_SELECTIONS, env=Config.ENV, stdin=PIPE)
-        debconf.communicate(input=" ".join(selections))
-        # FIXME: capture errors above, report them
+        run_if_deb_or_ubu = partial(run_if_any_funcs, [is_ubuntu, is_debian])
+        set_sel_func = partial(set_selections, *selections)
+        run_if_deb_or_ubu(set_sel_func)
     else:
-        # FIXME: add error
+        # FIXME: log
         pass
+
+
+def _set_selections(*selections):
+    debconf = Popen(Config.SET_SELECTIONS, env=Config.ENV, stdin=PIPE)
+    debconf.communicate(input=" ".join(selections))
+    debcong.wait()
+

@@ -6,14 +6,11 @@ from genes.ubuntu.traits import is_ubuntu
 from genes.mac.traits import is_osx
 
 
-def main(config):
+def main():
     if is_debian() or is_ubuntu():
         # FIXME: debian needs ppa software
         apt.add_ppa('ppa:neovim-ppa/unstable')
         apt.update()
-        debconf.set_selections(config.version + '-installer',
-                               'shared/accepted-oracle-license-v1-1',
-                               'select', 'true')
         apt.install('neovim')
 
     elif is_osx():
