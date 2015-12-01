@@ -14,9 +14,8 @@ class Config:
 
 def install(*packages) -> None:
     if packages:
-        run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
         install_func = partial(_install, *packages)
-        run_if_deb_or_ubu(install_func)
+        run_if_any_funcs(install_func, is_debian, is_ubuntu)
     else:
         # FIXME: need to output failure
         pass
@@ -27,8 +26,7 @@ def _install(*packages) -> None:
 
 
 def update() -> None:
-    run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
-    run_if_deb_or_ubu(_update)
+    run_if_any_funcs(_update, is_debian, is_ubuntu)
 
 
 def _update() -> None:
@@ -36,8 +34,7 @@ def _update() -> None:
 
 
 def upgrade() -> None:
-    run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
-    run_if_deb_or_ubu(_upgrade)
+    run_if_any_funcs(_upgrade, is_debian, is_ubuntu)
 
 
 def _upgrade() -> None:
@@ -46,9 +43,8 @@ def _upgrade() -> None:
 
 def recv_keys(*keys) -> None:
     if keys:
-        run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
         recv_keys_func = partial(_recv_keys, *keys)
-        run_if_deb_or_ubu(recv_keys_func)
+        run_if_any_funcs(recv_keys_func, is_debian, is_ubuntu)
     else:
         # FIXME: log
         pass
@@ -64,9 +60,8 @@ def _recv_keys(*keys) -> None:
 
 def add_repo(*line_items) -> None:
     if line_items:
-        run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
         add_repo_func = partial(_add_repo, *line_items)
-        run_if_deb_or_ubu(add_repo_func)
+        run_if_any_funcs(add_repo_func, is_debian, is_ubuntu)
     else:
         # FIXME log
         pass
@@ -81,9 +76,8 @@ def _add_repo(*line_items) -> None:
 
 def add_ppa(ppa) -> None:
     if ppa:
-        run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
         add_ppa_func = partial(_add_ppa, ppa)
-        run_if_deb_or_ubu(add_ppa_func)
+        run_if_any_funcs(add_ppa_func, is_debian, is_ubuntu)
     else:
         # FIXME: log
         pass

@@ -1,5 +1,9 @@
 #!/usr/bin/env python
+from typing import Callable, Tuple, TypeVar
 from enum import Enum
+
+
+T = TypeVar('T')
 
 
 class ErrorLevel(Enum):
@@ -8,7 +12,7 @@ class ErrorLevel(Enum):
     warn = 3
 
 
-def run_if_any_conds(conds, func):
+def run_if_any_conds(func: Callable[[], T], *conds: Tuple[bool]) -> T:
     """
     Run a function if any conditions are true
     :param func: the function to be run
@@ -20,7 +24,7 @@ def run_if_any_conds(conds, func):
         return func()
 
 
-def run_if_any_funcs(funcs, func):
+def run_if_any_funcs(func: Callable[[], T], *funcs: Tuple[Callable[[], bool]]) -> T:
     """
     Run a function if any functions in a list return true
     :param func: the function to be run
@@ -32,7 +36,7 @@ def run_if_any_funcs(funcs, func):
         return func()
 
 
-def run_if_all_conds(conds, func):
+def run_if_all_conds(func: Callable[[], T], *conds: Tuple[bool]) -> T:
     """
     Run a function if all conditions are true
     :param func: the function to be run
@@ -44,7 +48,7 @@ def run_if_all_conds(conds, func):
         return func()
 
 
-def run_if_all_funcs(funcs, func):
+def run_if_all_funcs(func: Callable[[], T], *funcs: Tuple[Callable[[], bool]]) -> T:
     """
     Run a function if all functions in a list return true
     :param func: the function to be run
