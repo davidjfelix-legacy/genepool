@@ -2,20 +2,17 @@ import os
 from genes.lib.traits import run_if_any_funcs
 from genes.debian.traits import is_debian
 from genes.ubuntu.traits import is_ubuntu
-from subprocess import call, Popen
+from subprocess import Popen
 from functools import partial
 
 
 # TODO: utilize functools partial to handle some of the above functionality
 class Config:
-    APT_GET = ['apt-get', '-y']
-    ADD_REPO = ['add-apt-repository', '-y']
     ENV = os.environ.copy()
     ENV['DEBIAN_FRONTEND'] = "noninteractive"
-    ENV_CALL = partial(call, env=ENV)
 
 
-def install(*packages):
+def install(*packages) -> None:
     if packages:
         run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
         install_func = partial(_install, *packages)
@@ -25,59 +22,72 @@ def install(*packages):
         pass
 
 
-def _install(*packages):
+def _install(*packages) -> None:
     Popen(['apt-get', '-y', 'install'] + list(packages), env=Config.ENV).wait()
 
 
-# FIXME: wrap partials with if_any traits
-def update():
+def update() -> None:
     run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
     run_if_deb_or_ubu(_update)
 
 
-def _update():
+def _update() -> None:
     Popen(['apt-get', '-y', 'update'], env=Config.ENV).wait()
 
 
-upgrade = partial(Config.ENV_CALL, Config.APT_GET + ['upgrade'])
+def upgrade() -> None:
+    run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
+    run_if_deb_or_ubu(_upgrade)
 
 
-def recv_keys(*keys):
-    # FIXME: refactor lib if_any function to do this logging
-    if not any((is_ubuntu(), is_debian())):
-        # FIXME: log fail here.
-        return
+def _upgrade() -> None:
+    Popen(['apt-get', '-y', 'upgrade'], env=Config.ENV).wait()
+
+
+def recv_keys(*keys) -> None:
     if keys:
-        Popen(
-            ['apt-key', 'adv', '--keyserver',
-             'hpk://pgp.mit.edu:80', '--recv-keys'] + list(keys),
-            env=Config.ENV).wait()
+        run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
+        recv_keys_func = partial(_recv_keys, *keys)
+        run_if_deb_or_ubu(recv_keys_func)
     else:
-        # FIXME: need to output failure
+        # FIXME: log
         pass
 
 
-def add_repo(*line_items):
-    # FIXME: refactor lib if_any function to do this logging
-    if not any((is_ubuntu(), is_debian())):
-        # FIXME: log fail here.
-        return
+def _recv_keys(*keys) -> None:
+    Popen(
+        ['apt-key', 'adv', '--keyserver',
+         'hpk://pgp.mit.edu:80', '--recv-keys'] + list(keys),
+        env=Config.ENV
+    ).wait()
+
+
+def add_repo(*line_items) -> None:
     if line_items:
-        # FIXME: this depends on software-properties-common; debian needs this
-        Config.ENV_CALL(Config.ADD_REPO + [" ".join(line_items)])
+        run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
+        add_repo_func = partial(_add_repo, *line_items)
+        run_if_deb_or_ubu(add_repo_func)
     else:
-        # FIXME: need to output failure
+        # FIXME log
         pass
 
 
-def add_ppa(ppa):
-    # FIXME: refactor lib if_any function to do this logging
-    if not any((is_ubuntu(), is_debian())):
-        # FIXME: log fail here.
-        return
+def _add_repo(*line_items) -> None:
+    Popen(
+        ['add-apt-repository', '-y'] + [" ".join(line_items)],
+        env=Config.ENV
+    ).wait()
+
+
+def add_ppa(ppa) -> None:
     if ppa:
-        Popen(['add-apt-repository', '-y', ppa], env=Config.ENV).wait()
-
+        run_if_deb_or_ubu = partial(run_if_any_funcs, [is_debian, is_ubuntu])
+        add_ppa_func = partial(_add_ppa, ppa)
+        run_if_deb_or_ubu(add_ppa_func)
     else:
-        # FIXME: need to output failure
+        # FIXME: log
         pass
+
+
+def _add_ppa(ppa) -> None:
+    Popen(['add-apt-repository', '-y', ppa], env=Config.ENV).wait()
