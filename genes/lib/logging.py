@@ -5,5 +5,5 @@ def log_error(*args):
     getLogger('error').log(*args)
 
 
-def log_warning(*args):
+def log_warn(*args):
     getLogger('warning').log(*args)

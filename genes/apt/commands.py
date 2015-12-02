@@ -14,9 +14,10 @@ class Config:
 
 
 @if_any_funcs(is_debian, is_ubuntu)
-def install(*packages: Tuple[str]) -> None:
+def install(*packages: Tuple[str, ...]) -> None:
     if packages:
-        Popen(['apt-get', '-y', 'install'] + list(packages), env=Config.ENV).wait()
+        Popen(['apt-get', '-y', 'install'] + list(packages),
+              env=Config.ENV).wait()
     else:
         msg = "Missing packages argument"
         log_error(msg)
@@ -34,7 +35,7 @@ def upgrade() -> None:
 
 
 @if_any_funcs(is_debian, is_ubuntu)
-def recv_keys(*keys: Tuple[str]) -> None:
+def recv_keys(*keys: Tuple[str, ...]) -> None:
     if keys:
         Popen(
             ['apt-key', 'adv', '--keyserver',
@@ -48,7 +49,7 @@ def recv_keys(*keys: Tuple[str]) -> None:
 
 
 @if_any_funcs(is_debian, is_ubuntu)
-def add_repo(*line_items: Tuple[str]) -> None:
+def add_repo(*line_items: Tuple[str, ...]) -> None:
     if line_items:
         Popen(
             ['add-apt-repository', '-y'] + [" ".join(line_items)],
