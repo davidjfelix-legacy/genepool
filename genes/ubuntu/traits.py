@@ -1,8 +1,10 @@
 #!/usr/bin/env python
-from typing import Callable, List, Optional, TypeVar
-from genes.lib.traits import ErrorLevel
-from genes.debian.traits import is_debian
+from functools import wraps
+from typing import Callable, Dict, List, Optional, Tuple, TypeVar
 
+from genes.debian.traits import is_debian
+from genes.lib.logging import log_error, log_warn
+from genes.lib.traits import ErrorLevel
 
 T = TypeVar('T')
 
@@ -18,22 +20,29 @@ def is_ubuntu(versions: Optional[List[str]] = None) -> bool:
     return is_debian(versions=versions, distro_name='ubuntu')
 
 
-def run_if_ubuntu(closure: Callable[[], T],
-                  error_level: ErrorLevel = ErrorLevel.warn,
-                  versions: Optional[List[str]] = None) -> T:
+def only_ubuntu(error_level: ErrorLevel = ErrorLevel.warn, versions: Optional[List[str]] = None):
     """
-    Run a function with the args tuple as arguments if the system is Ubuntu.
+    Wrap a function and only execute it if the system is ubuntu of the version specified
+    :param error_level: how to handle execution for systems that aren't ubuntu
+    :param versions: versions of ubuntu which are allowable
+    :return: a wrapper function that wraps functions in conditional execution
+    """
+    msg = "This function can only be run on Ubuntu: "
 
-    :param closure: the function to be run if the system is Ubuntu
-    :param error_level: the level of error reporting to take place
-    :param versions: versions of Ubuntu that are allowed; this is passed to
-    is_ubuntu()
-    """
-    if is_ubuntu(versions=versions):
-        return closure()
-    elif error_level == ErrorLevel.error:
-        # FIXME: logitize this
-        return OSError('This command can only be run on Ubuntu')
-    elif error_level == ErrorLevel.warn:
-        # FIXME: should log and warn if warn
-        pass
+    def wrapper(func: Callable[[Tuple, Dict], T]) -> Callable:
+        @wraps(func)
+        def run_if_ubuntu(*args: Tuple, **kwargs: Dict) -> Optional[T]:
+            if is_ubuntu(versions=versions):
+                return func(*args, **kwargs)
+            elif error_level == ErrorLevel.warn:
+                log_warn(msg, func.__name__)
+                return None
+            elif error_level == ErrorLevel.error:
+                log_error(msg, func.__name__)
+                raise OSError(msg, func.__name__)
+            else:
+                return None
+
+        return run_if_ubuntu
+
+    return wrapper
