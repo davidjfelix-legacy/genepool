@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 from .config import JavaConfigurator
 
-
 config = JavaConfigurator()
 
 

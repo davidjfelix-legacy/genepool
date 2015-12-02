@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from genes.posix.traits import is_posix
 from genes.gnu_coreutils.commands import chgrp, chown, mkdir
+from genes.posix.traits import is_posix
 
 
 class DirectoryBuilder(object):

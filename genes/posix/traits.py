@@ -1,6 +1,5 @@
-from functools import wraps
 import os
-
+from functools import wraps
 
 system = os.name
 
@@ -23,4 +22,5 @@ def only_posix(warn=True, error=False):
                 pass
 
         return run_if_posix
+
     return wrapper

@@ -1,6 +1,5 @@
-from functools import wraps
 import platform
-
+from functools import wraps
 
 # FIXME: support version strings better here. They're not human friendly
 # currently. For example, Windows 10 is '10.0.10240' != '10.0'
@@ -29,4 +28,5 @@ def only_windows(warn=True, error=False, versions=None):
                 pass
 
         return run_if_windows
+
     return wrapper

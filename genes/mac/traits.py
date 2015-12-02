@@ -1,5 +1,5 @@
-from functools import wraps
 import platform
+from functools import wraps
 
 # FIXME: make version strings more human usable.
 operating_system = platform.system()
@@ -27,4 +27,5 @@ def only_osx(warn=True, error=False, versions=None):
                 pass
 
         return run_if_osx
+
     return wrapper

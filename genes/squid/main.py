@@ -1,4 +1,5 @@
 import subprocess
+
 from genes.apt import commands as apt
 from genes.brew import commands as brew
 from genes.debian.traits import is_debian

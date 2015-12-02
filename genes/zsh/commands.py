@@ -1,7 +1,8 @@
 import subprocess
+
 from genes.debian.traits import is_debian
-from genes.ubuntu.traits import is_ubuntu
 from genes.mac.traits import is_osx
+from genes.ubuntu.traits import is_ubuntu
 
 
 def make_default(username=None):
@@ -10,4 +11,4 @@ def make_default(username=None):
             subprocess.call(['usermod', '-s', '/usr/bin/zsh', username])
         elif is_osx():
             subprocess.call(['usermod', '-s', '/usr/local/bin/zsh', username])
-    # FIXME: if no username, make all users login shell zsh
+            # FIXME: if no username, make all users login shell zsh

@@ -1,9 +1,11 @@
 import platform
+
 from .traits import is_ubuntu
 
 
 def test_is_ubuntu(monkeypatch):
     """Test the is_debian helper function when it is Debian"""
+
     def mocked_platform_system(*args, **kwargs):
         return 'Linux'
 
@@ -17,6 +19,7 @@ def test_is_ubuntu(monkeypatch):
 
 def test_is_not_ubuntu(monkeypatch):
     """Test the is_debian helper function when it is not Debian"""
+
     def mocked_platform_system(*args, **kwargs):
         return 'Spam'
 
@@ -25,4 +28,4 @@ def test_is_not_ubuntu(monkeypatch):
 
     monkeypatch.setattr(platform, 'system', mocked_platform_system)
     monkeypatch.setattr(platform, 'linux_distribution', mocked_platform_dist)
-    assert(is_ubuntu() == False)
+    assert (is_ubuntu() == False)

@@ -2,8 +2,8 @@ from genes.apt import commands as apt
 from genes.brew import commands as brew
 from genes.debconf import set as debconf
 from genes.debian.traits import is_debian
-from genes.ubuntu.traits import is_ubuntu
 from genes.mac.traits import is_osx
+from genes.ubuntu.traits import is_ubuntu
 
 
 def main(config):

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 from genes.apt import commands as apt
-from genes.ubuntu.traits import is_ubuntu
 from genes.debian.traits import is_debian
 from genes.mac.traits import is_osx
 from genes.systemsetup import commands as systemsetup
+from genes.ubuntu.traits import is_ubuntu
 
 
 def main():
