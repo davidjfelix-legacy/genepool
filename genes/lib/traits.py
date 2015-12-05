@@ -28,7 +28,7 @@ def if_any_conds(*conds: Tuple[bool, ...],
     :return: a wrapper function that wraps functions in conditional execution
     """
     msg = "This function: {0} was not run because none of the following " \
-          "condtions were True: {1}"
+          "conditions were True: {1}"
 
     def wrapper(func: ArgFunc) -> ArgFunc2:
         @wraps(func)

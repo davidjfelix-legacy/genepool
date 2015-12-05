@@ -48,13 +48,15 @@ def is_debian(versions: Optional[List[str]] = None,
     if versions:
         is_version = get_version() in versions or get_codename() in versions
     return platform.system().lower() == 'linux' \
-           and get_distro() == distro_name \
-           and is_version
+        and get_distro() == distro_name \
+        and is_version
 
 
-def only_debian(error_level: ErrorLevel = ErrorLevel.warn, versions: Optional[List[str]] = None):
+def only_debian(error_level: ErrorLevel = ErrorLevel.warn,
+                versions: Optional[List[str]] = None):
     """
-    Wrap a function and only execute it if the system is debian of the version specified
+    Wrap a function and only execute it if the system is debian of the
+    version specified
     :param error_level: how to handle execution for systems that aren't debian
     :param versions: versions of debian which are allowable
     :return: a wrapper function that wraps functions in conditional execution
