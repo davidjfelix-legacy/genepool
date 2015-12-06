@@ -58,7 +58,7 @@ def add_repo(*line_items: Tuple[str, ...]) -> None:
     else:
         msg = "Missing line_items argument"
         log_error(msg)
-        ValueError(msg)
+        raise ValueError(msg)
 
 
 @if_any_funcs(is_debian, is_ubuntu)
@@ -68,4 +68,4 @@ def add_ppa(ppa: str) -> None:
     else:
         msg = "Missing ppa argument"
         log_error(msg)
-        ValueError(msg)
+        raise ValueError(msg)

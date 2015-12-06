@@ -35,10 +35,12 @@ def get_gid_from_groupname(groupname: str) -> Optional[int]:
         return None
 
 
+@only_posix()
 def run():
     return run_as()
 
 
+@only_posix()
 async def run_async():
     await run_as_async()
 
