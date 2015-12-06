@@ -44,7 +44,7 @@ async def run_async():
 
 
 @only_posix()
-def run_as():
+def run_as(*args: Tuple, **kwargs: Dict) -> None:
     pass
 
 

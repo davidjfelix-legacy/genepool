@@ -6,11 +6,6 @@ from .commands import install, recv_keys, Config
 
 class TestAptCommands(TestCase):
     @mock.patch('genes.apt.commands.Popen')
-    def test_install_package_on_non_apt_system(self, mock_popen):
-        install.__wrapped__('test')
-        mock_popen.assert_not_called()
-
-    @mock.patch('genes.apt.commands.Popen')
     def test_install_package_on_debian_system(self, mock_popen):
         """Test calling apt.install with one package"""
         install.__wrapped__('test')
@@ -37,13 +32,9 @@ class TestAptCommands(TestCase):
 
     @mock.patch('genes.apt.commands.Popen')
     def test_install_nothing(self, mock_popen):
-        install.__wrapped()
+        self.assertRaises(ValueError, install.__wrapped__)
         mock_popen.assert_not_called()
 
-    @mock.patch('genes.apt.commands.Popen')
-    def test_recv_key_on_non_apt_system(self, mock_popen):
-        recv_keys.__wrapped__()
-        mock_popen.assert_not_called()
 
     @mock.patch('genes.apt.commands.Popen')
     def test_recv_key_on_a_debian_system(self, mock_popen):
@@ -74,5 +65,5 @@ class TestAptCommands(TestCase):
 
     @mock.patch('genes.apt.commands.Popen')
     def test_recv_keys_nothing(self, mock_popen):
-        recv_keys.__wrapped__()
+        self.assertRaises(ValueError, recv_keys.__wrapped__)
         mock_popen.assert_not_called()
