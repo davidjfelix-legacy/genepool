@@ -49,7 +49,8 @@ class TestAptCommands(TestCase):
     def test_recv_key_on_a_debian_system(self, mock_popen):
         recv_keys.__wrapped__('test')
         mock_popen.assert_called_once_with(
-            ['apt-key', 'adv', '--keyserver', 'hpk://pgp.mit.edu:80', '--recv-keys', 'test'],
+            ['apt-key', 'adv', '--keyserver', 'hpk://pgp.mit.edu:80',
+             '--recv-keys', 'test'],
             env=Config.ENV
         )
 
@@ -57,7 +58,8 @@ class TestAptCommands(TestCase):
     def test_recv_key_on_an_ubuntu_system(self, mock_popen):
         recv_keys.__wrapped__('test')
         mock_popen.assert_called_once_with(
-            ['apt-key', 'adv', '--keyserver', 'hpk://pgp.mit.edu:80', '--recv-keys', 'test'],
+            ['apt-key', 'adv', '--keyserver', 'hpk://pgp.mit.edu:80',
+             '--recv-keys', 'test'],
             env=Config.ENV
         )
 
@@ -65,7 +67,8 @@ class TestAptCommands(TestCase):
     def test_recv_keys_on_an_apt_system(self, mock_popen):
         recv_keys.__wrapped__('test1', 'test2')
         mock_popen.assert_called_once_with(
-            ['apt-key', 'adv', '--keyserver', 'hpk://pgp.mit.edu:80', '--recv-keys', 'test1', 'test2'],
+            ['apt-key', 'adv', '--keyserver', 'hpk://pgp.mit.edu:80',
+             '--recv-keys', 'test1', 'test2'],
             env=Config.ENV
         )
 

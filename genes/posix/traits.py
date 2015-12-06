@@ -1,8 +1,9 @@
 import os
 from functools import wraps
+from typing import Dict, Tuple, Optional
 
 from genes.lib.logging import log_warn, log_error
-from genes.lib.traits import ErrorLevel
+from genes.lib.traits import ErrorLevel, ArgFunc3, ArgFunc2, ArgFunc, T
 
 
 def is_posix() -> bool:
@@ -13,7 +14,7 @@ def is_posix() -> bool:
     return os.name == 'posix'
 
 
-def only_posix(error_level: ErrorLevel = ErrorLevel.warn):
+def only_posix(error_level: ErrorLevel = ErrorLevel.warn) -> ArgFunc3:
     """
     Wrap a function and only execute it if the system is POSIX
     :param error_level: how to handle execution for systems that aren't POSIX
@@ -21,9 +22,9 @@ def only_posix(error_level: ErrorLevel = ErrorLevel.warn):
     """
     msg = "This function can only be run on a POSIX system: "
 
-    def wrapper(func):
+    def wrapper(func: ArgFunc) -> ArgFunc2:
         @wraps(func)
-        def run_if_posix(*args, **kwargs):
+        def run_if_posix(*args: Tuple, **kwargs: Dict) -> Optional[T]:
             if is_posix():
                 return func(*args, **kwargs)
             elif error_level == ErrorLevel.warn:

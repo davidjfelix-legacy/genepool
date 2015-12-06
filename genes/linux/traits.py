@@ -1,9 +1,9 @@
 import platform
 from functools import wraps
-from typing import Callable, Dict, List, Optional, Tuple, TypeVar
+from typing import Dict, List, Optional, Tuple, TypeVar
 
 from genes.lib.logging import log_error, log_warn
-from genes.lib.traits import ErrorLevel
+from genes.lib.traits import ErrorLevel, ArgFunc2, ArgFunc, ArgFunc3
 
 T = TypeVar('T')
 
@@ -20,16 +20,18 @@ def is_linux(releases=None):
     return platform.system() == 'Linux' and is_release
 
 
-def only_linux(error_level: ErrorLevel = ErrorLevel.warn, releases: Optional[List[str]] = None):
+def only_linux(error_level: ErrorLevel = ErrorLevel.warn,
+               releases: Optional[List[str]] = None) -> ArgFunc3:
     """
-    Wrap a function and only execute it if the system is linux of the release specified
+    Wrap a function and only execute it if the system is linux of the
+    release specified
     :param error_level: how to handle execution for systems that aren't linux
     :param releases: releases of linux which are allowable
     :return: a wrapper function that wraps functions in conditional execution
     """
     msg = "This function can only be run on Linux: "
 
-    def wrapper(func: Callable[[Tuple, Dict], T]) -> Callable:
+    def wrapper(func: ArgFunc) -> ArgFunc2:
         @wraps(func)
         def run_if_linux(*args: Tuple, **kwargs: Dict) -> Optional[T]:
             if is_linux(releases=releases):
