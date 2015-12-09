@@ -14,18 +14,20 @@ class TestAptCommands(TestCase):
 
     @mock.patch('genes.apt.commands.Popen')
     def test_installing_packages_should_call_popen(self, mock_popen):
-        """Test calling apt install with multiple packages"""
+        """Test calling apt.install with multiple packages"""
         install.__wrapped__('test1', 'test2')
         mock_popen.assert_called_once_with(
             ['apt-get', '-y', 'install', 'test1', 'test2'], env=Config.ENV)
 
     @mock.patch('genes.apt.commands.Popen')
     def test_install_nothing_should_error_and_not_call_popen(self, mock_popen):
+        """Test calling apt.install with nothing"""
         self.assertRaises(ValueError, install.__wrapped__)
         mock_popen.assert_not_called()
 
     @mock.patch('genes.apt.commands.Popen')
     def test_recv_key_should_call_popen(self, mock_popen):
+        """Test calling apt.recv_key with one key"""
         recv_keys.__wrapped__('test')
         mock_popen.assert_called_once_with(
             ['apt-key', 'adv', '--keyserver', 'hpk://pgp.mit.edu:80',
@@ -35,6 +37,7 @@ class TestAptCommands(TestCase):
 
     @mock.patch('genes.apt.commands.Popen')
     def test_recv_keys_should_call_popen(self, mock_popen):
+        """Test calling apt.recv_keys with multiple keys"""
         recv_keys.__wrapped__('test1', 'test2')
         mock_popen.assert_called_once_with(
             ['apt-key', 'adv', '--keyserver', 'hpk://pgp.mit.edu:80',
@@ -46,17 +49,20 @@ class TestAptCommands(TestCase):
     def test_recv_keys_nothing_should_error_and_not_call_popen(
             self,
             mock_popen):
+        """Test calling recv_keys with nothing"""
         self.assertRaises(ValueError, recv_keys.__wrapped__)
         mock_popen.assert_not_called()
 
     @mock.patch('genes.apt.commands.Popen')
     def test_update_should_call_popen(self, mock_popen):
+        """Test calling apt.update"""
         update.__wrapped__()
         mock_popen.assert_called_once_with(
             ['apt-get', '-y', 'update'], env=Config.ENV)
 
     @mock.patch('genes.apt.commands.Popen')
     def test_upgrade_should_call_popen(self, mock_popen):
+        """Test calling apt.upgrade"""
         upgrade.__wrapped__()
         mock_popen.assert_called_once_with(
             ['apt-get', '-y', 'upgrade'], env=Config.ENV)
@@ -65,11 +71,13 @@ class TestAptCommands(TestCase):
     def test_add_repo_nothing_should_error_and_not_call_popen(
             self,
             mock_popen):
+        """Test calling apt.add_repo with nothing"""
         self.assertRaises(ValueError, add_repo.__wrapped__)
         mock_popen.assert_not_called()
 
     @mock.patch('genes.apt.commands.Popen')
     def test_add_repo_item_should_call_popen(self, mock_popen):
+        """Test calling apt.add_repo with one line item"""
         add_repo.__wrapped__("test")
         mock_popen.assert_called_once_with(
             ['add-apt-repository', '-y', 'test'], env=Config.ENV)
