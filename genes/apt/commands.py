@@ -39,7 +39,7 @@ def recv_keys(*keys: Tuple[str, ...]) -> None:
     if keys:
         Popen(
             ['apt-key', 'adv', '--keyserver',
-             'hpk://pgp.mit.edu:80', '--recv-keys'] + list(keys),
+             'hkp://pgp.mit.edu:80', '--recv-keys'] + list(keys),
             env=Config.ENV
         ).wait()
     else:
