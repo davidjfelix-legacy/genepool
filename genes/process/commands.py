@@ -13,6 +13,14 @@ IntOrStr = TypeVar("IntOrStr", int, str)
 
 
 @only_posix()
+def get_env_run(my_env):
+    def env_run(*args, **kwargs):
+        return run(*args, env=my_env, **kwargs)
+
+    return env_run
+
+
+@only_posix()
 def get_demote(user_uid: Optional[int] = None,
                user_gid: Optional[int] = None) -> Callable[[], None]:
     def demote() -> None:
@@ -39,13 +47,13 @@ def get_gid_from_groupname(groupname: str) -> Optional[int]:
 
 
 @only_posix()
-def run():
-    return run_as()
+def run(*args: Tuple, **kwargs: Dict):
+    return run_as(*args, **kwargs)
 
 
 @only_posix()
-async def run_async():
-    await run_as_async()
+async def run_async(*args: Tuple, **kwargs: Dict):
+    await run_as_async(*args, **kwargs)
 
 
 @only_posix()
@@ -70,6 +78,6 @@ async def run_as_async(*args: Tuple,
         isinstance(group, str) else group
 
     await asyncio.create_subprocess_exec(
-        *args,
-        preexec_fn=get_demote(user_uid, user_gid),
-        **kwargs)
+            *args,
+            preexec_fn=get_demote(user_uid, user_gid),
+            **kwargs)
