@@ -12,6 +12,20 @@ WIP: Thoughts on how hatchery flow will work
 * Recursively get the repos from each level's dependencies
 * The executable installs a bundled python environment and runs the broodfile runner and top level genes.
 
+## User strategy
+
+On Linux/BSD it's pretty common to have root-equivalent access (root or sudo) to modify the local system and install software.
+However, on OSX and Windows things get a little bit fuzzier.
+On OSX, using homebrew has the strategy of escalating to root equivalent but only to chmod an area of user-level directories in `/usr/local`, not to install software itself.
+To handle this "run as admin user, not root" design, genepool will be designed to run as root-equivalent and will de-escalate itself to a user of its choice.
+For hatchery/genepool/genes/adminuser, we'll use the name `splicer`.
+If this is your username, you can configure the gene to use a different name.
+
+* For brew, the `/usr/local` directory will be altered to run with g+w set so that anyone in the group can use it.
+* Windows strategy is still pending
+* Modules should be written in a way that has access to root, users being provisioned by a gene or utilize splicer and group level access for splicer's peers.
+
+
 ## Sample use
 
 From this directory, you can use genes. Typical use is as follows:
