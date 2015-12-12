@@ -5,6 +5,8 @@ import os
 import pwd
 from typing import Callable, Optional, TypeVar, Tuple, Dict
 
+from subprocess import Popen
+
 from genes.posix.traits import only_posix
 
 IntOrStr = TypeVar("IntOrStr", int, str)
@@ -16,6 +18,7 @@ def get_demote(user_uid: Optional[int] = None,
     def demote() -> None:
         os.setuid(user_uid)
         os.setgid(user_gid)
+
     return demote
 
 
@@ -46,8 +49,15 @@ async def run_async():
 
 
 @only_posix()
-def run_as(*args: Tuple, **kwargs: Dict) -> None:
-    pass
+def run_as(*args: Tuple,
+           user: Optional[IntOrStr] = None,
+           group: Optional[IntOrStr] = None,
+           **kwargs: Dict) -> None:
+    user_uid = get_uid_from_username(user) if isinstance(user, str) else user
+    user_gid = get_gid_from_groupname(group) if \
+        isinstance(group, str) else group
+
+    Popen(*args, preexec_fn=get_demote(user_uid, user_gid), **kwargs).wait()
 
 
 @only_posix()
@@ -55,15 +65,9 @@ async def run_as_async(*args: Tuple,
                        user: Optional[IntOrStr] = None,
                        group: Optional[IntOrStr] = None,
                        **kwargs: Dict) -> None:
-    if isinstance(user, str):
-        user_uid = get_uid_from_username(user)
-    else:
-        user_uid = user
-
-    if isinstance(group, str):
-        user_gid = get_gid_from_groupname(group)
-    else:
-        user_gid = group
+    user_uid = get_uid_from_username(user) if isinstance(user, str) else user
+    user_gid = get_gid_from_groupname(group) if \
+        isinstance(group, str) else group
 
     await asyncio.create_subprocess_exec(
         *args,
