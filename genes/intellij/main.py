@@ -13,11 +13,11 @@ def main():
             "https://download.jetbrains.com/idea/ideaIU-15.0.tar.gz",
             "/tmp/ideas.tar.gz"
         )
-        DirectoryBuilder('/opt/intellij-ideas') \
-            .set_mode('755') \
-            .set_group('root') \
-            .set_user('root') \
-            .build()
+        DirectoryBuilder('/opt/intellij-ideas').\
+            set_mode('755').\
+            set_group('root').\
+            set_user('root').\
+            build()
         untar('/tmp/ideas.tar.gz', '/opt/intellij-ideas')
     if is_osx():
         brew.update()
