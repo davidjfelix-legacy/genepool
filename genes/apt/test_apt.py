@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from unittest import TestCase, mock
 
-from .commands import install, recv_keys, update, upgrade, add_repo
+from .commands import install, recv_keys, update, upgrade, add_repo, add_ppa
 
 
 class TestAptCommands(TestCase):
@@ -80,3 +80,10 @@ class TestAptCommands(TestCase):
         add_repo.__wrapped__("test1", "test2")
         mock_run.assert_called_once_with(
             ['add-apt-repository', '-y', 'test1 test2'])
+
+    @mock.patch('genes.apt.commands.env_run')
+    def test_add_ppa_item_should_call_popen(self, mock_run):
+        """Test calling apt.add_ppa with item"""
+        add_ppa.__wrapped__("test")
+        mock_run.assert_called_once_with(
+            ['add-apt-repository', '-y', 'ppa:test'])

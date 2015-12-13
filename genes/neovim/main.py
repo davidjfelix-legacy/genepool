@@ -8,7 +8,7 @@ from genes.ubuntu.traits import is_ubuntu
 def main():
     if is_debian() or is_ubuntu():
         # FIXME: debian needs ppa software
-        apt.add_ppa('ppa:neovim-ppa/unstable')
+        apt.add_ppa('neovim-ppa/unstable')
         apt.update()
         apt.install('neovim')
     elif is_osx():
