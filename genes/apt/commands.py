@@ -1,5 +1,4 @@
 import os
-from subprocess import Popen
 from typing import Tuple
 
 from genes.debian.traits import is_debian
@@ -61,7 +60,7 @@ def add_repo(*line_items: Tuple[str, ...]) -> None:
 @if_any_funcs(is_debian, is_ubuntu)
 def add_ppa(ppa: str) -> None:
     if ppa:
-        Popen(['add-apt-repository', '-y', ppa])
+        env_run(['add-apt-repository', '-y', ppa])
     else:
         msg = 'Missing ppa argument'
         log_error(msg)

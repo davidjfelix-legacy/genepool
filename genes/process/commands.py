@@ -21,6 +21,14 @@ def get_env_run(my_env):
 
 
 @only_posix()
+def get_env_run_as(my_env):
+    def env_run_as(*args, user, group, **kwargs):
+        return run_as(*args, user, group, env=my_env **kwargs)
+
+    return env_run_as
+
+
+@only_posix()
 def get_demote(user_uid: Optional[int] = None,
                user_gid: Optional[int] = None) -> Callable[[], None]:
     def demote() -> None:
