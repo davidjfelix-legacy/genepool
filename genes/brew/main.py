@@ -9,4 +9,8 @@ def main():
         'https://raw.githubusercontent.com/Homebrew/install/master/install',
         '/tmp/brew_install'
     )
+    # FIXME: install as non-root
     subprocess.call(['ruby', '-e', '/tmp/brew_install'])
+    # FIXME: install cask
+    # FIXME: recursively claim the /usr/local/bin directory for non-root user
+    pass
