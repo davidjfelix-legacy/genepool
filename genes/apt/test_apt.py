@@ -41,7 +41,6 @@ class TestAptCommands(TestCase):
             ['apt-key', 'adv', '--keyserver', 'hkp://pgp.mit.edu:80',
              '--recv-keys', 'test1', 'test2'])
 
-
     @mock.patch('genes.apt.commands.env_run')
     def test_recv_keys_nothing_should_error_and_not_call_popen(self, mock_run):
         """Test calling apt.recv_keys with nothing"""
@@ -54,7 +53,6 @@ class TestAptCommands(TestCase):
         update.__wrapped__()
         mock_run.assert_called_once_with(
             ['apt-get', '-y', 'update'])
-
 
     @mock.patch('genes.apt.commands.env_run')
     def test_upgrade_should_call_popen(self, mock_run):

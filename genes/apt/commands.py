@@ -9,6 +9,7 @@ from genes.ubuntu.traits import is_ubuntu
 
 
 class Config:
+    # FIXME: this shouldn't exist
     ENV = os.environ.copy()
     ENV['DEBIAN_FRONTEND'] = 'noninteractive'
 

@@ -1,14 +1,13 @@
 import platform
 from functools import wraps
 from typing import Dict, List, Optional, Tuple, TypeVar
-
 from genes.lib.logging import log_error, log_warn
 from genes.lib.traits import ErrorLevel, ArgFunc2, ArgFunc, ArgFunc3
 
 T = TypeVar('T')
 
 
-def is_linux(releases=None):
+def is_linux(releases: Optional[List[str]] = None) -> bool:
     """
     Determine whether the operating system is linux or not.
     :param releases: a list of releases to return true on

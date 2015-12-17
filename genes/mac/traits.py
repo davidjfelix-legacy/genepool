@@ -1,30 +1,36 @@
 import platform
 from functools import wraps
+from typing import Dict, List, Optional, Tuple, TypeVar
+from genes.lib.logging import log_error, log_warn
+from genes.lib.traits import ErrorLevel, ArgFunc2, ArgFunc, ArgFunc3
 
-# FIXME: make version strings more human usable.
-operating_system = platform.system()
-version = platform.mac_ver()[0]
+T = TypeVar('T')
 
 
-def is_osx(versions=None):
+def is_osx(versions: Optional[List[str]] = None) -> bool:
     is_version = True
     if versions:
-        is_version = version in versions
-    return operating_system == 'Darwin' and is_version
+        is_version = platform.mac_ver()[0] in versions
+    return platform.system() == 'Darwin' and is_version
 
 
-def only_osx(warn=True, error=False, versions=None):
-    def wrapper(func):
+def only_osx(error_level: ErrorLevel =ErrorLevel.warn,
+             versions: Optional[List[str]] = None) -> ArgFunc3:
+    msg = "This function can only be run on OSX: "
+
+    def wrapper(func: ArgFunc) -> ArgFunc2:
         @wraps(func)
-        def run_if_osx(*args, **kwargs):
+        def run_if_osx(*args: Tuple, **kwargs: Dict) -> Optional[T]:
             if is_osx(versions=versions):
                 return func(*args, **kwargs)
-            elif error:
-                # FIXME: logitize me
-                raise OSError('This command can only be run on OSX')
-            elif warn:
-                # FIXME: should log and warn if warn
-                pass
+            elif error_level == ErrorLevel.warn:
+                log_warn(msg, func.__name__)
+                return None
+            elif error_level == ErrorLevel.error:
+                log_error(msg, func.__name__)
+                raise OSError(msg, func.__name__)
+            else:
+                return None
 
         return run_if_osx
 

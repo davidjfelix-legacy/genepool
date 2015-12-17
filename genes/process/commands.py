@@ -6,16 +6,14 @@ import pwd
 from subprocess import Popen
 from typing import Callable, Optional, TypeVar, Tuple, Dict
 
-from subprocess import Popen
-
 from genes.posix.traits import only_posix
 
 IntOrStr = TypeVar("IntOrStr", int, str)
 
 
 @only_posix()
-def get_env_run(my_env):
-    def env_run(*args, **kwargs):
+def get_env_run(my_env: Dict):
+    def env_run(*args: Tuple, **kwargs: Dict) -> Callable:
         return run(*args, env=my_env, **kwargs)
 
     return env_run
@@ -24,7 +22,7 @@ def get_env_run(my_env):
 @only_posix()
 def get_env_run_as(my_env):
     def env_run_as(*args, user, group, **kwargs):
-        return run_as(*args, user, group, env=my_env **kwargs)
+        return run_as(*args, user, group, env=my_env ** kwargs)
 
     return env_run_as
 
@@ -89,6 +87,6 @@ async def run_as_async(*args: Tuple,
         isinstance(group, str) else group
 
     await asyncio.create_subprocess_exec(
-            *args,
-            preexec_fn=get_demote(user_uid, user_gid),
-            **kwargs)
+        *args,
+        preexec_fn=get_demote(user_uid, user_gid),
+        **kwargs)

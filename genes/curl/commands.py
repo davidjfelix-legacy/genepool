@@ -1,6 +1,6 @@
-import subprocess
+from genes.process.commands import run
 
 
 def download(url, output):
     # FIXME: communicate success or failure
-    subprocess.call(['curl', '-L', url, '-o', output])
+    run(['curl', '-L', url, '-o', output])

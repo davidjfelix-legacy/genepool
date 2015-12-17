@@ -20,5 +20,5 @@ class UserBuilder(object):
         return self
 
     def build(self):
-        # FIXME: build user
+        # FIXME: build user in an idempotent manner
         pass
