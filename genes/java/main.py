@@ -10,7 +10,7 @@ def main(config):
     if is_debian() or is_ubuntu():
         if config.is_oracle():
             # FIXME: debian needs ppa software
-            apt.add_ppa('ppa:webupd8team/java')
+            apt.add_ppa('webupd8team/java')
             apt.update()
             debconf.set_selections(config.version + '-installer',
                                    'shared/accepted-oracle-license-v1-1',

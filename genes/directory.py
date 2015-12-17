@@ -28,4 +28,5 @@ class DirectoryBuilder(object):
             chown(self.path, self.user)
             chgrp(self.path, self.group)
         else:
+            # FIXME: handle this
             pass

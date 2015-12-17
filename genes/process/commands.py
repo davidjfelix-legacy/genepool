@@ -6,9 +6,27 @@ import pwd
 from subprocess import Popen
 from typing import Callable, Optional, TypeVar, Tuple, Dict
 
+from subprocess import Popen
+
 from genes.posix.traits import only_posix
 
 IntOrStr = TypeVar("IntOrStr", int, str)
+
+
+@only_posix()
+def get_env_run(my_env):
+    def env_run(*args, **kwargs):
+        return run(*args, env=my_env, **kwargs)
+
+    return env_run
+
+
+@only_posix()
+def get_env_run_as(my_env):
+    def env_run_as(*args, user, group, **kwargs):
+        return run_as(*args, user, group, env=my_env **kwargs)
+
+    return env_run_as
 
 
 @only_posix()
@@ -40,12 +58,12 @@ def get_gid_from_groupname(groupname: str) -> Optional[int]:
 
 
 @only_posix()
-def run(*args, **kwargs):
+def run(*args: Tuple, **kwargs: Dict):
     return run_as(*args, **kwargs)
 
 
 @only_posix()
-async def run_async(*args, **kwargs):
+async def run_async(*args: Tuple, **kwargs: Dict):
     await run_as_async(*args, **kwargs)
 
 
@@ -54,15 +72,9 @@ def run_as(*args: Tuple,
            user: Optional[IntOrStr] = None,
            group: Optional[IntOrStr] = None,
            **kwargs: Dict) -> None:
-    if isinstance(user, str):
-        user_uid = get_uid_from_username(user)
-    else:
-        user_uid = user
-
-    if isinstance(group, str):
-        user_gid = get_gid_from_groupname(group)
-    else:
-        user_gid = group
+    user_uid = get_uid_from_username(user) if isinstance(user, str) else user
+    user_gid = get_gid_from_groupname(group) if \
+        isinstance(group, str) else group
 
     Popen(*args, preexec_fn=get_demote(user_uid, user_gid), **kwargs).wait()
 
@@ -72,17 +84,11 @@ async def run_as_async(*args: Tuple,
                        user: Optional[IntOrStr] = None,
                        group: Optional[IntOrStr] = None,
                        **kwargs: Dict) -> None:
-    if isinstance(user, str):
-        user_uid = get_uid_from_username(user)
-    else:
-        user_uid = user
-
-    if isinstance(group, str):
-        user_gid = get_gid_from_groupname(group)
-    else:
-        user_gid = group
+    user_uid = get_uid_from_username(user) if isinstance(user, str) else user
+    user_gid = get_gid_from_groupname(group) if \
+        isinstance(group, str) else group
 
     await asyncio.create_subprocess_exec(
-        *args,
-        preexec_fn=get_demote(user_uid, user_gid),
-        **kwargs)
+            *args,
+            preexec_fn=get_demote(user_uid, user_gid),
+            **kwargs)
