@@ -1,5 +1,4 @@
 import os
-from subprocess import Popen
 from typing import Tuple
 
 from genes.mac.traits import only_osx
@@ -23,9 +22,11 @@ def update() -> None:
 
 @only_osx()
 def install(*packages: Tuple[str, ...]) -> None:
-    Popen(['brew', 'install'] + list(packages)).wait()
+    env_run_as(['brew', 'install'] + list(packages), Config.USER, Config.GROUP)
 
 
 @only_osx()
 def cask_install(*packages: Tuple[str, ...]) -> None:
-    Popen(['brew', 'cask', 'install'] + list(packages)).wait()
+    env_run_as(['brew', 'cask', 'install'] + list(packages),
+               Config.USER,
+               Config.GROUP)

@@ -8,6 +8,12 @@ T = TypeVar('T')
 
 
 def is_osx(versions: Optional[List[str]] = None) -> bool:
+    """
+    Determine whether the operating system is OSX or not.
+    :param versions: a list of versions to return true on
+    :return: bool; True if the operating system meets the above criteria
+    """
+    # FIXME: make version more human readable
     is_version = True
     if versions:
         is_version = platform.mac_ver()[0] in versions
@@ -16,6 +22,13 @@ def is_osx(versions: Optional[List[str]] = None) -> bool:
 
 def only_osx(error_level: ErrorLevel =ErrorLevel.warn,
              versions: Optional[List[str]] = None) -> ArgFunc3:
+    """
+    Wrap a function and only execute it if the system is OSX of the version
+    specified
+    :param error_level: how to handle execution for systems that aren't OSX
+    :param versions: versions of OSX which are allowable
+    :return: a wrapper function that wraps functions in conditional execution
+    """
     msg = "This function can only be run on OSX: "
 
     def wrapper(func: ArgFunc) -> ArgFunc2:
