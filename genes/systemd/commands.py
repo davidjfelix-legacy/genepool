@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-from subprocess import Popen
 from typing import Tuple
 
 from genes.linux.traits import only_linux
+from genes.process.commands import run
 
 
 @only_linux()
 def systemctl(*args: Tuple[str, ...]) -> None:
-    Popen(['systemctl'] + list(args))
+    run(['systemctl'] + list(args))
 
 
 @only_linux()
