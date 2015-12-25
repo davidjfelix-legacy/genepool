@@ -5,11 +5,12 @@ from typing import Callable, Dict, List, Optional, Tuple, TypeVar
 
 from genes.lib.logging import log_error, log_warn
 from genes.lib.traits import ErrorLevel
+from genes.linux.traits import only_linux
 
 T = TypeVar('T')
 
 
-# FIXME: remove call to platform.linux_distribution
+@only_linux()
 def get_distro() -> str:
     """
     Get the distro of the running os
@@ -18,7 +19,7 @@ def get_distro() -> str:
     return platform.linux_distribution()[0].lower()
 
 
-# FIXME: remove call to platform.linux_distribution
+@only_linux()
 def get_version() -> str:
     """
     Get the version of the running os
@@ -27,7 +28,7 @@ def get_version() -> str:
     return platform.linux_distribution()[1].lower()
 
 
-# FIXME: remove call to platform.linux_distribution
+@only_linux()
 def get_codename() -> str:
     """
     Ge the codename of the running os.
@@ -36,6 +37,7 @@ def get_codename() -> str:
     return platform.linux_distribution()[2].lower()
 
 
+@only_linux()
 def is_debian(versions: Optional[List[str]] = None,
               distro_name: str = 'debian') -> bool:
     """
@@ -47,9 +49,7 @@ def is_debian(versions: Optional[List[str]] = None,
     is_version = True
     if versions:
         is_version = get_version() in versions or get_codename() in versions
-    return platform.system().lower() == 'linux' \
-        and get_distro() == distro_name \
-        and is_version
+    return get_distro() == distro_name and  is_version
 
 
 def only_debian(error_level: ErrorLevel = ErrorLevel.warn,

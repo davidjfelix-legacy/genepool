@@ -1,3 +1,4 @@
+import os
 import platform
 from functools import wraps
 from typing import Dict, List, Optional, Tuple, TypeVar
@@ -5,6 +6,22 @@ from genes.lib.logging import log_error, log_warn
 from genes.lib.traits import ErrorLevel, ArgFunc2, ArgFunc, ArgFunc3
 
 T = TypeVar('T')
+
+
+def get_distro() -> str:
+    if os.path.isfile('/etc/os-release'):
+        pass
+    if os.path.isfile('/etc/lsb-release'):
+        pass
+    if os.path.isfile('/etc/lsb-release.d'):
+        pass
+    if os.path.isfile('/etc/gentoo-release'):
+        pass
+    if os.path.isfile('/etc/debian-release'):
+        pass
+    if os.path.isfile('/etc/redhat-release'):
+        pass
+
 
 
 def is_linux(releases: Optional[List[str]] = None) -> bool:
