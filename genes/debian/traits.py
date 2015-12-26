@@ -1,40 +1,13 @@
 #!/usr/bin/env python
-import platform
 from functools import wraps
 from typing import Callable, Dict, List, Optional, Tuple, TypeVar
 
 from genes.lib.logging import log_error, log_warn
 from genes.lib.traits import ErrorLevel
-from genes.linux.traits import only_linux
+from genes.linux.traits import only_linux, get_distro, get_codename, \
+    get_version
 
 T = TypeVar('T')
-
-
-@only_linux()
-def get_distro() -> str:
-    """
-    Get the distro of the running os
-    :return: str; the distro of the running os
-    """
-    return platform.linux_distribution()[0].lower()
-
-
-@only_linux()
-def get_version() -> str:
-    """
-    Get the version of the running os
-    :return: str; the version of the running os
-    """
-    return platform.linux_distribution()[1].lower()
-
-
-@only_linux()
-def get_codename() -> str:
-    """
-    Ge the codename of the running os.
-    :return: str; the codename of the running os
-    """
-    return platform.linux_distribution()[2].lower()
 
 
 @only_linux()
@@ -46,10 +19,11 @@ def is_debian(versions: Optional[List[str]] = None,
     :param distro_name: the variant/distro of debian to check for
     :return: bool; True if the operating system meets the above criteria
     """
+    # TODO: make this runnable for non-linux also
     is_version = True
     if versions:
         is_version = get_version() in versions or get_codename() in versions
-    return get_distro() == distro_name and  is_version
+    return get_distro() == distro_name and is_version
 
 
 def only_debian(error_level: ErrorLevel = ErrorLevel.warn,

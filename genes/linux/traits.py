@@ -1,27 +1,25 @@
 import os
 import platform
+from enum import Enum
 from functools import wraps
 from typing import Dict, List, Optional, Tuple, TypeVar
+
 from genes.lib.logging import log_error, log_warn
 from genes.lib.traits import ErrorLevel, ArgFunc2, ArgFunc, ArgFunc3
 
 T = TypeVar('T')
 
 
-def get_distro() -> str:
-    if os.path.isfile('/etc/os-release'):
-        pass
-    if os.path.isfile('/etc/lsb-release'):
-        pass
-    if os.path.isfile('/etc/lsb-release.d'):
-        pass
-    if os.path.isfile('/etc/gentoo-release'):
-        pass
-    if os.path.isfile('/etc/debian-release'):
-        pass
-    if os.path.isfile('/etc/redhat-release'):
-        pass
-
+class LinuxDistro(Enum):
+    alpine = 'alpine'
+    arch = 'arch'
+    centos = 'centos'
+    debian = 'debian'
+    fedora = 'fedora'
+    gentoo = 'gentoo'
+    redhat = 'redhat'
+    scientific = 'scientific'
+    ubuntu = 'ubuntu'
 
 
 def is_linux(releases: Optional[List[str]] = None) -> bool:
@@ -64,3 +62,72 @@ def only_linux(error_level: ErrorLevel = ErrorLevel.warn,
         return run_if_linux
 
     return wrapper
+
+
+@only_linux()
+def get_distro() -> str:
+    distro_options = set([opt.value for opt in LinuxDistro])
+    if os.path.isfile('/etc/os-release'):
+        with open('/etc/os-release', 'r') as f:
+            contents = f.readlines()
+
+        for line in contents:
+            if line.startswith('ID='):
+                line = line.partition('=')
+                distro_options &= {line[-1].rstrip('\n')}
+
+    if os.path.isfile('/etc/lsb-release'):
+        # TODO: parse this file
+        pass
+
+    if os.path.isfile('/etc/lsb-release.d'):
+        # TODO: parse this directory
+        pass
+
+    if os.path.isfile('/etc/gentoo-release'):
+        distro_options &= {'gentoo'}
+
+    if os.path.isfile('/etc/debian-release'):
+        distro_options &= {'debian', 'ubuntu'}
+
+    if os.path.isfile('/etc/redhat-release'):
+        distro_options &= {'centos', 'fedora', 'redhat', 'scientific'}
+
+    if len(distro_options) == 1:
+        return distro_options.pop()
+    elif len(distro_options) > 1:
+        return 'AMBIGUOUS'
+    else:
+        return 'OTHER'
+
+
+@only_linux()
+def get_version() -> str:
+    # TODO: add more find cases
+    if os.path.isfile('/etc/os-release'):
+        with open('/etc/os-release', 'r') as f:
+            contents = f.readlines()
+
+        for line in contents:
+            if line.startswith('VERSION_ID='):
+                line = line.partition('=')
+                return line[-1].rstrip('\n')
+    else:
+        # FIXME
+        return ''
+
+
+@only_linux()
+def get_codename() -> str:
+    # FIXME: add more find cases
+    if os.path.isfile('/etc/lsb-release'):
+        with open('/etc/lsb-release', 'r') as f:
+            contents = f.readlines()
+
+        for line in contents:
+            if line.startswith('DISTRIB_CODENAME='):
+                line = line.partition('=')
+                return line[-1].rstrip('\n')
+    else:
+        # FIXME
+        return ''

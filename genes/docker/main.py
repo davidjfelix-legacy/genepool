@@ -1,6 +1,7 @@
 from genes.apt import commands as apt
 from genes.brew import commands as brew
-from genes.debian.traits import is_debian, get_distro, get_codename
+from genes.debian.traits import is_debian, get_codename
+from genes.linux.traits import get_distro
 from genes.mac.traits import is_osx
 from genes.ubuntu.traits import is_ubuntu
 
