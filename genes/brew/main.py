@@ -6,7 +6,7 @@ from genes.process.commands import get_env_run_as, run
 from .commands import install
 
 
-class Config:
+class Config(object):
     # FIXME: this structure should not exist
     ENV = os.environ.copy()
     USER = 'splicer'
