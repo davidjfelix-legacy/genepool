@@ -1,4 +1,11 @@
-# Genepool2
+# genepool
+
+[![Brood](http://img.shields.io/badge/brood-Hatchery-735145.svg?style=flat-square)](https://github.com/hatchery)
+[![Travis](https://img.shields.io/travis/hatchery/genepool.svg?style=flat-square)](https://travis-ci.org/hatchery/genepool)
+[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/hatchery/genepool/blob/master/LICENSE.md)
+[![Github Issues](https://img.shields.io/github/issues/hatchery/genepool.svg?style=flat-square)](https://github.com/hatchery/genepool/issues)
+[![Github Release](https://img.shields.io/github/release/hatchery/genepool.svg?style=flat-square)](https://github.com/hatchery/genepool/releases)
+
 
 WIP: Thoughts on how hatchery flow will work
 
