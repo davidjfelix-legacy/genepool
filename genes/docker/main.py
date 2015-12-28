@@ -16,7 +16,14 @@ def main():
         apt.install('docker-engine')
         # FIXME: add compose, machine, etc
     elif is_osx():
+        brew.update()
         brew.cask_install('dockertoolbox')
+    # elif is_alpine()
+    # elif is_arch()
+    #     pacman.update()
+    #     pacman.install('docker')
+    #     # start docker service
+    #     # add compose, machine
     else:
         # FIXME: print failure, handle osx/windows
         pass

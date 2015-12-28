@@ -20,7 +20,7 @@ def is_osx(versions: Optional[List[str]] = None) -> bool:
     return platform.system() == 'Darwin' and is_version
 
 
-def only_osx(error_level: ErrorLevel =ErrorLevel.warn,
+def only_osx(error_level: ErrorLevel = ErrorLevel.warn,
              versions: Optional[List[str]] = None) -> ArgFunc3:
     """
     Wrap a function and only execute it if the system is OSX of the version

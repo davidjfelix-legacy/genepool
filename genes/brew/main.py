@@ -16,7 +16,7 @@ class Config(object):
 env_run_as = get_env_run_as(Config.ENV)
 
 
-@only_osx
+@only_osx()
 def main():
     # FIXME: this download should go to a mktmp directory
     download(
