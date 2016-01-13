@@ -2,6 +2,8 @@
 
 
 class UserBuilder(object):
+    """A builder-pattern object that can be used to create or modify users"""
+    
     def __init__(self, username):
         self.username = username
         self.groups = []
