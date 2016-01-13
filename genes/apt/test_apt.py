@@ -5,6 +5,8 @@ from .commands import install, recv_keys, update, upgrade, add_repo, add_ppa
 
 
 class TestAptCommands(TestCase):
+    """A unittest testing class for the apt commands"""
+    
     @mock.patch('genes.apt.commands.env_run')
     def test_installing_package_should_call_popen(self, mock_run):
         """Test calling apt.install with one package"""
