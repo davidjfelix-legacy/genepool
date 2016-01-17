@@ -1,3 +1,5 @@
+from typing import Callable, Dict
+
 from genes.apt import commands as apt
 from genes.brew import commands as brew
 from genes.debconf import commands as debconf
@@ -6,7 +8,7 @@ from genes.mac.traits import is_osx
 from genes.ubuntu.traits import is_ubuntu
 
 
-def main(config):
+def main(config: Callable[[], Dict]):
     if is_debian() or is_ubuntu():
         if config.is_oracle():
             # FIXME: debian needs ppa software
