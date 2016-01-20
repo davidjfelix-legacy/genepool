@@ -129,7 +129,7 @@ def get_codename() -> str:
                 line = line.partition('=')
                 return line[-1].rstrip('\n')
     elif os.path.isfile('/etc/debian_version'):
-        with open('/etc/debian_version'):
+        with open('/etc/debian_version') as f:
             contents = f.readlines()
             
         if contents[0][0] == '8':
