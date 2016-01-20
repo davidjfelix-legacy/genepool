@@ -111,7 +111,7 @@ def get_version() -> str:
         for line in contents:
             if line.startswith('VERSION_ID='):
                 line = line.partition('=')
-                return line[-1].rstrip('\n')
+                return line[-1].rstrip('\n').strip('"').strip("'")
     else:
         # FIXME
         return ''
@@ -128,19 +128,19 @@ def get_codename() -> str:
             if line.startswith('DISTRIB_CODENAME='):
                 line = line.partition('=')
                 return line[-1].rstrip('\n')
-    elif os.path.isfile('/etc/debian_version'):
-        with open('/etc/debian_version') as f:
-            contents = f.readlines()
-            
-        if contents[0][0] == '8':
-            return 'jessie'
-        elif contents[0][0] == '7':
-            return 'wheezy'
-        elif contents[0][0] == '6':
-            return 'squeeze'
-        else:
-            # FIXME
-            return ''
+    elif os.path.isfile('/etc/os-release'):
+        codename_map = {
+            'debian': {
+                '8': 'jessie'
+            },
+            'ubuntu': {
+                '16.04': 'xenial',
+                '15.10': 'wily',
+                '15.04': 'vivid',
+                '14.04': 'trusty',
+            }
+        }
+        return codename_map.get(get_distro(), {}).get(get_version(), '')
     else:
         # FIXME
         return ''
