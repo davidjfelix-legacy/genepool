@@ -128,6 +128,19 @@ def get_codename() -> str:
             if line.startswith('DISTRIB_CODENAME='):
                 line = line.partition('=')
                 return line[-1].rstrip('\n')
+    elif os.path.isfile('/etc/debian_version'):
+        with open('/etc/debian_version'):
+            contents = f.readlines()
+            
+        if contents[0][0] == '8':
+            return 'jessie'
+        elif contents[0][0] == '7':
+            return 'wheezy'
+        elif contents[0][0] == '6':
+            return 'squeeze'
+        else:
+            # FIXME
+            return ''
     else:
         # FIXME
         return ''
