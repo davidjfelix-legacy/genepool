@@ -1,9 +1,13 @@
 #!/usr/bin/env python
+from collections import namedtuple
+
+
+JavaConfig = namedtuple('JavaConfig', ['is_oracle', 'version'])
 
 
 def config():
-    return {
-        'is-oracle': True,
-        'version': 'oracle-java8',
-    }
+    return JavaConfig(
+        is_oracle=True,
+        version='oracle-java8',
+    )
 
