@@ -61,7 +61,7 @@ def add_repo(*line_items: Tuple[str, ...]) -> None:
 @if_any_funcs(is_debian, is_ubuntu)
 def add_ppa(ppa: str) -> None:
     if ppa:
-        env_run(['add-apt-repository', '-y', 'ppa:'+ppa])
+        env_run(['add-apt-repository', '-y', 'ppa:' + ppa])
     else:
         msg = 'Missing ppa argument'
         log_error(msg)

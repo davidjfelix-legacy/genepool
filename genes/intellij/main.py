@@ -11,18 +11,20 @@ from genes.ubuntu.traits import is_ubuntu
 def main():
     if is_debian() or is_ubuntu():
         download(
-            "https://download.jetbrains.com/idea/ideaIU-15.0.tar.gz",
-            "/tmp/ideas.tar.gz"
+                "https://download.jetbrains.com/idea/ideaIU-15.0.tar.gz",
+                "/tmp/ideas.tar.gz"
         )
-        def config_directory()
+
+        def config_directory():
             return DirectoryConfig(
-                path='/opt/intellij-ideas',
-                mode='755',
-                group='root',
-                user='root',
+                    path='/opt/intellij-ideas',
+                    mode='755',
+                    group='root',
+                    user='root',
             )
+
         # FIXME: Need to find a way to handle errors here
-        direcotry.main(config_directory)
+        directory.main(config_directory)
         untar('/tmp/ideas.tar.gz', '/opt/intellij-ideas')
     if is_osx():
         brew.update()

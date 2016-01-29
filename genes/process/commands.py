@@ -87,6 +87,6 @@ async def run_as_async(*args: Tuple,
         isinstance(group, str) else group
 
     await asyncio.create_subprocess_exec(
-        *args,
-        preexec_fn=get_demote(user_uid, user_gid),
-        **kwargs)
+            *args,
+            preexec_fn=get_demote(user_uid, user_gid),
+            **kwargs)

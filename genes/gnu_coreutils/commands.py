@@ -4,6 +4,7 @@ from typing import Optional, Dict
 from genes.process.commands import run
 from genes.posix.traits import only_posix
 
+
 @only_posix()
 def chgrp(path, group):
     run(['chgrp', group, path])

@@ -3,5 +3,5 @@ from mac.traits import is_osx
 
 
 def main():
-  if is_osx():
-    brew.install('terraform')
+    if is_osx():
+        brew.install('terraform')

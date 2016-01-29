@@ -7,12 +7,15 @@ from genes.user import UserBuilder
 def main():
     # TODO: generalize for linux
     if is_debian() or is_ubuntu():
-        UserBuilder('splicer').\
-            add_group('sudo').\
-            build()
+        def config_adminuser():
+            return UserConfig(
+                username='splicer',
+                groups=['sudo'],
+            )
+        user.main(config_adminuser)
     elif is_osx():
-        UserBuilder('splicer').\
-            add_group('admin').\
+        UserBuilder('splicer'). \
+            add_group('admin'). \
             build()
     else:
         # TODO: Handle others &windows fail otherwise

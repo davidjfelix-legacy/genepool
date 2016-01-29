@@ -20,8 +20,8 @@ env_run_as = get_env_run_as(Config.ENV)
 def main():
     # FIXME: this download should go to a mktmp directory
     download(
-        'https://raw.githubusercontent.com/Homebrew/install/master/install',
-        '/tmp/brew_install'
+            'https://raw.githubusercontent.com/Homebrew/install/master/install',
+            '/tmp/brew_install'
     )
     env_run_as(['ruby', '-e', '/tmp/brew_install'], Config.USER, Config.GROUP)
     install('caskroom/cask/brew-cask')

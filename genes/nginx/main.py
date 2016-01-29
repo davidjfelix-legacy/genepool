@@ -6,7 +6,7 @@ from genes.mac.traits import is_osx
 from genes.ubuntu.traits import is_ubuntu
 
 
-def main(config: Optional[Callable[[], None]]=None):
+def main(config: Optional[Callable[[], None]] = None):
     # Install nginx
     if is_ubuntu() or is_debian():
         apt.update()
@@ -16,7 +16,7 @@ def main(config: Optional[Callable[[], None]]=None):
         brew.install('nginx')
     else:
         pass
-    
+
     # Then configure it
     if config is not None:
         config()

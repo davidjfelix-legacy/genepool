@@ -9,5 +9,5 @@ def main():
     if is_debian() or is_ubuntu():
         apt.install('build-essential')
     else:
-        #FIXME: we need to support other distros soon
+        # FIXME: we need to support other distros soon
         pass

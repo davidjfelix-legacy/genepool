@@ -37,13 +37,13 @@ def if_any_conds(*conds: Tuple[bool, ...],
                 return func(*args, **kwargs)
             elif error_level == ErrorLevel.warn:
                 log_warn(msg.format(func.__name__, " ".join(
-                    [_cond.__name__ for _cond in conds])))
+                        [_cond.__name__ for _cond in conds])))
                 return None
             elif error_level == ErrorLevel.error:
                 log_error(msg.format(func.__name__, " ".join(
-                    [_cond.__name__ for _cond in conds])))
+                        [_cond.__name__ for _cond in conds])))
                 raise ValueError(msg.format(func.__name__, " ".join(
-                    [_cond.__name__ for _cond in conds])))
+                        [_cond.__name__ for _cond in conds])))
             else:
                 return None
 
@@ -71,13 +71,13 @@ def if_any_funcs(*funcs: Tuple[BoolClosure, ...],
                 return func(*args, **kwargs)
             elif error_level == ErrorLevel.warn:
                 log_warn(msg.format(func.__name__, " ".join(
-                    [_func.__name__ for _func in funcs])))
+                        [_func.__name__ for _func in funcs])))
                 return None
             elif error_level == ErrorLevel.error:
                 log_error(msg.format(func.__name__, " ".join(
-                    [_func.__name__ for _func in funcs])))
+                        [_func.__name__ for _func in funcs])))
                 raise ValueError(msg.format(func.__name__, " ".join(
-                    [_func.__name__ for _func in funcs])))
+                        [_func.__name__ for _func in funcs])))
             else:
                 return None
 
@@ -105,13 +105,13 @@ def if_all_conds(*conds: Tuple[bool, ...],
                 return func(*args, **kwargs)
             elif error_level == ErrorLevel.warn:
                 log_warn(msg.format(func.__name__, " ".join(
-                    [_cond.__name__ for _cond in conds])))
+                        [_cond.__name__ for _cond in conds])))
                 return None
             elif error_level == ErrorLevel.error:
                 log_error(msg.format(func.__name__, " ".join(
-                    [_cond.__name__ for _cond in conds])))
+                        [_cond.__name__ for _cond in conds])))
                 raise ValueError(msg.format(func.__name__, " ".join(
-                    [_cond.__name__ for _cond in conds])))
+                        [_cond.__name__ for _cond in conds])))
             else:
                 return None
 
@@ -139,13 +139,13 @@ def if_all_funcs(*funcs: Tuple[BoolClosure, ...],
                 return func(*args, **kwargs)
             elif error_level == ErrorLevel.warn:
                 log_warn(msg.format(func.__name__, " ".join(
-                    [_func.__name__ for _func in funcs])))
+                        [_func.__name__ for _func in funcs])))
                 return None
             elif error_level == ErrorLevel.error:
                 log_error(msg.format(func.__name__, " ".join(
-                    [_func.__name__ for _func in funcs])))
+                        [_func.__name__ for _func in funcs])))
                 raise ValueError(msg.format(func.__name__, " ".join(
-                    [_func.__name__ for _func in funcs])))
+                        [_func.__name__ for _func in funcs])))
             else:
                 return None
 

@@ -15,6 +15,6 @@ def main():
         brew.install('zsh')
         # FIXME this is a bad way to do this
         subprocess.call(
-            ['echo', '/usr/local/bin/zsh', '>>', '/etc/shells'],
-            shell=True
+                ['echo', '/usr/local/bin/zsh', '>>', '/etc/shells'],
+                shell=True
         )
