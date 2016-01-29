@@ -2,6 +2,6 @@
 from .config import config
 
 
-def main():
+def main(config_func=config):
     from .main import main as install
-    install(config)
+    install(config_func)
