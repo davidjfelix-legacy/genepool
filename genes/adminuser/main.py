@@ -1,7 +1,8 @@
 from genes.debian.traits import is_debian
 from genes.mac.traits import is_osx
 from genes.ubuntu.traits import is_ubuntu
-from genes.user import UserBuilder
+from genes.user.config import UserConfig
+from genes import user
 
 
 def main():
@@ -14,9 +15,12 @@ def main():
             )
         user.main(config_adminuser)
     elif is_osx():
-        UserBuilder('splicer'). \
-            add_group('admin'). \
-            build()
+        def config_adminuser():
+            return UserConfig(
+                username='splicer',
+                groupes=['wheel'],
+            )
+        user.main(config_adminuser)
     else:
         # TODO: Handle others &windows fail otherwise
         pass

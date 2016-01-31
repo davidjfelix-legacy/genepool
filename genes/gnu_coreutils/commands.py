@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-from typing import Optional, Dict
 
-from genes.process.commands import run
 from genes.posix.traits import only_posix
+from genes.process.commands import run
 
 
 @only_posix()
@@ -13,6 +12,11 @@ def chgrp(path, group):
 @only_posix()
 def chown(path, user):
     run(['chown', user, path])
+
+
+@only_posix()
+def groupadd(*args):
+    run(['groupadd'] + list(*args))
 
 
 @only_posix()
