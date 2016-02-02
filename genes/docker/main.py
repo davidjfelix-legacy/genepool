@@ -6,6 +6,14 @@ from genes.mac.traits import is_osx
 from genes.ubuntu.traits import is_ubuntu
 
 
+def install_compose():
+    pass
+
+
+def install_machine():
+    pass
+
+
 def main():
     if is_debian() or is_ubuntu():
         repo = get_distro().lower() + '-' + \
