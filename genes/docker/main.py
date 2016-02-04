@@ -1,16 +1,25 @@
 from genes.apt import commands as apt
 from genes.brew import commands as brew
 from genes.debian.traits import is_debian, get_codename
+from genes.lib.traits import if_any_funcs
 from genes.linux.traits import get_distro
 from genes.mac.traits import is_osx
 from genes.ubuntu.traits import is_ubuntu
 
 
+
+@if_any_funcs(is_ubuntu, is_debian)
 def install_compose():
     pass
 
 
+@if_any_funcs(is_ubuntu, is_debian)
 def install_machine():
+    pass
+
+
+@if_any_funcs(is_ubuntu, is_debian)
+def install_swarm():
     pass
 
 
