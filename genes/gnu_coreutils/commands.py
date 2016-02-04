@@ -20,6 +20,11 @@ def groupadd(*args):
 
 
 @only_posix()
+def ln(*args):
+    run(['ln'] + list(*args))
+
+
+@only_posix()
 def mkdir(path, mode=None):
     if mode:
         run(['mkdir', '-m', mode, path])
