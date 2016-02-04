@@ -1,7 +1,9 @@
+from genes import directory
 from genes.apt import commands as apt
 from genes.brew import commands as brew
 from genes.curl.commands import download
 from genes.debian.traits import is_debian, get_codename
+from genes.directory import DirectoryConfig
 from genes.gnu_coreutils.commands import ln
 from genes.lib.traits import if_any_funcs
 from genes.linux.traits import get_distro
