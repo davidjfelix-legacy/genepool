@@ -29,7 +29,7 @@ def install_compose():
         "/opt/docker-compose/docker-compose-" + compose_version
     )
     # FIXME: handle file exists
-    ln("-s", "/usr/local/bin/docker-compose", "/opt/docker-compose/docker-compose-" + compose_version)
+    ln("-s", "/opt/docker-compose/docker-compose-" + compose_version, "/usr/local/bin/docker-compose")
 
 
 @if_any_funcs(is_ubuntu, is_debian)
