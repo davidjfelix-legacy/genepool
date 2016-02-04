@@ -28,6 +28,7 @@ def install_compose():
         "https://github.com/docker/compose/releases/download/" + compose_version + "/docker-compose-Linux-x86_64",
         "/opt/docker-compose/docker-compose-" + compose_version
     )
+    chmod('755', '/opt/docker-compose/docker-compose-' + compose_version)
     # FIXME: handle file exists
     ln("-s", "/opt/docker-compose/docker-compose-" + compose_version, "/usr/local/bin/docker-compose")
 
