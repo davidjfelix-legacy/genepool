@@ -7,4 +7,4 @@ run = get_env_run()
 @only_posix()
 def chmod(*args):
     # FIXME: this is ugly, name the args
-    run(['chmod'] + list(*args))
+    run(['chmod'] + list(args))
