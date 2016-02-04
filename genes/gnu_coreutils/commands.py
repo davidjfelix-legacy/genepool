@@ -14,6 +14,12 @@ def chown(path, user):
     run(['chown', user, path])
 
 
+@only_posix()		
+def chmod(*args):		
+    # FIXME: this is ugly, name the args		
+    run(['chmod'] + list(args))
+
+
 @only_posix()
 def groupadd(*args):
     run(['groupadd'] + list(args))
