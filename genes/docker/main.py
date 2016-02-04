@@ -2,6 +2,7 @@ from genes.apt import commands as apt
 from genes.brew import commands as brew
 from genes.curl.commands import download
 from genes.debian.traits import is_debian, get_codename
+from genes.gnu_coreutils.commands import ln
 from genes.lib.traits import if_any_funcs
 from genes.linux.traits import get_distro
 from genes.mac.traits import is_osx
@@ -23,9 +24,10 @@ def install_compose():
     directory.main(config_directory)
     download(
         "https://github.com/docker/compose/releases/download/" + compose_version + "/docker-compose-Linux-x86_64",
-        "/opt/docker-compose/docker-compose
+        "/opt/docker-compose/docker-compose-" + compose_version
     )
-    
+    # FIXME: handle file exists
+    ln("-s", "/usr/local/bin/docker-compose", "/opt/docker-compose/docker-compose-" + compose_version)
 
 
 @if_any_funcs(is_ubuntu, is_debian)
