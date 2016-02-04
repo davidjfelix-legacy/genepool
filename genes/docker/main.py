@@ -4,7 +4,7 @@ from genes.brew import commands as brew
 from genes.curl.commands import download
 from genes.debian.traits import is_debian, get_codename
 from genes.directory import DirectoryConfig
-from genes.gnu_coreutils.commands import ln
+from genes.gnu_coreutils.commands import chmod, ln
 from genes.lib.traits import if_any_funcs
 from genes.linux.traits import get_distro
 from genes.mac.traits import is_osx
