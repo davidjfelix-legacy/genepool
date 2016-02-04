@@ -16,12 +16,12 @@ def chown(path, user):
 
 @only_posix()
 def groupadd(*args):
-    run(['groupadd'] + list(*args))
+    run(['groupadd'] + list(args))
 
 
 @only_posix()
 def ln(*args):
-    run(['ln'] + list(*args))
+    run(['ln'] + list(args))
 
 
 @only_posix()
@@ -36,10 +36,10 @@ def mkdir(path, mode=None):
 def useradd(*args):
     # FIXME: this is a bad way to do things
     # FIXME: sigh. this is going to be a pain to make it idempotent
-    run(['useradd'] + list(*args))
+    run(['useradd'] + list(args))
 
 
 @only_posix()
 def usermod(*args):
     # FIXME: this is a bad way to do things
-    run(['usermod'] + list(*args))
+    run(['usermod'] + list(args))
