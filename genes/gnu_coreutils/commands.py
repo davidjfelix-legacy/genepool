@@ -14,7 +14,7 @@ def chown(path, user):
     run(['chown', user, path])
 
 
-@only_posix()		
+@only_posix()
 def chmod(*args):		
     # FIXME: this is ugly, name the args		
     run(['chmod'] + list(args))
