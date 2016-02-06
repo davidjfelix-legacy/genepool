@@ -35,7 +35,21 @@ def install_compose():
 
 @if_any_funcs(is_ubuntu, is_debian)
 def install_machine():
-    pass
+    machine_version = '0.6.0'
+    def config_directory():
+        return DirectoryConfig(
+            path='/opt/docker-machine',
+            mode='755',
+            group='root',
+            user='root',
+        )
+    
+    directory.main(config_directory)
+    download(
+        'https://github.com/docker/machine/releases/download/v' + machine_version + '/docker-machine-Linux-x86_64',
+        '/opt/docker-machine/docker-machine-' + machine_version)
+    )
+    ln('-s', '/opt/docker-machine/docker-machine-' + compose_version, '/usr/local/bin/docker-machine')
 
 
 def main():
