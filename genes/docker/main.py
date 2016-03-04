@@ -52,6 +52,10 @@ def install_machine():
     ln('-s', '/opt/docker-machine/docker-machine-' + compose_version, '/usr/local/bin/docker-machine')
 
 
+def add_yum_repo():
+    pass
+
+
 def main():
     if is_debian() or is_ubuntu():
         repo = get_distro().lower() + '-' + \
@@ -60,17 +64,24 @@ def main():
         apt.add_repo('deb', 'https://apt.dockerproject.org/repo', repo, 'main')
         apt.update()
         apt.install('docker-engine')
-        install_compose()
-        install_machine()
     elif is_osx():
         brew.update()
         brew.cask_install('dockertoolbox')
-    # elif is_alpine()
-    # elif is_arch()
-    #     pacman.update()
-    #     pacman.install('docker')
-    #     # start docker service
-    #     # add compose, machine
-    else:
-        # FIXME: print failure, handle osx/windows
+    elif is_alpine():
+        apk.add('docker')
+    elif is_arch()
+        pacman.sync('docker')
+    elif is_centos() or is_rhel():
+        add_yum_repo()
+        yum.update()
+        yum.install('docker-engine')
+    elif is_fedora():
+        add_yum_repo()
+        dnf.update()
+        dnf.install('docker-engine')
+    elif is_gentoo():
         pass
+    elif is_windows():
+        pass
+    else:
+        
