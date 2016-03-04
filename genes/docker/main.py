@@ -1,14 +1,34 @@
 from genes import directory
+from genes.alpine.traits import is_alpine
 from genes.apt import commands as apt
+from genes.arch.traits import is_arch
 from genes.brew import commands as brew
+from genes.centos.traits import is_centos
 from genes.curl.commands import download
 from genes.debian.traits import is_debian, get_codename
 from genes.directory import DirectoryConfig
+from genes.fedora.traits import is_fedora
+from genes.gentoo.traits import is_gentoo
 from genes.gnu_coreutils.commands import chmod, ln
 from genes.lib.traits import if_any_funcs
 from genes.linux.traits import get_distro
 from genes.mac.traits import is_osx
 from genes.ubuntu.traits import is_ubuntu
+from genes.windows.traits import is_windows
+
+
+supported_os_funcs = (
+    is_alpine,
+    is_arch,
+    is_centos,
+    is_debian,
+    is_fedora,
+    is_gentoo,
+    is_osx,
+    is_rhel,
+    is_ubuntu,
+    is_windows,
+)
 
 
 @if_any_funcs(is_ubuntu, is_debian)
@@ -55,8 +75,8 @@ def install_machine():
 def add_yum_repo():
     pass
 
-
-def main():
+@if_any_funcs(**supported_os_funcs)
+def install():
     if is_debian() or is_ubuntu():
         repo = get_distro().lower() + '-' + \
                get_codename().lower()
@@ -85,3 +105,6 @@ def main():
         pass
     else:
         
+
+def main():
+    install()
