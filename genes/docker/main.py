@@ -1,11 +1,13 @@
 from genes import directory
 from genes.alpine.traits import is_alpine
 from genes.apt import commands as apt
+from genes.apk import commands as apk
 from genes.arch.traits import is_arch
 from genes.brew import commands as brew
 from genes.centos.traits import is_centos
 from genes.curl.commands import download
 from genes.debian.traits import is_debian, get_codename
+from genes.dnf import commands as dnf
 from genes.directory import DirectoryConfig
 from genes.fedora.traits import is_fedora
 from genes.gentoo.traits import is_gentoo
@@ -13,8 +15,10 @@ from genes.gnu_coreutils.commands import chmod, ln
 from genes.lib.traits import if_any_funcs
 from genes.linux.traits import get_distro
 from genes.mac.traits import is_osx
+from genes.pacman import commands as pacman
 from genes.ubuntu.traits import is_ubuntu
 from genes.windows.traits import is_windows
+from genes.yum import commands as yum
 
 
 supported_os_funcs = (
