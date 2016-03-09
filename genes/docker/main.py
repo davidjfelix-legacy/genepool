@@ -1,14 +1,14 @@
 from genes import directory
 from genes.alpine.traits import is_alpine
-from genes.apt import commands as apt
 from genes.apk import commands as apk
+from genes.apt import commands as apt
 from genes.arch.traits import is_arch
 from genes.brew import commands as brew
 from genes.centos.traits import is_centos
 from genes.curl.commands import download
 from genes.debian.traits import is_debian, get_codename
-from genes.dnf import commands as dnf
 from genes.directory import DirectoryConfig
+from genes.dnf import commands as dnf
 from genes.fedora.traits import is_fedora
 from genes.gentoo.traits import is_gentoo
 from genes.gnu_coreutils.commands import chmod, ln
@@ -16,10 +16,10 @@ from genes.lib.traits import if_any_funcs
 from genes.linux.traits import get_distro
 from genes.mac.traits import is_osx
 from genes.pacman import commands as pacman
+from genes.redhat.traits import is_rhel
 from genes.ubuntu.traits import is_ubuntu
 from genes.windows.traits import is_windows
 from genes.yum import commands as yum
-
 
 supported_os_funcs = (
     is_alpine,
@@ -38,48 +38,54 @@ supported_os_funcs = (
 @if_any_funcs(is_ubuntu, is_debian)
 def install_compose():
     compose_version = "1.5.2"
+    compose_url = "https://github.com/docker/compose/releases/download/" + \
+                  compose_version + "/docker-compose-Linux-x86_64"
+    compose_directory = "/opt/docker-compose"
+    compose_executable = compose_directory + "/docker-compose-" + compose_version
+
     def config_directory():
         return DirectoryConfig(
-            path='/opt/docker-compose',
-            mode='755',
-            group='root',
-            user='root',
+                path=compose_directory,
+                mode='755',
+                group='root',
+                user='root',
         )
 
     # FIXME: Need to find a way to handle errors here
     directory.main(config_directory)
-    download(
-        "https://github.com/docker/compose/releases/download/" + compose_version + "/docker-compose-Linux-x86_64",
-        "/opt/docker-compose/docker-compose-" + compose_version
-    )
-    chmod('755', '/opt/docker-compose/docker-compose-' + compose_version)
+    download(compose_url, compose_executable)
+    chmod('755', compose_executable)
     # FIXME: handle file exists
-    ln("-s", "/opt/docker-compose/docker-compose-" + compose_version, "/usr/local/bin/docker-compose")
+    ln("-s", compose_executable, "/usr/local/bin/docker-compose")
 
 
 @if_any_funcs(is_ubuntu, is_debian)
 def install_machine():
     machine_version = '0.6.0'
+    machine_url = 'https://github.com/docker/machine/releases/download/v' + \
+                  machine_version + '/docker-machine-Linux-x86_64'
+    machine_directory = '/opt/docker-machine'
+    machine_executable = machine_directory + '/docker-machine-' + machine_version
+
     def config_directory():
         return DirectoryConfig(
-            path='/opt/docker-machine',
-            mode='755',
-            group='root',
-            user='root',
+                path=machine_directory,
+                mode='755',
+                group='root',
+                user='root',
         )
-    
+
     directory.main(config_directory)
-    download(
-        'https://github.com/docker/machine/releases/download/v' + machine_version + '/docker-machine-Linux-x86_64',
-        '/opt/docker-machine/docker-machine-' + machine_version)
-    )
-    ln('-s', '/opt/docker-machine/docker-machine-' + compose_version, '/usr/local/bin/docker-machine')
+    download(machine_url, machine_executable)
+    chmod('755', machine_executable)
+    ln('-s', machine_executable, '/usr/local/bin/docker-machine')
 
 
 def add_yum_repo():
     pass
 
-@if_any_funcs(**supported_os_funcs)
+
+@if_any_funcs(*supported_os_funcs)
 def install():
     if is_debian() or is_ubuntu():
         repo = get_distro().lower() + '-' + \
@@ -93,7 +99,7 @@ def install():
         brew.cask_install('dockertoolbox')
     elif is_alpine():
         apk.add('docker')
-    elif is_arch()
+    elif is_arch():
         pacman.sync('docker')
     elif is_centos() or is_rhel():
         add_yum_repo()
@@ -108,7 +114,8 @@ def install():
     elif is_windows():
         pass
     else:
-        
+        pass
+
 
 def main():
     install()
