@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from typing import Callable
 
 from genes.gnu_coreutils.commands import chgrp, chown, mkdir
