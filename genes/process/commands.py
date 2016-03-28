@@ -22,7 +22,7 @@ def get_env_run(my_env: Dict):
 @only_posix()
 def get_env_run_as(my_env):
     def env_run_as(*args, user, group, **kwargs):
-        return run_as(*args, user, group, env=my_env ** kwargs)
+        return run_as(*args, user, group, env=my_env, **kwargs)
 
     return env_run_as
 
