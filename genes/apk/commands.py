@@ -15,3 +15,13 @@ def add(*packages) -> None:
         msg = 'Missing packages argument'
         log_error(msg)
         raise ValueError(msg)
+
+
+@only_alpine()
+def delete(*packages) -> None:
+    if packages:
+        env_run('apk del'.split() + list(packages))
+    else:
+        msg = 'Missing packages argument'
+        log_error(msg)
+        raise ValueError(msg)

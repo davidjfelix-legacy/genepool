@@ -37,7 +37,7 @@ supported_os_funcs = (
 
 @if_any_funcs(is_ubuntu, is_debian)
 def install_compose():
-    compose_version = "1.5.2"
+    compose_version = "1.6.2"
     compose_url = "https://github.com/docker/compose/releases/download/" + \
                   compose_version + "/docker-compose-Linux-x86_64"
     compose_directory = "/opt/docker-compose"
