@@ -1,21 +1,23 @@
 from invoke import task, Collection
 
-from genes.package import Package
+from ..apt.get import APTGet
+from ..package import Package
 
 
 class DockerPkg(Package):
-    class Debian:
-        def __init__(self):
-            self.collection = Collection('debian')
-
     def __init__(self):
         self.collection = Collection('docker')
         self.collection.add_task(self.configure)
         self.collection.add_task(self.install)
         self.collection.add_task(self.uninstall)
 
-        self.debian = self.Debian()
-        self.collection.add_collection(self.debian.collection)
+    @task
+    def add_deb_repository(self):
+        pass
+
+    @task
+    def apt_install(self):
+        pass
 
     @task
     def configure(self):
@@ -23,7 +25,25 @@ class DockerPkg(Package):
 
     @task
     def install(self):
-        pass
+        if is_debian() or is_ubuntu():
+            apt = APTGet()
+            apt.update()
+            apt.install('docker-engine')
+        elif is_osx():
+            brew.update()
+            brew.cask_install('dockertoolbox')
+        elif is_alpine():
+            apk.add('docker')
+        elif is_arch():
+            pacman.sync('docker')
+        elif is_centos() or is_rhel():
+            add_yum_repo()
+            yum.update()
+            yum.install('docker-engine')
+        elif is_fedora():
+            add_yum_repo()
+            dnf.update()
+            dnf.install('docker-engine')
 
     @task
     def uninstall(self):
