@@ -1,12 +1,21 @@
 from invoke import task, Collection
 
 from genes.apt.get import APTGet
-from genes.debian import is_debian
+from genes.apt.key import AptKey
+from genes.apt.repo import AptRepo
+from genes.debian.traits import is_debian
+from genes.linux.traits import get_codename
+from genes.linux.traits import get_distro
 from genes.package import Package
-from genes.ubuntu import is_ubuntu
+from genes.ubuntu.traits import is_ubuntu
 
 
 class DockerPkg(Package):
+    supported_os_funcs = (
+        is_debian,
+        is_ubuntu,
+    )
+
     def __init__(self):
         self.collection = Collection('docker')
         self.collection.add_task(self.configure)
@@ -15,7 +24,15 @@ class DockerPkg(Package):
 
     @task
     def add_deb_repository(self):
-        pass
+        repo = get_distro().lower() + '-' + \
+               get_codename().lower()
+
+        apt_key = AptKey()
+        apt_repo = AptRepo()
+
+        apt_key.recv_keys('58118E89F3A912897C070ADBF76221572C52609D')
+        apt_repo.add_repo('deb https://apt.dockerproject.org/repo ' + repo + ' main')
+
 
     @task
     def add_rpm_repository(self):

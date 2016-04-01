@@ -12,7 +12,6 @@ class Config:
     GROUP = 'admin'
 
 
-
 @only_osx()
 def update() -> None:
     run(['brew', 'update'])
