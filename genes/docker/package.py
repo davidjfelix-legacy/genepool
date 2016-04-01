@@ -1,10 +1,9 @@
-from genes.brew.command import Brew
 from invoke import task, Collection
 
 from genes.apt.get import APTGet
 from genes.debian import is_debian
-from genes.mac import is_osx
 from genes.package import Package
+from genes.ubuntu import is_ubuntu
 
 
 class DockerPkg(Package):
@@ -23,10 +22,6 @@ class DockerPkg(Package):
         pass
 
     @task
-    def apt_install(self):
-        pass
-
-    @task
     def configure(self):
         pass
 
@@ -37,13 +32,13 @@ class DockerPkg(Package):
             apt = APTGet()
             apt.update()
             apt.install('docker-engine')
-        elif is_osx():
+        else:
+            pass
+        """elif is_osx():
             brew = Brew()
             brew.update()
             brew.cask_install('dockertoolbox')
-        else:
-            pass
-        """elif is_alpine():
+        elif is_alpine():
             apk = APK()
             apk.add('docker')
         elif is_arch():
@@ -65,12 +60,12 @@ class DockerPkg(Package):
         if is_debian() or is_ubuntu():
             apt = APTGet()
             apt.remove('docker-engine')
-        elif is_osx():
-            brew = Brew()
-            brew.cask_uninstall('dockertoolbox')
         else:
             pass
-        """elif is_alpine():
+        """elif is_osx():
+            brew = Brew()
+            brew.cask_uninstall('dockertoolbox')
+        elif is_alpine():
             apk = APK()
             apk.delete('docker')
         elif is_arch():
