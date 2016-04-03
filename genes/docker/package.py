@@ -1,5 +1,3 @@
-from invoke import task, Collection
-
 from genes.apt.get import APTGet
 from genes.apt.key import AptKey
 from genes.apt.repo import AptRepo
@@ -17,13 +15,10 @@ class DockerPkg(Package):
     )
 
     def __init__(self):
-        self.collection = Collection('docker')
-        self.collection.add_task(self.configure)
-        self.collection.add_task(self.install)
-        self.collection.add_task(self.uninstall)
+        pass
 
-    @task
-    def add_deb_repository(self):
+    @staticmethod
+    def add_deb_repository():
         repo = get_distro().lower() + '-' + \
                get_codename().lower()
 
@@ -33,19 +28,18 @@ class DockerPkg(Package):
         apt_key.recv_keys('58118E89F3A912897C070ADBF76221572C52609D')
         apt_repo.add_repo('deb https://apt.dockerproject.org/repo ' + repo + ' main')
 
-
-    @task
-    def add_rpm_repository(self):
+    @staticmethod
+    def add_rpm_repository():
         pass
 
-    @task
-    def configure(self):
+    @staticmethod
+    def configure(*args, **kwargs):
         pass
 
-    @task
-    def install(self):
+    @staticmethod
+    def install(*args, **kwargs):
         if is_debian() or is_ubuntu():
-            self.add_deb_repository()
+            DockerPkg.add_deb_repository()
             apt = APTGet()
             apt.update()
             apt.install('docker-engine')
@@ -72,8 +66,8 @@ class DockerPkg(Package):
             dnf.update()
             dnf.install('docker-engine')"""
 
-    @task
-    def uninstall(self):
+    @staticmethod
+    def uninstall(*args, **kwargs):
         if is_debian() or is_ubuntu():
             apt = APTGet()
             apt.remove('docker-engine')

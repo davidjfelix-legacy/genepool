@@ -4,14 +4,17 @@ from abc import ABCMeta, abstractmethod
 class Package(object):
     __metaclass__ = ABCMeta
 
+    @staticmethod
     @abstractmethod
-    def configure(self, *args, **kwargs):
+    def configure(*args, **kwargs):
         raise NotImplementedError
 
+    @staticmethod
     @abstractmethod
-    def install(self, *args, **kwargs):
+    def install(*args, **kwargs):
         raise NotImplementedError
 
+    @staticmethod
     @abstractmethod
-    def uninstall(self, *args, **kwargs):
+    def uninstall(*args, **kwargs):
         raise NotImplementedError
