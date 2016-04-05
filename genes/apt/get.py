@@ -3,61 +3,61 @@ from genes.process import Process
 
 class APTGet(Process):
     @staticmethod
-    def run(cmd, **kwargs):
-        super(APTGet).run('apt-get -y'.split() + cmd)
+    def run(*args, **kwargs):
+        super(APTGet).run('apt-get', '-y', *args)
 
     @staticmethod
     def autoclean():
-        APTGet.run(['autoclean'])
+        APTGet.run('autoclean')
 
     @staticmethod
     def autoremove():
-        APTGet.run(['autoremove'])
+        APTGet.run('autoremove')
 
     @staticmethod
     def build_dep(*packages):
-        APTGet.run(['build-dep'] + list(packages))
+        APTGet.run('build-dep', *packages)
 
     @staticmethod
     def check():
-        APTGet.run(['check'])
+        APTGet.run('check')
 
     @staticmethod
     def clean():
-        APTGet.run(['clean'])
+        APTGet.run('clean')
 
     @staticmethod
     def dist_upgrade():
-        APTGet.run(['dist-upgrade'])
+        APTGet.run('dist-upgrade')
 
     @staticmethod
     def download(*packages):
-        APTGet.run(['download'] + list(packages))
+        APTGet.run('download', *packages)
 
     @staticmethod
     def dselect_upgrade(self):
-        self.run(['dselect-upgrade'])
+        self.run('dselect-upgrade')
 
     @staticmethod
     def install(*packages):
-        APTGet.run(['install'] + list(packages))
+        APTGet.run('install', *packages)
 
     @staticmethod
     def purge(*packages):
-        APTGet.run(['purge'] + list(packages))
+        APTGet.run('purge', *packages)
 
     @staticmethod
     def remove(*packages):
-        APTGet.run(['remove'] + list(packages))
+        APTGet.run('remove', *packages)
 
     @staticmethod
     def source(*packages):
-        APTGet.run(['source'] + list(packages))
+        APTGet.run('source', *packages)
 
     @staticmethod
     def update():
-        APTGet.run(['update'])
+        APTGet.run('update')
 
     @staticmethod
     def upgrade():
-        APTGet.run(['upgrade'])
+        APTGet.run('upgrade')

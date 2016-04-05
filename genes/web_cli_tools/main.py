@@ -1,4 +1,4 @@
-from genes.apt import commands as apt
+from genes.apt.get import APTGet
 from genes.brew import commands as brew
 from genes.debian.traits import is_debian
 from genes.mac.traits import is_osx
@@ -7,7 +7,8 @@ from genes.ubuntu.traits import is_ubuntu
 
 def main():
     if is_debian() or is_ubuntu():
-        apt.update()
+        apt_get = APTGet()
+        apt_get.update()
         packages = (
             "aria2",
             "atop",
@@ -44,7 +45,7 @@ def main():
             "vim-gtk",
             "wget"
         )
-        apt.install(*packages)
+        apt_get.install(*packages)
 
     elif is_osx():
         brew.update()

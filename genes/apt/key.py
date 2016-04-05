@@ -1,11 +1,11 @@
 from genes.process import Process
 
 
-class AptKey(Process):
+class APTKey(Process):
     @staticmethod
-    def run(cmd, **kwargs):
-        super(AptKey).run(['apt-key'] + cmd)
+    def run(*args, **kwargs):
+        super(APTKey).run('apt-key', *args)
 
     @staticmethod
     def recv_keys(key_id, keyserver='hkp://pgp.mit.edu:80'):
-        AptKey.run(['adv', '--keyserver', keyserver, '--recv-keys', key_id])
+        APTKey.run('adv', '--keyserver', keyserver, '--recv-keys', key_id)
