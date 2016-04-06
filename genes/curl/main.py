@@ -1,5 +1,5 @@
 from genes.apt.get import APTGet
-from genes.brew import commands as brew
+from genes.brew.brew import Brew
 from genes.debian.traits import is_debian
 from genes.mac.traits import is_osx
 from genes.ubuntu.traits import is_ubuntu
@@ -11,6 +11,8 @@ def main():
         apt_get.update()
         apt_get.install('curl')
     elif is_osx():
+        brew = Brew()
+        brew.update()
         brew.install('curl')
     else:
         pass

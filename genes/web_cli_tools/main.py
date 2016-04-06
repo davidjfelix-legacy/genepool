@@ -1,7 +1,5 @@
 from genes.apt.get import APTGet
-from genes.brew import commands as brew
 from genes.debian.traits import is_debian
-from genes.mac.traits import is_osx
 from genes.ubuntu.traits import is_ubuntu
 
 
@@ -46,9 +44,6 @@ def main():
             "wget"
         )
         apt_get.install(*packages)
-
-    elif is_osx():
-        brew.update()
 
     else:
         pass

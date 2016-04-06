@@ -3,7 +3,6 @@ import os
 from genes.curl.commands import download
 from genes.mac.traits import only_osx
 from genes.process.commands import get_env_run_as, run
-from .commands import install
 
 
 class Config(object):
@@ -24,6 +23,7 @@ def main():
             '/tmp/brew_install'
     )
     env_run_as(['ruby', '-e', '/tmp/brew_install'], Config.USER, Config.GROUP)
-    install('caskroom/cask/brew-cask')
+    pass
+    # install('caskroom/cask/brew-cask')
     # FIXME: extract this to a chmod command
     run('chmod -R g+w /usr/local')

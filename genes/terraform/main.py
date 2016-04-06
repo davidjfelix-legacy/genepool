@@ -1,6 +1,6 @@
 from genes.mac.traits import is_osx
 
-from genes.brew.command import Brew
+from genes.brew.brew import Brew
 
 
 def main():
