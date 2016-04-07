@@ -4,7 +4,7 @@ from genes.process import Process
 class APTGet(Process):
     @staticmethod
     def run(*args, **kwargs):
-        super(APTGet).run('apt-get', '-y', *args)
+        super(APTGet).run('apt-get', '-y', *args, **kwargs)
 
     @staticmethod
     def autoclean():
