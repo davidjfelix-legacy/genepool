@@ -6,6 +6,11 @@ class Package(object):
 
     @staticmethod
     @abstractmethod
+    def is_installed(*args, **kwargs):
+        raise NotImplementedError
+
+    @staticmethod
+    @abstractmethod
     def configure(*args, **kwargs):
         raise NotImplementedError
 

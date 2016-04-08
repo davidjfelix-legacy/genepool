@@ -5,4 +5,4 @@ class Process(object):
     @staticmethod
     def run(*args, **kwargs):
         # Popen takes a list for its command
-        Popen(args, **kwargs).wait()
+        return Popen(args, **kwargs).wait()

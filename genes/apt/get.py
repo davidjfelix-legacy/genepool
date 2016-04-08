@@ -4,7 +4,7 @@ from genes.process import Process
 class APTGet(Process):
     @staticmethod
     def run(*args, **kwargs):
-        super(APTGet).run('apt-get', '-y', *args, **kwargs)
+        return super(APTGet, APTGet).run('apt-get', '-y', *args, **kwargs)
 
     @staticmethod
     def autoclean():
@@ -40,7 +40,11 @@ class APTGet(Process):
 
     @staticmethod
     def install(*packages):
-        APTGet.run('install', *packages)
+        if packages:
+            APTGet.run('install', *packages)
+        else:
+            # FIXME: log
+            raise ValueError('No packages were specified')
 
     @staticmethod
     def purge(*packages):

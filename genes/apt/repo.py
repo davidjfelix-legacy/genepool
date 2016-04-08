@@ -1,12 +1,14 @@
 from genes.apt.get import APTGet
+from genes.apt.package import APTPkg
 from genes.process import Process
 
 
 class APTRepo(Process):
     def __init__(self):
-        apt_get = APTGet()
-        apt_get.update()
-        apt_get.install('software-properties-common')
+        if not APTPkg.is_installed('software-properties-common'):
+            apt_get = APTGet()
+            apt_get.update()
+            apt_get.install('software-properties-common')
 
     @staticmethod
     def run(*args, **kwargs):
