@@ -1,9 +1,11 @@
 from genes.apt.get import APTGet
 from genes.apt.key import APTKey
 from genes.apt.repo import APTRepo
+from genes.brew.cask import BrewCask
 from genes.debian.traits import is_debian
 from genes.linux.traits import get_distro
 from genes.linux.traits import get_version
+from genes.mac.traits import is_osx
 from genes.package import Package
 from genes.ubuntu.traits import is_ubuntu
 
@@ -55,10 +57,10 @@ class DockerPkg(Package):
             apt_get = APTGet()
             apt_get.update()
             apt_get.install('docker-engine')
-        # elif is_osx():
-        #     brew = Brew()
-        #     brew.update()
-        #     brew.cask_install('dockertoolbox')
+        elif is_osx():
+            brew_cask = BrewCask()
+            brew_cask.update()
+            brew_cask.install('dockertoolbox')
         # elif is_alpine():
         #     apk = APK()
         #     apk.add('docker')
@@ -84,9 +86,9 @@ class DockerPkg(Package):
         if is_debian() or is_ubuntu():
             apt = APTGet()
             apt.remove('docker-engine')
-        # elif is_osx():
-        #     brew = Brew()
-        #     brew.cask_uninstall('dockertoolbox')
+        elif is_osx():
+            brew_cask = BrewCask()
+            brew_cask.uninstall('dockertoolbox')
         # elif is_alpine():
         #     apk = APK()
         #     apk.delete('docker')
