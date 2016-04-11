@@ -16,7 +16,11 @@ class APTGet(Process):
 
     @staticmethod
     def build_dep(*packages):
-        APTGet.run('build-dep', *packages)
+        if packages:
+            APTGet.run('build-dep', *packages)
+        else:
+            # FIXME: log
+            raise ValueError('No packages were specified')
 
     @staticmethod
     def check():
@@ -32,11 +36,15 @@ class APTGet(Process):
 
     @staticmethod
     def download(*packages):
-        APTGet.run('download', *packages)
+        if packages:
+            APTGet.run('download', *packages)
+        else:
+            # FIXME: log
+            raise ValueError('No packages were specified')
 
     @staticmethod
-    def dselect_upgrade(self):
-        self.run('dselect-upgrade')
+    def dselect_upgrade():
+        APTGet.run('dselect-upgrade')
 
     @staticmethod
     def install(*packages):
@@ -48,15 +56,27 @@ class APTGet(Process):
 
     @staticmethod
     def purge(*packages):
-        APTGet.run('purge', *packages)
+        if packages:
+            APTGet.run('purge', *packages)
+        else:
+            # FIXME: log
+            raise ValueError('No packages were specified')
 
     @staticmethod
     def remove(*packages):
-        APTGet.run('remove', *packages)
+        if packages:
+            APTGet.run('remove', *packages)
+        else:
+            # FIXME: log
+            raise ValueError('No packages were specified')
 
     @staticmethod
     def source(*packages):
-        APTGet.run('source', *packages)
+        if packages:
+            APTGet.run('source', *packages)
+        else:
+            # FIXME: log
+            raise ValueError('No packages were specified')
 
     @staticmethod
     def update():
