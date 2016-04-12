@@ -16,6 +16,13 @@ class DockerPkg(Package):
         is_ubuntu,
     )
 
+    def __init__(self, apt_get=None):
+        if apt_get:
+            self.apt_get = apt_get
+        else:
+            self.apt_get = APTGet()
+            self.apt_get.update()
+
     @staticmethod
     def add_deb_repository():
         repository_names = {
