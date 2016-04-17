@@ -10,7 +10,6 @@ from genes.linux.traits import only_linux, get_distro, get_codename, \
 T = TypeVar('T')
 
 
-@only_linux()
 def is_debian(versions: Optional[List[str]] = None,
               distro_name: str = 'debian') -> bool:
     """

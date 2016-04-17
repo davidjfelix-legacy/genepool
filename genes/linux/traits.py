@@ -64,7 +64,6 @@ def only_linux(error_level: ErrorLevel = ErrorLevel.warn,
     return wrapper
 
 
-@only_linux()
 def get_distro() -> str:
     distro_options = set([opt.value for opt in LinuxDistro])
     if os.path.isfile('/etc/os-release'):

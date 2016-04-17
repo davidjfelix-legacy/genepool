@@ -1,10 +1,25 @@
 from unittest import TestCase
+from unittest.mock import patch, call
+
+from genes.docker.package import DockerPkg
 
 
 class TestDockerPkg(TestCase):
     def test_install_on_ubuntu_should_run_apt(self):
-        # FIXME: need to find a good way to set OS functions all at once
-        pass
+        with patch('genes.docker.package.get_os') as mock_get_os:
+            mock_get_os.return_value = 'ubuntu'
+            with patch('genes.process.process.Popen') as mock_popen:
+                with patch('genes.docker.package.DockerPkg.add_deb_repository') as mock_add_repo:
+                    docker_pkg = DockerPkg()
+                    docker_pkg.install()
+                    calls = [
+                        call(('apt-get', '-y', 'update')),
+                        call().wait(),
+                        call(('apt-get', '-y', 'install', 'docker-engine')),
+                        call().wait(),
+                    ]
+                    mock_add_repo.assert_called_once_with()
+                    mock_popen.assert_has_calls(calls)
 
     def test_install_on_debian_should_run_apt(self):
         pass

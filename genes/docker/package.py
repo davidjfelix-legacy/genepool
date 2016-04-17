@@ -7,6 +7,7 @@ from genes.debian.traits import is_debian
 from genes.linux.traits import get_distro
 from genes.linux.traits import get_version
 from genes.mac.traits import is_osx
+from genes.os.traits import get_os
 from genes.package import Package
 from genes.ubuntu.traits import is_ubuntu
 
@@ -15,6 +16,7 @@ class DockerPkg(Package):
     supported_os_funcs = (
         is_debian,
         is_ubuntu,
+        is_osx,
     )
 
     def __init__(self, apt_get=None):
@@ -22,7 +24,6 @@ class DockerPkg(Package):
             self.apt_get = apt_get
         else:
             self.apt_get = APTGet()
-            self.apt_get.update()
 
     @staticmethod
     def add_deb_repository():
@@ -59,11 +60,12 @@ class DockerPkg(Package):
         pass
 
     def install(self, *args, **kwargs):
-        if is_debian() or is_ubuntu():
+        os_name = get_os()
+        if os_name == 'ubuntu' or os_name == 'debian':
             DockerPkg.add_deb_repository()
             self.apt_get.update()
             self.apt_get.install('docker-engine')
-        elif is_osx():
+        elif os_name == 'osx':
             brew_cask = BrewCask()
             brew_cask.update()
             brew_cask.install('dockertoolbox')
@@ -89,15 +91,17 @@ class DockerPkg(Package):
 
     @staticmethod
     def is_installed(*args, **kwargs):
-        if is_debian() or is_ubuntu():
+        os_name = get_os()
+        if os_name == 'debian' or os_name == 'ubuntu':
             return APTPkg.is_installed('docker')
         else:
             return False
 
     def uninstall(self, *args, **kwargs):
-        if is_debian() or is_ubuntu():
+        os_name = get_os()
+        if os_name == 'debian' or os_name == 'ubuntu':
             self.apt_get.remove('docker-engine')
-        elif is_osx():
+        elif os_name == 'osx':
             brew_cask = BrewCask()
             brew_cask.uninstall('dockertoolbox')
         # elif is_alpine():

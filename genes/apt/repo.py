@@ -12,7 +12,7 @@ class APTRepo(Process):
 
     @staticmethod
     def run(*args, **kwargs):
-        super(APTRepo).run('add-apt-repository', '-y', *args, **kwargs)
+        super(APTRepo, APTRepo).run('add-apt-repository', '-y', *args, **kwargs)
 
     @staticmethod
     def add_repo(repo_line):
