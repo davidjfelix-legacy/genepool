@@ -4,6 +4,7 @@ from genes.apt.package import APTPkg
 from genes.apt.repo import APTRepo
 from genes.brew.cask import BrewCask
 from genes.debian.traits import is_debian
+from genes.lib.exceptions import OSNotSupportedError
 from genes.linux.traits import get_distro
 from genes.linux.traits import get_version
 from genes.mac.traits import is_osx
@@ -24,6 +25,7 @@ class DockerPkg(Package):
             self.apt_get = apt_get
         else:
             self.apt_get = APTGet()
+            # None of our dependencies require updating, so defer it until we add the repo
 
     @staticmethod
     def add_deb_repository():
@@ -86,14 +88,13 @@ class DockerPkg(Package):
         #     dnf.update()
         #     dnf.install('docker-engine')
         else:
-            # FIXME: send error
-            pass
+            raise OSNotSupportedError('Operating system not supported by DockerPkg')
 
     @staticmethod
-    def is_installed(*args, **kwargs):
+    def is_installed():
         os_name = get_os()
         if os_name == 'debian' or os_name == 'ubuntu':
-            return APTPkg.is_installed('docker')
+            return APTPkg.is_installed('docker-engine')
         else:
             return False
 
@@ -117,5 +118,4 @@ class DockerPkg(Package):
         #     dnf = DNF()
         #     dnf.remove('docker-engine')
         else:
-            # FIXME: Send error
-            pass
+            raise OSNotSupportedError('Operating system not supported by DockerPkg')

@@ -1,17 +1,16 @@
 #!/usr/bin/env python
 from functools import wraps
-from typing import Callable, Dict, List, Optional, Tuple, TypeVar
 
 from genes.lib.logging import log_error, log_warn
 from genes.lib.traits import ErrorLevel
-from genes.linux.traits import only_linux, get_distro, get_codename, \
-    get_version
+from genes.linux.traits import (
+    get_distro,
+    get_codename,
+    get_version,
+)
 
-T = TypeVar('T')
 
-
-def is_debian(versions: Optional[List[str]] = None,
-              distro_name: str = 'debian') -> bool:
+def is_debian(versions=None, distro_name='debian'):
     """
     Determine whether the operating system is debian or not.
     :param versions: a list of versions to return true on
@@ -25,8 +24,7 @@ def is_debian(versions: Optional[List[str]] = None,
     return get_distro() == distro_name and is_version
 
 
-def only_debian(error_level: ErrorLevel = ErrorLevel.warn,
-                versions: Optional[List[str]] = None):
+def only_debian(error_level=ErrorLevel.warn, versions=None):
     """
     Wrap a function and only execute it if the system is debian of the
     version specified
@@ -36,9 +34,9 @@ def only_debian(error_level: ErrorLevel = ErrorLevel.warn,
     """
     msg = "This function can only be run on Debian: "
 
-    def wrapper(func: Callable[[Tuple, Dict], T]) -> Callable:
+    def wrapper(func):
         @wraps(func)
-        def run_if_debian(*args: Tuple, **kwargs: Dict) -> Optional[T]:
+        def run_if_debian(*args, **kwargs):
             if is_debian(versions=versions):
                 return func(*args, **kwargs)
             elif error_level == ErrorLevel.warn:

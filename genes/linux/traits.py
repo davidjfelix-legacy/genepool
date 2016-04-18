@@ -2,12 +2,10 @@ import os
 import platform
 from enum import Enum
 from functools import wraps
-from typing import Dict, List, Optional, Tuple, TypeVar
 
+from genes.lib.exceptions import OSNotSupportedError
 from genes.lib.logging import log_error, log_warn
-from genes.lib.traits import ErrorLevel, ArgFunc2, ArgFunc, ArgFunc3
-
-T = TypeVar('T')
+from genes.lib.traits import ErrorLevel
 
 
 class LinuxDistro(Enum):
@@ -22,7 +20,7 @@ class LinuxDistro(Enum):
     ubuntu = 'ubuntu'
 
 
-def is_linux(releases: Optional[List[str]] = None) -> bool:
+def is_linux(releases=None):
     """
     Determine whether the operating system is linux or not.
     :param releases: a list of releases to return true on
@@ -34,8 +32,7 @@ def is_linux(releases: Optional[List[str]] = None) -> bool:
     return platform.system() == 'Linux' and is_release
 
 
-def only_linux(error_level: ErrorLevel = ErrorLevel.warn,
-               releases: Optional[List[str]] = None) -> ArgFunc3:
+def only_linux(error_level=ErrorLevel.warn, releases=None):
     """
     Wrap a function and only execute it if the system is linux of the
     release specified
@@ -45,9 +42,9 @@ def only_linux(error_level: ErrorLevel = ErrorLevel.warn,
     """
     msg = "This function can only be run on Linux: "
 
-    def wrapper(func: ArgFunc) -> ArgFunc2:
+    def wrapper(func):
         @wraps(func)
-        def run_if_linux(*args: Tuple, **kwargs: Dict) -> Optional[T]:
+        def run_if_linux(*args, **kwargs):
             if is_linux(releases=releases):
                 return func(*args, **kwargs)
             elif error_level == ErrorLevel.warn:
@@ -55,7 +52,7 @@ def only_linux(error_level: ErrorLevel = ErrorLevel.warn,
                 return None
             elif error_level == ErrorLevel.error:
                 log_error(msg, func.__name__)
-                raise OSError(msg, func.__name__)
+                raise OSNotSupportedError(msg, func.__name__)
             else:
                 return None
 
@@ -64,7 +61,7 @@ def only_linux(error_level: ErrorLevel = ErrorLevel.warn,
     return wrapper
 
 
-def get_distro() -> str:
+def get_distro():
     distro_options = set([opt.value for opt in LinuxDistro])
     if os.path.isfile('/etc/os-release'):
         with open('/etc/os-release', 'r') as f:
@@ -100,8 +97,7 @@ def get_distro() -> str:
         return 'OTHER'
 
 
-@only_linux()
-def get_version() -> str:
+def get_version():
     # TODO: add more find cases
     if os.path.isfile('/etc/os-release'):
         with open('/etc/os-release', 'r') as f:
@@ -116,8 +112,7 @@ def get_version() -> str:
         return ''
 
 
-@only_linux()
-def get_codename() -> str:
+def get_codename():
     # FIXME: add more find cases
     if os.path.isfile('/etc/lsb-release'):
         with open('/etc/lsb-release', 'r') as f:
