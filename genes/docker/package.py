@@ -20,12 +20,17 @@ class DockerPkg(Package):
         is_osx,
     )
 
-    def __init__(self, apt_get=None):
-        if apt_get:
-            self.apt_get = apt_get
-        else:
-            self.apt_get = APTGet()
+    def __init__(self, apt_get=None, brew_cask=None, os_name=None):
+        self.apt_get = apt_get if apt_get else APTGet()
+        self.brew_cask = brew_cask if brew_cask else BrewCask()
+        self.os_name = os_name if os_name else get_os()
+
+        if self.os_name == 'debian' or self.os_name == 'ubuntu':
             # None of our dependencies require updating, so defer it until we add the repo
+            pass
+        elif self.os_name == 'osx':
+            if self.brew_cask.is_installed():
+                self.brew_cask.install()
 
     @staticmethod
     def add_deb_repository():

@@ -1,15 +1,10 @@
-import shutil
-
-from genes.curl.commands import download
-from genes.package import Package
 from genes.process import Process
-from genes.ruby.command import Ruby
 
 
 class Brew(Process):
     @staticmethod
     def run(*args, **kwargs):
-        super(Brew).run('brew', *args, **kwargs)
+        super(Brew, Brew).run('brew', *args, **kwargs)
 
     @staticmethod
     def install(*packages):
@@ -27,6 +22,10 @@ class Brew(Process):
         Brew.run('untap', tap)
 
     @staticmethod
+    def uninstall(*packages):
+        Brew.run('uninstall', *packages)
+
+    @staticmethod
     def update():
         Brew.run('update')
 
@@ -34,32 +33,3 @@ class Brew(Process):
     def upgrade(*packages):
         Brew.run('upgrade', *packages)
 
-
-class BrewPkg(Package):
-    @staticmethod
-    def is_installed():
-        return shutil.which("brew") is not None
-
-    @staticmethod
-    def uninstall(*args, **kwargs):
-        if BrewPkg.is_installed():
-            download(
-                    'https://raw.githubusercontent.com/Homebrew/install/master/uninstall',
-                    '/tmp/brew_uninstall'
-            )
-            ruby = Ruby()
-            ruby.run('-e', '/tmp/brew_uninstall')
-
-    @staticmethod
-    def configure(*args, **kwargs):
-        pass
-
-    @staticmethod
-    def install(*args, **kwargs):
-        if not BrewPkg.is_installed():
-            download(
-                    'https://raw.githubusercontent.com/Homebrew/install/master/install',
-                    '/tmp/brew_install'
-            )
-            ruby = Ruby()
-            ruby.run('-e', '/tmp/brew_install')

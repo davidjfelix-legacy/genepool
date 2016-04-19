@@ -1,4 +1,4 @@
-from genes.dpkg.command import Dpkg
+from genes.dpkg.commands import Dpkg
 from genes.package import Package
 
 

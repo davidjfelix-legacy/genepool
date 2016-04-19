@@ -38,4 +38,17 @@ class TestDockerPkg(TestCase):
                     mock_popen.assert_has_calls(calls)
 
     def test_install_on_osx_should_run_brew(self):
-        pass
+        with patch('genes.docker.package.get_os') as mock_get_os:
+            mock_get_os.return_value = 'osx'
+            with patch('genes.process.process.Popen') as mock_popen:
+                with patch('genes.docker.brew.cask.is_installed') as mock_cask_is_installed:
+                    mock_cask_is_installed.return_value = True
+                    docker_pkg = DockerPkg()
+                    docker_pkg.install()
+                    calls = [
+                        call(('brew', 'cask', 'update')),
+                        call().wait(),
+                        call(('brew', 'cask', 'install', 'dockertoolbox')),
+                        call().wait(),
+                    ]
+                    mock_popen.assert_has_calls(calls)
