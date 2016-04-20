@@ -1,4 +1,4 @@
-from genes.brew.package import BrewCaskPkg
+from genes.brew.cask_pkg import BrewCaskPkg
 from genes.os.traits import get_os
 from genes.process import Process
 

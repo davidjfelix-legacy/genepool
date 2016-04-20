@@ -41,7 +41,7 @@ class TestDockerPkg(TestCase):
         with patch('genes.docker.package.get_os') as mock_get_os:
             mock_get_os.return_value = 'osx'
             with patch('genes.process.process.Popen') as mock_popen:
-                with patch('genes.docker.brew.cask.is_installed') as mock_cask_is_installed:
+                with patch('genes.brew.cask_pkg.BrewCaskPkg.is_installed') as mock_cask_is_installed:
                     mock_cask_is_installed.return_value = True
                     docker_pkg = DockerPkg()
                     docker_pkg.install()

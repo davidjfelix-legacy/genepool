@@ -25,13 +25,6 @@ class DockerPkg(Package):
         self.brew_cask = brew_cask if brew_cask else BrewCask()
         self.os_name = os_name if os_name else get_os()
 
-        if self.os_name == 'debian' or self.os_name == 'ubuntu':
-            # None of our dependencies require updating, so defer it until we add the repo
-            pass
-        elif self.os_name == 'osx':
-            if self.brew_cask.is_installed():
-                self.brew_cask.install()
-
     @staticmethod
     def add_deb_repository():
         repository_names = {
@@ -73,9 +66,8 @@ class DockerPkg(Package):
             self.apt_get.update()
             self.apt_get.install('docker-engine')
         elif os_name == 'osx':
-            brew_cask = BrewCask()
-            brew_cask.update()
-            brew_cask.install('dockertoolbox')
+            self.brew_cask.update()
+            self.brew_cask.install('dockertoolbox')
         # elif is_alpine():
         #     apk = APK()
         #     apk.add('docker')
@@ -108,8 +100,7 @@ class DockerPkg(Package):
         if os_name == 'debian' or os_name == 'ubuntu':
             self.apt_get.remove('docker-engine')
         elif os_name == 'osx':
-            brew_cask = BrewCask()
-            brew_cask.uninstall('dockertoolbox')
+            self.brew_cask.uninstall('dockertoolbox')
         # elif is_alpine():
         #     apk = APK()
         #     apk.delete('docker')

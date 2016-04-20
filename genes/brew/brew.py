@@ -1,7 +1,19 @@
+import subprocess
+
+from genes.brew.brew_pkg import BrewPkg
+from genes.os.traits import get_os
 from genes.process import Process
 
 
 class Brew(Process):
+    def __init__(self, os_name=None):
+        self.os_name = os_name if os_name else get_os()
+
+        if self.os_name == 'osx':
+            brew_pkg = BrewPkg(os_name=self.os_name)
+            if not brew_pkg.is_installed():
+                brew_pkg.install()
+
     @staticmethod
     def run(*args, **kwargs):
         super(Brew, Brew).run('brew', *args, **kwargs)
@@ -33,3 +45,14 @@ class Brew(Process):
     def upgrade(*packages):
         Brew.run('upgrade', *packages)
 
+    def is_installed(self, package):
+        if self.os_name != 'osx':
+            return False
+
+        response = subprocess.Popen(
+                ('brew', 'ls', '--versions', package),
+                stdout=subprocess.PIPE,
+        ). \
+            stdout. \
+            read()
+        return response != ''
