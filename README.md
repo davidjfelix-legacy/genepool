@@ -17,7 +17,6 @@ WIP: Thoughts on how hatchery flow will work
 * The web address is resolved (proxy)
 * The executable retrieves repos from the broodfile. These repos are genepools.
 * Recursively get the repos from each level's dependencies
-* The executable installs a bundled python environment and runs the broodfile runner and top level genes.
 
 ## User strategy
 
