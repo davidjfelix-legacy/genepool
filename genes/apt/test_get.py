@@ -4,7 +4,7 @@ from unittest.mock import patch
 from genes.apt.get import APTGet
 
 
-class TestAPTGetInstall(TestCase):
+class APTGetInstallTestCase(TestCase):
     def test_apt_get_install_no_items_fails(self):
         with patch('genes.process.process.Popen') as mock_popen:
             apt_get = APTGet()

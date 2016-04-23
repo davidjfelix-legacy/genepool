@@ -4,7 +4,7 @@ from unittest.mock import patch, call
 from genes.docker.package import DockerPkg
 
 
-class TestDockerPkg(TestCase):
+class DockerPkgTestCase(TestCase):
     def test_install_on_ubuntu_should_run_apt(self):
         with patch('genes.docker.package.get_os') as mock_get_os:
             mock_get_os.return_value = 'ubuntu'

@@ -4,7 +4,7 @@ from unittest.mock import patch
 from genes.apt.key import APTKey
 
 
-class TestAPTKeyInit(TestCase):
+class APTKeyInitTestCase(TestCase):
     def test_init_should_get_deps_if_both_missing(self):
         with patch('genes.apt.key.APTPkg.is_installed') as mock_apt_pkg, \
                 patch('genes.apt.key.APTGet.update') as mock_update, \
@@ -36,7 +36,7 @@ class TestAPTKeyInit(TestCase):
             mock_install.assert_not_called()
 
 
-class TestAPTKeyRecvKey(TestCase):
+class APTKeyRecvKeyTestCase(TestCase):
     def test_recv_keys_should_call_popen(self):
         with patch('genes.process.process.Popen') as mock_popen:
             APTKey.recv_keys('test')
