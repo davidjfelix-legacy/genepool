@@ -4,8 +4,8 @@ from genes.package import Package
 
 
 class BrewCaskPkg(Package):
-    def __init__(self, os_name=None):
-        self.os_name = os_name if os_name else get_os()
+    def __init__(self, os_name=get_os()):
+        self.os_name = os_name
         self.brew = Brew(os_name=self.os_name)
 
     def uninstall(self):

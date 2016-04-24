@@ -7,8 +7,8 @@ from genes.ruby.commands import Ruby
 
 
 class BrewPkg(Package):
-    def __init__(self, os_name=None):
-        self.os_name = os_name if os_name else get_os()
+    def __init__(self, os_name=get_os()):
+        self.os_name = os_name
 
     @staticmethod
     def is_installed():

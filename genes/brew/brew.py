@@ -6,8 +6,8 @@ from genes.process import Process
 
 
 class Brew(Process):
-    def __init__(self, os_name=None):
-        self.os_name = os_name if os_name else get_os()
+    def __init__(self, os_name=get_os()):
+        self.os_name = os_name
 
         if self.os_name == 'osx':
             brew_pkg = BrewPkg(os_name=self.os_name)
