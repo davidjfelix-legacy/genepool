@@ -6,6 +6,11 @@ class User(Package):
     def __init__(self, os_name=get_os()):
         self.os_name = os_name
 
+        if self.os_name == 'osx':
+            pass
+        elif self.os_name in ('debian', 'ubuntu'):
+            pass
+
     def uninstall(self, *args, **kwargs):
         pass
 
