@@ -1,4 +1,5 @@
 from genes.dscl.dscl import DSCL
+from genes.gnu_coreutils.commands import useradd
 from genes.os.traits import get_os
 from genes.package import Package
 
@@ -7,8 +8,9 @@ class User(Package):
     def is_installed(self, *args, **kwargs):
         pass
 
-    def __init__(self, os_name=get_os(), username=None):
+    def __init__(self, *args, os_name=get_os(), username=None, groups=(), **kwargs):
         self.username = username
+        self.groups = groups
         self.os_name = os_name
 
         if self.os_name == 'osx':
@@ -30,3 +32,5 @@ class User(Package):
         if self.os_name == 'osx':
             if not self.is_installed():
                 self.dscl.create()
+        if self.os_name in ('debian', 'ubuntu'):
+            useradd()
