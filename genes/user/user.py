@@ -29,8 +29,12 @@ class User(Package):
         return self.username is not None
 
     def install(self, *args, **kwargs):
+        if not self.is_configured:
+            # TODO: Raise exception somehow and exit flow
+            pass
+
         if self.os_name == 'osx':
             if not self.is_installed():
-                self.dscl.create()
+                self.dscl.create('/Users/' + self.username)
         if self.os_name in ('debian', 'ubuntu'):
             useradd()
